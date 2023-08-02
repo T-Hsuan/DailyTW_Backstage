@@ -1,10 +1,11 @@
 // 後台表格
 .table_wrap{
+    width: 100%;
     border: 2px solid $tint_yellow;
     border-radius: 5px;
     table{
         width: 100%;
-        table-layout: fixed;
+        // table-layout: fixed;
         box-sizing: border-box;
         tr:nth-child(odd){
             background-color: $textColor_white;
@@ -18,18 +19,18 @@
                 color: $textColor_default;
                 padding: $sp1;
                 text-align: center;
+                white-space: nowrap;
             }
             th{
-                font-size: $xl_h4;
+                font-size: $xl_p;
             }
             td{
                 font-size: 16px;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                white-space: nowrap;
             }
             th:nth-child(1), tr:nth-child(1){
-                width: 50px;
+                width: 40px;
             }
         }
     }

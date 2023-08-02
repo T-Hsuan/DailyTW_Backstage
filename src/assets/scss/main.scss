@@ -2,4 +2,40 @@
 @import "baseAndMixin";
 
 // component
+@import "component/btn";
+@import "component/form";
+@import "component/selection";
 @import "component/table";
+
+.main_content{
+    width: 900px;
+    padding: $sp4 $sp15 $sp7 $sp7;
+    box-sizing: border-box;
+    h3{
+        padding-bottom: $sp5;
+    }
+    .action_container{
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: $sp3;
+        .searchbar{
+            display: flex;
+            gap: $sp1;
+        }
+    }
+    .ivu-icon{
+        margin-left: -4px;
+        font-size: 24px;
+    }
+    .ivu-switch{
+        border-color: $textColor_tint;
+        background-color: $textColor_tint;
+    }
+    .ivu-switch:not(.ivu-switch-disabled):focus{
+        box-shadow: none;
+    }
+    .ivu-switch-checked{
+        border-color: $default_red;
+        background-color: $default_red;
+    }
+}
