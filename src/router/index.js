@@ -13,6 +13,12 @@ const routes = [
     component: () =>
         import(/* webpackChunkName: "trip" */ "@/views/TripList.vue"),
   },
+  {
+    path: "/place_add",
+    name: "place_add",
+    component: () =>
+        import(/* webpackChunkName: "trip" */ "@/views/PlaceAdd.vue"),
+  },
 ]
 
 const router = createRouter({

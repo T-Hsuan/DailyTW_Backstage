@@ -23,10 +23,51 @@
             gap: $sp1;
         }
     }
+    .form_container{
+        display: flex;
+        flex-direction: column;
+        gap: $sp1;
+        label{
+            span{
+                @include xl_p;
+                display: block;
+                padding: $sp1 0;
+            }
+            input,
+            textarea{
+                width: 100%;
+            }
+        }
+    }
+    .selection_box{
+        span{
+            @include xl_p;
+            display: block;
+            padding: $sp1 0;
+        }
+    }
+    .selection_wrap{
+        display: flex;
+        gap: $sp3;
+        .selection_box{
+            width: 20%;
+        }
+    }
+    .btn_wrap{
+        display: flex;
+        align-items: center;
+        gap: $sp3;
+        justify-content: flex-end;
+        padding: $sp4 0;
+    }
+
+    //修改套件樣式
+    //icon
     .ivu-icon{
         margin-left: -4px;
         font-size: 24px;
     }
+    //狀態開關
     .ivu-switch{
         border-color: $textColor_tint;
         background-color: $textColor_tint;
@@ -37,5 +78,86 @@
     .ivu-switch-checked{
         border-color: $default_red;
         background-color: $default_red;
+    }
+    //下拉式選單
+    span.ivu-select-placeholder {
+        display: none !important;
+    }
+    .ivu-select-selection {
+        height: 46px;
+        border: 2px solid $textColor_default !important;
+        box-shadow: none !important;
+        background-color: $textColor_white;
+        padding: 4px $sp2;
+        box-sizing: border-box;
+    }
+    .ivu-select-item {
+        color: $textColor_default;
+        font-size: 18px !important;
+    }
+    .ivu-select-item-selected,
+    .ivu-select-item-selected::after{
+        color: $default_red;
+    }
+    .ivu-tag {
+        border: none;
+        background: $textColor_default;
+        height: 28px;
+    }
+    .ivu-tag-text {
+        color: $textColor_white;
+        line-height: 10px;
+    }
+    .ivu-icon-ios-close {
+        color: $textColor_white;
+        line-height: 20px;
+        font-weight: 700;
+    }
+    .ivu-select-arrow {
+        color: $textColor_default;
+    }
+    .ivu-select-selected-value{
+        font-size: 18px !important;
+        color: $textColor_default;
+        padding: 0 !important;
+    }
+
+    //上傳多張照片預覽及刪除(套件預設樣式)
+    .demo-upload-list{
+        display: inline-block;
+        width: 200px;
+        aspect-ratio: calc(334/251);
+        text-align: center;
+        line-height: 60px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        overflow: hidden;
+        background: #fff;
+        position: relative;
+        box-shadow: 0 1px 1px rgba(0,0,0,.2);
+        margin-right: 4px;
+    }
+    .demo-upload-list img{
+        width: 100%;
+        height: 100%;
+    }
+    .demo-upload-list-cover{
+        display: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0,0,0,.6);
+    }
+    .demo-upload-list:hover .demo-upload-list-cover{
+        display: block;
+    }
+    .demo-upload-list-cover i{
+        color: #fff;
+        font-size: 50px;
+        cursor: pointer;
+        margin: 0 2px;
+        padding-top: 50px;
     }
 }
