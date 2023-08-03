@@ -2,16 +2,19 @@
     <div class="main_content">
         <h3>景點新增</h3>
         <div class="form_container">
+            <!-- 表單欄位用 label 包 -->
             <label for="place_name">
                 <span>景點名稱</span>
                 <input type="text" name="place_name" id="place_name">
             </label>
+            <!-- 下拉選單用 .select_box 包 -->
             <div class="selection_box">
                 <span>景點類型(多選)</span>
                 <Select v-model="selectTags" multiple>
                     <Option v-for="item in tagList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
             </div>
+            <!-- 在同一列的下拉選單用 .selection_wrap 包 -->
             <div class="selection_wrap">
                 <div class="selection_box">
                     <span>地區</span>
@@ -38,6 +41,7 @@
                 <span>景點描述</span>
                 <textarea name="place_desc" id="place_desc" rows="10"></textarea>
             </label>
+            <!-- 套件多張照片上傳預覽及刪除 -->
             <label for="place_img">
                 <span>景點照片(1~3張)</span>
                 <div class="demo-upload-list" v-for="item in uploadList">
@@ -73,6 +77,7 @@
                 <ImagePreview v-model="visible" :preview-list="['https://file.iviewui.com/images/' + imgName]" />
             </label>
         </div>
+        <!-- 次頁右下角統一用取消及儲存按鈕 -->
         <div class="btn_wrap">
             <div class="cancel_btn">取消</div>
             <div class="btn">儲存</div>

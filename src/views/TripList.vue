@@ -1,164 +1,170 @@
 <template>
     <div class="main_content">
         <h3>行程列表</h3>
+        <!-- 表格上方使用者操作區塊用 .action_container 包 -->
         <div class="action_container">
             <div class="searchbar">
                 <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
                 <button class="btn">搜尋</button>
             </div>
-            <div class="btn">
+            <button class="btn">
                 <span>
                     <Icon type="md-add" />
                     新增行程
                 </span>
-            </div>
+            </button>
         </div>
-        <div class="overview_list">
-            <div class="table_wrap">
-                <table>
-                    <tr>
-                        <th></th>
-                        <th>NO.
+        <!-- 列表表格用 .table_wrap 包 table -->
+        <div class="table_wrap">
+            <table>
+                <tr>
+                    <th></th>
+                    <th>
+                        <button>
+                            NO.
                             <Icon type="md-arrow-dropdown" />
-                        </th>
-                        <th>標題</th>
-                        <th>更新日期
+                        </button>
+                    </th>
+                    <th>標題</th>
+                    <th>
+                        <button>
+                            更新日期
                             <Icon type="md-arrow-dropdown" />
-                        </th>
-                        <th>瀏覽數
+                        </button>
+                    </th>
+                    <th>
+                        <button>
+                            瀏覽數
                             <Icon type="md-arrow-dropdown" />
-                        </th>
-                        <th>狀態</th>
-                        <th>編輯</th>
-                        <th>刪除</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <Icon type="md-flag" />
-                        </td>
-                        <td>1</td>
-                        <td>標題標題標題標題標題</td>
-                        <td>2023-08-02</td>
-                        <td>100</td>
-                        <td>
-                            <Switch size="large">
-                                <template #open>
-                                <span>ON</span>
-                                </template>
-                                <template #close>
-                                <span>OFF</span>
-                                </template>
-                            </Switch>
-                        </td>
-                        <td>
-                            <Icon type="md-create" />
-                        </td>
-                        <td>
-                            <Icon type="md-trash" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <Icon type="md-flag" />
-                        </td>
-                        <td>2</td>
-                        <td>標題標題標題標題標題</td>
-                        <td>2023-08-02</td>
-                        <td>100</td>
-                        <td>
-                            <Switch size="large">
-                                <template #open>
-                                <span>ON</span>
-                                </template>
-                                <template #close>
-                                <span>OFF</span>
-                                </template>
-                            </Switch>
-                        </td>
-                        <td>
-                            <Icon type="md-create" />
-                        </td>
-                        <td>
-                            <Icon type="md-trash" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <Icon type="md-flag" />
-                        </td>
-                        <td>3</td>
-                        <td>標題標題標題標題標題</td>
-                        <td>2023-08-02</td>
-                        <td>10</td>
-                        <td>
-                            <Switch size="large">
-                                <template #open>
-                                <span>ON</span>
-                                </template>
-                                <template #close>
-                                <span>OFF</span>
-                                </template>
-                            </Switch>
-                        </td>
-                        <td>
-                            <Icon type="md-create" />
-                        </td>
-                        <td>
-                            <Icon type="md-trash" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <Icon type="md-flag" />
-                        </td>
-                        <td>4</td>
-                        <td>標題標題標題標題標題</td>
-                        <td>2023-08-02</td>
-                        <td>10000</td>
-                        <td>
-                            <Switch size="large">
-                                <template #open>
-                                <span>ON</span>
-                                </template>
-                                <template #close>
-                                <span>OFF</span>
-                                </template>
-                            </Switch>
-                        </td>
-                        <td>
-                            <Icon type="md-create" />
-                        </td>
-                        <td>
-                            <Icon type="md-trash" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <Icon type="md-flag" />
-                        </td>
-                        <td>5</td>
-                        <td>標題標題標題標題標題</td>
-                        <td>2023-08-02</td>
-                        <td>1000</td>
-                        <td>
-                            <Switch size="large">
-                                <template #open>
-                                <span>ON</span>
-                                </template>
-                                <template #close>
-                                <span>OFF</span>
-                                </template>
-                            </Switch>
-                        </td>
-                        <td>
-                            <Icon type="md-create" />
-                        </td>
-                        <td>
-                            <Icon type="md-trash" />
-                        </td>
-                    </tr>
-                </table>
-            </div>
+                        </button>
+                    </th>
+                    <th>狀態</th>
+                    <th>編輯</th>
+                    <th>刪除</th>
+                </tr>
+                <tr>
+                    <!-- 釘選至前台主要頁面用旗子 icon  -->
+                    <td>
+                        <button><Icon type="md-flag" /></button>
+                    </td>
+                    <td>1</td>
+                    <td>標題標題標題標題標題</td>
+                    <td>2023-08-02</td>
+                    <td>100</td>
+                    <td>
+                        <Switch size="large">
+                            <template #open>
+                            <span>ON</span>
+                            </template>
+                            <template #close>
+                            <span>OFF</span>
+                            </template>
+                        </Switch>
+                    </td>
+                    <td>
+                        <button><Icon type="md-create" /></button>
+                    </td>
+                    <td>
+                        <button><Icon type="md-trash" /></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>2</td>
+                    <td>標題標題標題標題標題</td>
+                    <td>2023-08-02</td>
+                    <td>100</td>
+                    <td>
+                        <Switch size="large">
+                            <template #open>
+                            <span>ON</span>
+                            </template>
+                            <template #close>
+                            <span>OFF</span>
+                            </template>
+                        </Switch>
+                    </td>
+                    <td>
+                        <button><Icon type="md-create" /></button>
+                    </td>
+                    <td>
+                        <button><Icon type="md-trash" /></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>3</td>
+                    <td>標題標題標題標題標題</td>
+                    <td>2023-08-02</td>
+                    <td>10</td>
+                    <td>
+                        <Switch size="large">
+                            <template #open>
+                            <span>ON</span>
+                            </template>
+                            <template #close>
+                            <span>OFF</span>
+                            </template>
+                        </Switch>
+                    </td>
+                    <td>
+                        <button><Icon type="md-create" /></button>
+                    </td>
+                    <td>
+                        <button><Icon type="md-trash" /></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button><Icon type="md-flag" /></button>
+                    </td>
+                    <td>4</td>
+                    <td>標題標題標題標題標題</td>
+                    <td>2023-08-02</td>
+                    <td>10000</td>
+                    <td>
+                        <Switch size="large">
+                            <template #open>
+                            <span>ON</span>
+                            </template>
+                            <template #close>
+                            <span>OFF</span>
+                            </template>
+                        </Switch>
+                    </td>
+                    <td>
+                        <button><Icon type="md-create" /></button>
+                    </td>
+                    <td>
+                        <button><Icon type="md-trash" /></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button><Icon type="md-flag" /></button>
+                    </td>
+                    <td>5</td>
+                    <td>標題標題標題標題標題</td>
+                    <td>2023-08-02</td>
+                    <td>1000</td>
+                    <td>
+                        <Switch size="large">
+                            <template #open>
+                            <span>ON</span>
+                            </template>
+                            <template #close>
+                            <span>OFF</span>
+                            </template>
+                        </Switch>
+                    </td>
+                    <td>
+                        <button><Icon type="md-create" /></button>
+                    </td>
+                    <td>
+                        <button><Icon type="md-trash" /></button>
+                    </td>
+                </tr>
+            </table>
         </div>
-    </div> 
+    </div>
 </template>
