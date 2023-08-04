@@ -19,12 +19,12 @@
             <th>
               <button>
                 NO.
-                <i class="fa-solid fa-sort"></i>
+                <Icon type="md-arrow-dropdown" />
               </button>
             </th>
             <th>email</th>
             <th>訂閱日期 
-              <button><i class="fa-solid fa-sort"></i></button></th>
+              <button><Icon type="md-arrow-dropdown" /></button></th>
             <th>取消</th>
           </tr>
           <tr v-for="(item, index) in tableData" :key="index">

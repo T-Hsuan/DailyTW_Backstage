@@ -19,7 +19,7 @@
             <th>
               <button>
                 NO.
-                <i class="fa-solid fa-sort"></i>
+                <Icon type="md-arrow-dropdown" />
               </button>
             </th>
             <th>訂單編號</th>
@@ -27,10 +27,10 @@
             <th>會員編號</th>
             <th>
                 下單時間
-                <button><i class="fa-solid fa-sort"></i></button>
+                <button><Icon type="md-arrow-dropdown" /></button>
             </th>
             <th>總金額
-                <button><i class="fa-solid fa-sort"></i></button>
+                <button><Icon type="md-arrow-dropdown" /></button>
             </th>
             <th>狀態</th>
           </tr>

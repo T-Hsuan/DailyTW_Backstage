@@ -26,7 +26,7 @@
             <th>
               <button>
                 NO.
-                <i class="fa-solid fa-sort"></i>
+                <Icon type="md-arrow-dropdown" />
               </button>
             </th>
             <th>作者</th>
@@ -54,7 +54,7 @@
             </td>
             <td>{{ item.state }}</td>
             <td>
-              <button><i class="fa-solid fa-gavel"></i></button>
+              <button><Icon type="md-eye" /></button>
             </td>
           </tr>
         </table>

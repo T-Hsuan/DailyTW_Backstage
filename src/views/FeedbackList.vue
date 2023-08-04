@@ -15,13 +15,13 @@
             <th>
               <button>
                 NO.
-                <i class="fa-solid fa-sort"></i>
+                <Icon type="md-arrow-dropdown" />
               </button>
             </th>
             <th>姓名</th>
             <th>email</th>
             <th>主旨</th>
-            <th>日期<button><i class="fa-solid fa-sort"></i></button></th>
+            <th>日期<button><Icon type="md-arrow-dropdown" /></button></th>
           </tr>
           <tr v-for="(item, index) in tableData" :key="index">
             <td>{{ index + 1 }}</td>

@@ -19,7 +19,7 @@
             <th>
               <button>
                 NO.
-                <i class="fa-solid fa-sort"></i>
+                <Icon type="md-arrow-dropdown" />
               </button>
             </th>
             <th>票券名稱</th>
@@ -28,13 +28,13 @@
             <th>
                 上架狀態
                 <button>
-                <i class="fa-solid fa-sort"></i>
+                <Icon type="md-arrow-dropdown" />
                 </button>
             </th>
             <th>
                 置頂
                 <button>
-                <i class="fa-solid fa-sort"></i>
+                <Icon type="md-arrow-dropdown" />
                 </button>
             </th>
             <th>刪除</th>
