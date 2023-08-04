@@ -1,43 +1,39 @@
 <template>
     <div class="main_content">
-        <h3>用戶回饋列表</h3>
-        <div class="action_container">
-            <div class="searchbar">
-                <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
-                <button class="btn">搜尋</button>
-            </div>
-            <button class="btn">
-                <span>
-                    <Icon type="md-add" />
-                    匯出.csv
-                </span>
-            </button>
-        </div>
-        <div class="table_wrap">
-            <table>
-                <tr>
-                    <th>
-                        <button>
-                            NO.
-                            <i class="fa-solid fa-sort"></i>
-                        </button>
-                    </th>
-                    <th>姓名</th>
-                    <th>email</th>
-                    <th>主旨</th>
-                    <th>日期<button><i class="fa-solid fa-sort"></i></button></th>
-                </tr>
-                <tr v-for="(item, index) in tableData" :key="index">
-                    <td>{{ index + 1 }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.email }}</td>
-                    <td>{{ item.text }}</td>
-                    <td>
-                        {{ item.date }}
-                    </td>
-                </tr>
-            </table>
-        </div>
+      <h3>用戶回饋列表</h3>
+      <div class="action_container">
+        <button class="btn">
+          <span>
+            <Icon type="md-add" />
+            匯出.csv
+          </span>
+        </button>
+      </div>
+      <div class="table_wrap">
+        <table>
+          <tr>
+            <th>
+              <button>
+                NO.
+                <Icon type="md-arrow-dropdown" />
+              </button>
+            </th>
+            <th>姓名</th>
+            <th>email</th>
+            <th>主旨</th>
+            <th>日期<button><Icon type="md-arrow-dropdown" /></button></th>
+          </tr>
+          <tr v-for="(item, index) in tableData" :key="index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.email }}</td>
+            <td>{{ item.text }}</td>
+            <td>
+              {{ item.date }}
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
 </template>
   

@@ -6,39 +6,45 @@
                 <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
                 <button class="btn">搜尋</button>
             </div>
-        </div>
-        <div class="table_wrap">
-            <table>
-                <tr>
-                    <th>
-                        <button>
-                            NO.
-                            <i class="fa-solid fa-sort"></i>
-                        </button>
-                    </th>
-                    <th>訂單編號</th>
-                    <th>票券名稱</th>
-                    <th>會員編號</th>
-                    <th>
-                        下單時間
-                        <button><i class="fa-solid fa-sort"></i></button>
-                    </th>
-                    <th>總金額
-                        <button><i class="fa-solid fa-sort"></i></button>
-                    </th>
-                    <th>狀態</th>
-                </tr>
-                <tr v-for="(item, index) in tableData" :key="index">
-                    <td>{{ index + 1 }}</td>
-                    <td>{{ item.number }}</td>
-                    <td>{{ item.tickit }}</td>
-                    <td>{{ item.member }}</td>
-                    <td>{{ item.time }}</td>
-                    <td>{{ item.price }}</td>
-                    <td>{{ item.state }}</td>
-                </tr>
-            </table>
-        </div>
+        <button class="btn">
+          <span>
+            <Icon type="md-add" />
+            新增訂單
+          </span>
+        </button>
+      </div>
+      <div class="table_wrap">
+        <table>
+          <tr>
+            <th>
+              <button>
+                NO.
+                <Icon type="md-arrow-dropdown" />
+              </button>
+            </th>
+            <th>訂單編號</th>
+            <th>票券名稱</th>
+            <th>會員編號</th>
+            <th>
+                下單時間
+                <button><Icon type="md-arrow-dropdown" /></button>
+            </th>
+            <th>總金額
+                <button><Icon type="md-arrow-dropdown" /></button>
+            </th>
+            <th>狀態</th>
+          </tr>
+          <tr v-for="(item, index) in tableData" :key="index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ item.number }}</td>
+            <td>{{ item.tickit }}</td>
+            <td>{{ item.member }}</td>
+            <td>{{ item.time }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.state }}</td>
+          </tr>
+        </table>
+      </div>
     </div>
 </template>
   

@@ -1,52 +1,50 @@
 <template>
     <div class="main_content">
-        <h3>穿搭風格管理</h3>
-        <div class="action_container">
-            <button class="btn">
-                <span>
-                    <Icon type="md-add" />
-                    新增
-                </span>
-            </button>
-        </div>
-        <div class="table_wrap">
-            <table>
-                <tr>
-                    <th>
-                        <button>
-                            NO.
-                            <i class="fa-solid fa-sort"></i>
-                        </button>
-                    </th>
-                    <th>穿搭風格</th>
-                    <th>描述</th>
-                    <th>置頂</th>
-                    <th>標籤狀態</th>
-                    <th>刪除</th>
-                </tr>
-                <tr v-for="(item, index) in tableData" :key="index">
-                    <td>{{ index + 1 }}</td>
-                    <td>{{ item.type }}</td>
-                    <td>{{ item.description }}</td>
-                    <td><input type="checkbox"></td>
-                    <td>
-                        <Switch size="large" v-model="item.status">
-                            <template #open>
-                                <span>ON</span>
-                            </template>
-                            <template #close>
-                                <span>OFF</span>
-                            </template>
-                        </Switch>
-                    </td>
-                    <td>
-                        <button>
-                            <Icon type="md-trash" @click="deleteRow(index)" />
-                        </button>
-                    </td>
-                </tr>
-            </table>
-        </div>
+      <h3>穿搭風格管理</h3>
+      <div class="action_container">
+        <button class="btn">
+          <span>
+            <Icon type="md-add" />
+            新增風格
+          </span>
+        </button>
+      </div>
+      <div class="table_wrap">
+        <table>
+          <tr>
+            <th>
+              <button>
+                NO.
+                <Icon type="md-arrow-dropdown" />
+              </button>
+            </th>
+            <th>穿搭風格</th>
+            <th>描述</th>
+            <th>置頂</th>
+            <th>標籤狀態</th>
+            <th>刪除</th>
+          </tr>
+          <tr v-for="(item, index) in tableData" :key="index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ item.type }}</td>
+            <td>{{ item.description }}</td>
+            <td><input type="checkbox"></td>
+            <td>
+              <Switch size="large" v-model="item.status">
+                <template #open>
+                  <span>ON</span>
+                </template>
+                <template #close>
+                  <span>OFF</span>
+                </template>
+              </Switch>
+            </td>
+            <td>
+              <button><Icon type="md-trash" @click="deleteRow(index)" /></button>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
 </template>
   
