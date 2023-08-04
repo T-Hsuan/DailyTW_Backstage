@@ -1,5 +1,5 @@
 <template>
-    <nav>
+    <nav :class="{ 'hidden': Hidden }">
         <router-link to="/trip_list">行程列表</router-link><br>
         <router-link to="/oott_post_list">穿搭列表</router-link><br>
         <router-link to="/style_mgt">穿搭風格管理</router-link><br>
@@ -14,6 +14,16 @@
         <router-link to="/employee_mgt">帳號權限管理</router-link><br>
     </nav>
 </template>
+<script>
+export default {
+    computed: {
+        // 判斷是否處於首頁
+        Hidden() {
+            return this.$route.path === '/';
+        }
+    }
+}
+</script>
 <style lang="scss" scoped>
 @import "@/assets/scss/main.scss";
 
@@ -30,5 +40,9 @@ nav {
         margin: $sp1;
         color: $textColor_white;
     }
+}
+
+.hidden {
+    display: none;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <header>
+    <header :class="{ 'hidden': Hidden }">
         <div class="header">
             <router-link to="/">
                 <img class="logo" :src="require('@/assets/img/logo.svg')" alt="logo" />
@@ -13,7 +13,14 @@
     </header>
 </template>
 <script>
-
+export default {
+    computed: {
+        // 判斷是否處於首頁
+        Hidden() {
+            return this.$route.path === '/';
+        }
+    }
+}
 </script>
 <style lang="scss" scoped>
 @import "@/assets/scss/main.scss";
@@ -49,5 +56,9 @@ header {
             }
         }
     }
+}
+
+.hidden {
+    display: none;
 }
 </style>
