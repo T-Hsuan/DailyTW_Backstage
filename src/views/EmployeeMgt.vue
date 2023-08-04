@@ -9,7 +9,7 @@
             <button class="btn">
                 <span>
                     <Icon type="md-add" />
-                    新增行程
+                    新增
                 </span>
             </button>
         </div>

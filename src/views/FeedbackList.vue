@@ -2,6 +2,10 @@
     <div class="main_content">
         <h3>用戶回饋列表</h3>
         <div class="action_container">
+            <div class="searchbar">
+                <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
+                <button class="btn">搜尋</button>
+            </div>
             <button class="btn">
                 <span>
                     <Icon type="md-add" />

@@ -5,7 +5,7 @@
             <button class="btn">
                 <span>
                     <Icon type="md-add" />
-                    新增風格
+                    新增
                 </span>
             </button>
         </div>
