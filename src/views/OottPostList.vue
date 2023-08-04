@@ -1,6 +1,6 @@
 <template>
     <div class="main_content">
-        <h3> 穿搭管理</h3>
+        <h3>穿搭管理</h3>
         <div class="action_container">
             <div class="selection_box">
                 <span>審核狀態</span>
@@ -99,4 +99,18 @@ export default {
     },
 };
 </script>
-  
+
+<style lang="scss">
+.action_container{
+    padding-top: 20px;
+    .selection_box{
+        position: relative;
+        width: 120px;
+        span{
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+        }
+    }
+}
+</style>
