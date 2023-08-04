@@ -19,6 +19,68 @@ const routes = [
     component: () =>
         import(/* webpackChunkName: "trip" */ "@/views/PlaceAdd.vue"),
   },
+  {
+    path: "/place_list",
+    name: "place_list",
+    component: () =>
+        import(/* webpackChunkName: "place" */ "@/views/PlaceList.vue"),
+  },
+  {
+    path: "/place_type_mgt",
+    name: "place_type_mgt",
+    component: () =>
+        import(/* webpackChunkName: "place" */ "@/views/PlaceTypeMgt.vue"),
+  },
+  {
+    path: "/oott_post_list",
+    name: "oott_post_list",
+    component: () =>
+        import(/* webpackChunkName: "oott" */ "@/views/OottPostList.vue"),
+  },
+  {
+    path: "/style_mgt",
+    name: "style_mgt",
+    component: () =>
+        import(/* webpackChunkName: "oott" */ "@/views/StyleMgt.vue"),
+  },
+  {
+    path: "/tickit_list",
+    name: "tickit_list",
+    component: () =>
+        import(/* webpackChunkName: "tickit" */ "@/views/TickitList.vue"),
+  },
+  {
+    path: "/member_mgt",
+    name: "member_mgt",
+    component: () =>
+        import(/* webpackChunkName: "member" */ "@/views/MemberMgt.vue"),
+  },
+  {
+    path: "/employee_mgt",
+    name: "employee_mgt",
+    component: () =>
+        import(/* webpackChunkName: "employee" */ "@/views/EmployeeMgt.vue"),
+  },
+  {
+    path: "/order_list",
+    name: "order_list",
+    component: () =>
+        import(/* webpackChunkName: "order" */ "@/views/OrderList.vue"),
+        
+  },
+  {
+    path: "/feedback_list",
+    name: "feedback_list",
+    component: () =>
+        import(/* webpackChunkName: "feedback" */ "@/views/FeedbackList.vue"),
+  },
+  {
+    path: "/subscriber_list",
+    name: "subscriber_list",
+    component: () =>
+        import(/* webpackChunkName: "subscriber" */ "@/views/SubscriberList.vue"),
+  },
+  
 ]
 
 const router = createRouter({

@@ -22,20 +22,20 @@
                     <th>
                         <button>
                             NO.
-                            <Icon type="md-arrow-dropdown" />
+                            <i class="fa-solid fa-sort"></i>
                         </button>
                     </th>
                     <th>標題</th>
                     <th>
                         <button>
                             更新日期
-                            <Icon type="md-arrow-dropdown" />
+                            <i class="fa-solid fa-sort"></i>
                         </button>
                     </th>
                     <th>
                         <button>
                             瀏覽數
-                            <Icon type="md-arrow-dropdown" />
+                            <i class="fa-solid fa-sort"></i>
                         </button>
                     </th>
                     <th>狀態</th>
