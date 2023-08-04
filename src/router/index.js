@@ -44,10 +44,10 @@ const routes = [
         import(/* webpackChunkName: "oott" */ "@/views/StyleMgt.vue"),
   },
   {
-    path: "/tickit_list",
-    name: "tickit_list",
+    path: "/ticket_list",
+    name: "ticket_list",
     component: () =>
-        import(/* webpackChunkName: "tickit" */ "@/views/TickitList.vue"),
+        import(/* webpackChunkName: "tickit" */ "@/views/TicketList.vue"),
   },
   {
     path: "/member_mgt",
