@@ -98,12 +98,7 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "subscriber" */ "@/views/SubscriberList.vue"),
     },
-  {
-    path: "/backstage_login",
-    name: "backstage_login",
-    component: () =>
-        import(/* webpackChunkName: "backstage_login" */ "@/views/BackStageLogin.vue"),
-  },
+  
 
 ]
 

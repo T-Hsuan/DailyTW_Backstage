@@ -14,7 +14,6 @@
         <router-link to="/member_view">會員資料檢視</router-link><br>
         <router-link to="/employee_mgt">帳號權限管理</router-link><br>
         <router-link to="/employee_add">新增員工帳號</router-link><br>
-        <router-link to="/backstage_login">後台登入</router-link><br>
     </nav>
 </template>
 <script>
