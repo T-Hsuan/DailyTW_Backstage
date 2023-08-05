@@ -53,13 +53,25 @@ const routes = [
     path: "/member_mgt",
     name: "member_mgt",
     component: () =>
-        import(/* webpackChunkName: "member" */ "@/views/MemberMgt.vue"),
+        import(/* webpackChunkName: "member_mgt" */ "@/views/MemberMgt.vue"),
+  },
+  {
+    path: "/member_view",
+    name: "member_view",
+    component: () =>
+        import(/* webpackChunkName: "member_view" */ "@/views/MemberView.vue"),
   },
   {
     path: "/employee_mgt",
     name: "employee_mgt",
     component: () =>
         import(/* webpackChunkName: "employee" */ "@/views/EmployeeMgt.vue"),
+  },
+  {
+    path: "/employee_add",
+    name: "employee_add",
+    component: () =>
+        import(/* webpackChunkName: "employee_add" */ "@/views/EmployeeAdd.vue"),
   },
   {
     path: "/order_list",
@@ -79,6 +91,12 @@ const routes = [
     name: "subscriber_list",
     component: () =>
         import(/* webpackChunkName: "subscriber" */ "@/views/SubscriberList.vue"),
+  },
+  {
+    path: "/backstage_login",
+    name: "backstage_login",
+    component: () =>
+        import(/* webpackChunkName: "backstage_login" */ "@/views/BackStageLogin.vue"),
   },
   
 ]

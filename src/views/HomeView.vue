@@ -10,7 +10,10 @@
     <router-link to="/feedback_list">用戶回饋列表</router-link><br>
     <router-link to="/subscriber_list">電子報訂閱者列表</router-link><br>
     <router-link to="/member_mgt">會員管理</router-link><br>
+    <router-link to="/member_view">會員資料檢視</router-link><br>
     <router-link to="/employee_mgt">帳號權限管理</router-link><br>
+    <router-link to="/employee_add">新增員工帳號</router-link><br>
+    <router-link to="/backstage_login">後台登入</router-link><br>
 </template>
 
 <script>
