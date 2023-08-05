@@ -8,7 +8,7 @@
                     <p>前台</p>
                 </div>
             </router-link>
-            <router-link to="/trip_list">
+            <router-link to="/login">
                 <img :src="require('@/assets/img/entrance_boy.png')" alt="">
                 <div class="back">
                     <p>後台</p>
@@ -34,6 +34,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background: url("@/assets/img/entrance_bg.png") no-repeat center;
 
     .logo {
         width: 250px;
@@ -55,9 +56,10 @@
                 transition: transform .5s ease-in-out;
             }
 
-            &:hover .front p,
-            &:hover .back p {
+            &:hover .front,
+            &:hover .back {
                 color: $textColor_white;
+                scale: 1.1;
             }
 
             .front,
@@ -86,8 +88,8 @@
             img {
                 width: 130px;
                 position: absolute;
-                top: -35px;
-                left: -35px;
+                top: -50px;
+                left: -50px;
                 rotate: -45deg;
                 opacity: 0;
                 transform: translateY(50%);

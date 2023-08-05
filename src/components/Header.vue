@@ -51,7 +51,7 @@ header {
             }
 
             button {
-                margin: 0 $sp2;
+                margin: 0 $sp2 0 $sp5;
                 color: $textColor_white;
             }
         }
