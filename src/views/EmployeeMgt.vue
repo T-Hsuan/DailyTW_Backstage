@@ -6,12 +6,9 @@
                 <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
                 <button class="btn">搜尋</button>
             </div>
-            <button class="btn">
-                <span>
-                    <Icon type="md-add" />
-                    新增
-                </span>
-            </button>
+            <router-link to="/employee_add" class="btn">
+                <Icon type="md-add" />新增帳號
+            </router-link>
         </div>
         <div class="table_wrap">
             <table>
@@ -65,8 +62,8 @@ export default {
             ],
             accesstype: [
                 {
-                    value: '無',
-                    label: '無'
+                    value: '請選擇',
+                    label: '請選擇'
                 },
                 {
                     value: 'A',
@@ -83,4 +80,11 @@ export default {
     },
 };
 </script>
+<!-- <style lang="scss" scoped>
+@import "@/assets/scss/main.scss";
+    .btn{
+        color: $textColor_white;
+    }
+
+</style> -->
   
