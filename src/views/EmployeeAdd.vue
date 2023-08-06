@@ -26,8 +26,8 @@
         
         <!-- 次頁右下角統一用取消及儲存按鈕 -->
         <div class="btn_wrap">
-            <div class="cancel_btn">取消</div>
-            <div class="btn">儲存</div>
+            <button class="cancel_btn">取消</button>
+            <button class="btn">儲存</button>
         </div>
     </div>
 </template>

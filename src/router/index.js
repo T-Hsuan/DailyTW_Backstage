@@ -32,10 +32,16 @@ const routes = [
             import(/* webpackChunkName: "place" */ "@/views/PlaceList.vue"),
     },
     {
-        path: "/place_type_mgt",
-        name: "place_type_mgt",
+        path: "/place_tag",
+        name: "place_tag",
         component: () =>
-            import(/* webpackChunkName: "place" */ "@/views/PlaceTypeMgt.vue"),
+            import(/* webpackChunkName: "place" */ "@/views/PlaceTag.vue"),
+    },
+    {
+        path: "/place_tag_add",
+        name: "place_tag_add",
+        component: () =>
+            import(/* webpackChunkName: "place" */ "@/views/PlaceTagAdd.vue"),
     },
     {
         path: "/oott_post_list",

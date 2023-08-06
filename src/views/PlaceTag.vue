@@ -1,19 +1,15 @@
 <template>
     <div class="main_content">
-        <h3>景點列表</h3>
+        <h3>景點類型管理</h3>
         <div class="action_container">
-            <div class="searchbar">
-                <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
-                <button class="btn">搜尋</button>
-            </div>
-            <router-link to="/place_add">
+            <router-link to="/place_tag_add">
                 <button class="btn">
                     <span>
                         <Icon type="md-add" />
-                        新增景點
+                        新增類型
                     </span>
                 </button>
-            </router-link>
+            </router-link>  
         </div>
         <div class="table_wrap">
             <table>
@@ -24,28 +20,15 @@
                             <Icon type="md-arrow-dropdown" />
                         </button>
                     </th>
-                    <th>名稱</th>
-                    <th>
-                        更新時間
-                        <button>
-                            <Icon type="md-arrow-dropdown" />
-                        </button>
-                    </th>
-                    <th>
-                        停留時間
-                        <button>
-                            <Icon type="md-arrow-dropdown" />
-                        </button>
-                    </th>
-                    <th>狀態</th>
-                    <th>編輯</th>
+                    <th>景點類型</th>
+                    <th>描述</th>
+                    <th>標籤狀態</th>
                     <th>刪除</th>
                 </tr>
                 <tr v-for="(item, index) in tableData" :key="index">
                     <td>{{ item.no }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.date }}</td>
-                    <td>{{ item.stay }}</td>
+                    <td>{{ item.type }}</td>
+                    <td>{{ item.description }}</td>
                     <td>
                         <Switch size="large" v-model="item.status">
                             <template #open>
@@ -58,13 +41,9 @@
                     </td>
                     <td>
                         <button>
-                            <Icon type="md-create" />
-                        </button>
-                    </td>
-                    <td>
-                        <button>
                             <Icon type="md-trash" />
                         </button>
+                        <!-- <button><Icon type="md-trash" @click="deleteRow(index)" /></button> -->
                     </td>
                 </tr>
             </table>
@@ -77,12 +56,18 @@ export default {
     data() {
         return {
             tableData: [
-                { no: '001', name: '合興車站', date: '2023-08-06', stay: '0.5'},
-                { no: '002', name: '內灣愛情故事館', date: '2023-08-06', stay: '1'},
-                { no: '003', name: '內灣老街', date: '2023-08-06', stay: '2'},
-                { no: '004', name: '劉興欽漫畫館', date: '2023-08-06', stay: '3'},
-                { no: '005', name: '內灣隱藏版咖啡', date: '2023-08-06', stay: '1.5'},
-                { no: '006', name: '清水地熱', date: '2023-08-06', stay: '1.5'},
+                { no: '01', type: '親子', description: '適合兒童遊玩', status: true },
+                { no: '02', type: '情侶', description: '適合情侶約會', status: true },
+                { no: '03', type: '小資', description: '消費平價或不用門票', status: true },
+                { no: '04', type: '風景', description: '戶外自然景觀', status: true },
+                { no: '05', type: '樂園', description: '遊樂園', status: true },
+                { no: '06', type: '藝文', description: '有展覽或人文歷史古蹟等', status: true },
+                { no: '07', type: '山林', description: '登山步道或露營區或果園', status: true },
+                { no: '08', type: '海邊', description: '海邊', status: true },
+                { no: '09', type: '放鬆', description: '', status: true },
+                { no: '10', type: '懷舊', description: '古蹟或復古場景', status: true },
+                { no: '11', type: '農場', description: '有動物', status: true },
+                // Add more data rows here
             ],
         };
     },

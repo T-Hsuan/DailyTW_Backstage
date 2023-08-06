@@ -81,6 +81,7 @@
             @include xl_p;
             display: block;
             padding: $sp1 0;
+            white-space: nowrap;
         }
     }
     .selection_wrap{
@@ -88,6 +89,7 @@
         gap: $sp3;
         .selection_box{
             width: 20%;
+            min-width: 100px;
         }
     }
     //取消、儲存鈕
@@ -99,6 +101,41 @@
         padding: $sp4 0;
     }
 
+    //用戶回饋檢視彈窗
+    .feedback_popbox{
+        width: 100%;
+        height: 100vh;
+        background-color: #6A5D4A80;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .feedback_wrap{
+            max-width: 1000px;
+            background-color: $textColor_white;
+            padding: $sp6;
+            margin: $sp10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .row{
+                display: flex;
+                gap: $sp2;
+                margin-bottom: $sp4;
+                h5{
+                    width: 100px;
+                    text-align: right;
+                    flex-shrink: 0;
+                }
+                p{
+                    line-height: 1.5;
+                }
+            }
+        }
+    }
 
     //-----------修改套件樣式------------
     //icon
@@ -106,9 +143,17 @@
         margin-left: -4px;
         font-size: 24px;
     }
-    .action_container button .ivu-icon{
-        color: $textColor_white;
-    }
+    .action_container button{
+        .ivu-icon{
+            color: $textColor_white;
+        }
+        &:hover .ivu-icon{
+            color: $textColor_default;
+        }
+        &:active .ivu-icon{
+            color: $textColor_tint;
+        }
+    } 
     table button .ivu-icon{
         color: $textColor_default;
     }
