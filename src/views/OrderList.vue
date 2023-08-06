@@ -6,12 +6,6 @@
                 <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
                 <button class="btn">搜尋</button>
             </div>
-        <button class="btn">
-          <span>
-            <Icon type="md-add" />
-            新增訂單
-          </span>
-        </button>
       </div>
       <div class="table_wrap">
         <table>
@@ -36,7 +30,7 @@
           </tr>
           <tr v-for="(item, index) in tableData" :key="index">
             <td>{{ index + 1 }}</td>
-            <td>{{ item.number }}</td>
+            <td><router-link to="/order_content">{{ item.number }}</router-link></td>
             <td>{{ item.tickit }}</td>
             <td>{{ item.member }}</td>
             <td>{{ item.time }}</td>
@@ -69,4 +63,11 @@ export default {
     },
 };
 </script>
+<style lang="scss" scoped>
+@import "@/assets/scss/main.scss";
+  a{
+    color: $textColor_default;
+    border-bottom: 1px solid $textColor_default;
+  }
+</style>
   
