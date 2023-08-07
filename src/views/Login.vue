@@ -34,16 +34,6 @@ export default {
         return {
             autoLogin: true
         }
-    },
-    methods: {
-        // handleSubmit(valid, { username, password }) {
-        //     if (valid) {
-        //         this.$Modal.info({
-        //             title: '输入的内容如下：',
-        //             content: 'username: ' + username + ' | password: ' + password
-        //         });
-        //     }
-        // }
     }
 }
 </script>
@@ -53,6 +43,7 @@ export default {
 .main_content {
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
 
     h2 {
         margin: 40px;
@@ -67,7 +58,7 @@ export default {
         .ivu-form {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: stretch;
             margin: 40px;
 
             label {
@@ -125,20 +116,23 @@ export default {
                 margin-bottom: 24px;
                 text-align: left;
 
-                .ivu-checkbox {
-                    .ivu-checkbox-inner {
-                        background-color: $bgColor_tint;
-                        border-color: $textColor_default;
+                .ivu-checkbox-wrapper {
+                    margin-left: $sp7;
+
+                    .ivu-checkbox {
+                        .ivu-checkbox-inner {
+                            background-color: $bgColor_tint;
+                            border-color: $textColor_default;
+                        }
+                    }
+
+                    .ivu-checkbox-checked {
+                        .ivu-checkbox-inner {
+                            background-color: $textColor_default;
+                            border-color: $textColor_default;
+                        }
                     }
                 }
-
-                .ivu-checkbox-checked {
-                    .ivu-checkbox-inner {
-                        background-color: $textColor_default;
-                        border-color: $textColor_default;
-                    }
-                }
-
             }
         }
 
