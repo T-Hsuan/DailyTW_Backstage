@@ -57,12 +57,14 @@
                         </Switch>
                     </td>
                     <td>
-                        <button>
-                            <Icon type="md-create" />
-                        </button>
+                        <router-link :to="{ name: 'place_edit', params: { index } }">
+                            <button class="edit_btn">
+                                <Icon type="md-create" />
+                            </button>
+                        </router-link>
                     </td>
                     <td>
-                        <button>
+                        <button @click="showDeleteConfirmation(index)">
                             <Icon type="md-trash" />
                         </button>
                     </td>
@@ -87,9 +89,17 @@ export default {
         };
     },
     methods: {
-        // deleteRow(index) {
-        //     this.tableData.splice(index, 1);
-        // },
+        showDeleteConfirmation(index) {
+            // Show the confirm message dialog
+            const isConfirmed = window.confirm('確定刪除此筆資料?');
+            if (isConfirmed) {
+                // If the user confirms, delete the row
+                this.deleteRow(index);
+            }
+        },
+        deleteRow(index) {
+            this.tableData.splice(index, 1);
+        },
         // You can add other methods for handling backend data retrieval, update, etc.
     },
 };

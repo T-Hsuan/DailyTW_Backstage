@@ -7,8 +7,7 @@
             </template>
             <MenuItem name="1-1"><router-link to="/trip_list">行程列表</router-link></MenuItem>
             <MenuItem name="1-2"><router-link to="/place_list">景點列表</router-link></MenuItem>
-            <MenuItem name="1-3"><router-link to="/place_add">景點新增</router-link></MenuItem>
-            <MenuItem name="1-4"><router-link to="/place_type_mgt">景點類型管理</router-link></MenuItem>
+            <MenuItem name="1-3"><router-link to="/place_tag">景點類型管理</router-link></MenuItem>
 
         </Submenu>
         <Submenu name="2">
