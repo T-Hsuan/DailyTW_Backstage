@@ -142,7 +142,8 @@ export default {
         .ivu-menu {
             .ivu-menu-item {
                 width: 278px;
-                padding: $sp2 $sp3;
+                padding: 0;
+                padding-left: 0 !important;
                 font-size: 20px;
                 font-weight: normal;
                 color: $textColor_white;
@@ -152,6 +153,10 @@ export default {
                 }
 
                 a {
+                    display: inline-block;
+                    width: 278px;
+                    padding: $sp2 $sp3;
+                    padding-left: 43px;
                     color: $textColor_white;
                 }
             }
