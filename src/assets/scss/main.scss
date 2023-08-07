@@ -92,6 +92,58 @@
             min-width: 100px;
         }
     }
+    //上傳多張照片
+    .img_wrap{
+        width: 100%;
+        margin-bottom: $sp5;
+        display: flex;
+        gap: $sp3;
+        .img_box{
+            position: relative;
+            label{
+                cursor: pointer;
+                .upload_click{
+                    width: 200px;
+                    height: 150px;
+                    border: 2px dashed $textColor_default;
+                    border-radius: 4px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: relative;
+                    .ivu-icon{
+                        font-size: 32px;
+                    }
+                    img{
+                        position: absolute;
+                        top: -2px;
+                        left: -2px;
+                        border-radius: 4px;
+                        width: 200px;
+                        height: 150px;
+                        object-fit: cover;
+                    }
+                }
+                input{
+                    display: none;
+                }
+            }
+            button{
+                background-color: $textColor_white;
+                border-radius: 50px;
+                position: absolute;
+                right: 8px;
+                top: 40px;
+                .ivu-icon{
+                    font-size: 32px;
+                    color: $textColor_default;
+                    display: block;
+                    margin: auto;
+                }
+            }
+        }
+        
+    }
     //取消、儲存鈕
     .btn_wrap{
         display: flex;
@@ -129,6 +181,7 @@
                     width: 100px;
                     text-align: right;
                     flex-shrink: 0;
+                    line-height: 1.2;
                 }
                 p{
                     line-height: 1.5;
@@ -210,46 +263,5 @@
         font-size: 18px !important;
         color: $textColor_default;
         padding: 0 !important;
-    }
-
-
-    //-----------套件預設樣式------------
-    //上傳多張照片預覽及刪除
-    .demo-upload-list{
-        display: inline-block;
-        width: 200px;
-        aspect-ratio: calc(334/251);
-        text-align: center;
-        line-height: 60px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        overflow: hidden;
-        background: #fff;
-        position: relative;
-        box-shadow: 0 1px 1px rgba(0,0,0,.2);
-        margin-right: 4px;
-    }
-    .demo-upload-list img{
-        width: 100%;
-        height: 100%;
-    }
-    .demo-upload-list-cover{
-        display: none;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0,0,0,.6);
-    }
-    .demo-upload-list:hover .demo-upload-list-cover{
-        display: block;
-    }
-    .demo-upload-list-cover i{
-        color: #fff;
-        font-size: 50px;
-        cursor: pointer;
-        margin: 0 2px;
-        padding-top: 50px;
     }
 }
