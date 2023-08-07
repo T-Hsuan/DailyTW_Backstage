@@ -2,7 +2,7 @@
     <div class="main_content">
         <h3>用戶回饋列表</h3>
         <div class="action_container">
-            <button class="btn">
+            <button class="btn" @click="exportToCSV">
                 <span>
                     <Icon type="md-add" />
                     匯出.csv
@@ -87,6 +87,33 @@ export default {
         },
         closePopBox() {
             this.showFeedback = false;
+        },
+        exportToCSV() {
+            // Prepare CSV content
+            let csvContent = "data:text/csv;charset=utf-8,";
+
+            // Add the table header (column names)
+            const headerRow = ["NO.", "姓名", "email", "主旨", "內容說明", "日期"];
+            csvContent += headerRow.join(",") + "\r\n";
+
+            // Add table rows (data)
+            this.tableData.forEach((item) => {
+                const rowData = [item.no, item.name, item.email, item.subject, item.cont, item.date];
+                csvContent += rowData.join(",") + "\r\n";
+            });
+
+            // Create a hidden link to trigger the file download
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "feedback_list.csv");
+            document.body.appendChild(link);
+
+            // Trigger the click event on the link to start the download
+            link.click();
+
+            // Remove the link from the document
+            document.body.removeChild(link);
         },
     },
 };

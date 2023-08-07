@@ -1,12 +1,12 @@
 <template>
     <div class="main_content">
-        <h3>景點新增</h3>
+        <h3>景點編輯</h3>
         <div class="form_container">
-            <form action="">
+            <form @submit.prevent="saveChanges">
                 <!-- 表單欄位用 label 包 -->
                 <label for="place_name">
                     <span>景點名稱</span>
-                    <input type="text" name="place_name" id="place_name">
+                    <input type="text" v-model="placeData.name" name="place_name" id="place_name">
                 </label>
                 <!-- 下拉選單用 .select_box 包 -->
                 <div class="selection_box">
@@ -103,7 +103,7 @@
             <router-link to="/place_list">
                 <button class="cancel_btn">取消</button>
             </router-link>
-            <button class="btn">儲存</button>
+            <button type="submit" class="btn">儲存</button>
         </div>
     </div>
 </template>
@@ -112,6 +112,10 @@
 export default{
     data(){
         return{
+            placeData: {
+                name: '',
+                // Add other fields here as needed
+            },
             tagList: [
                 {
                     value: '親子',
