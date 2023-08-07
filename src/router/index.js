@@ -110,6 +110,18 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "subscriber" */ "@/views/SubscriberList.vue"),
     },
+    {
+        path: "/oott_style_add",
+        name: "oott_style_add",
+        component: () =>
+            import(/* webpackChunkName: "OottStyleAdd" */ "@/views/OottStyleAdd.vue"),
+    },
+    {
+        path: "/oott_post_review",
+        name: "oott_post_review",
+        component: () =>
+            import(/* webpackChunkName: "OottPostReview" */ "@/views/OottPostReview.vue"),
+    },
   
 
 ]

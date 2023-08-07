@@ -12,12 +12,12 @@
                 <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
                 <button class="btn">搜尋</button>
             </div>
-        <button class="btn">
+        <!-- <button class="btn">
           <span>
             <Icon type="md-add" />
             新增穿搭
           </span>
-        </button>
+        </button> -->
       </div>
       <div class="table_wrap">
         <table>
@@ -54,7 +54,11 @@
             </td>
             <td>{{ item.state }}</td>
             <td>
-              <button><Icon type="md-eye" /></button>
+              <router-link to="/oott_post_review">
+                <button>
+                  <Icon type="md-eye" />
+                </button>
+              </router-link>
             </td>
           </tr>
         </table>

@@ -2,12 +2,14 @@
     <div class="main_content">
         <h3>穿搭風格管理</h3>
         <div class="action_container">
-            <button class="btn">
-                <span>
-                    <Icon type="md-add" />
-                    新增風格
-                </span>
-            </button>
+            <router-link to="/oott_style_add">
+                <button class="btn">
+                    <span>
+                        <Icon type="md-add" />
+                        新增類型
+                    </span>
+                </button>
+            </router-link>  
         </div>
         <div class="table_wrap">
             <table>
