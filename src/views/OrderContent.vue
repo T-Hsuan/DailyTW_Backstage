@@ -17,7 +17,7 @@
                 <div class="text"><span>收件人地址：</span>{{ item.recipient_address }}</div>
             </div>
             <div class="tickit_block">
-                <div class="table_wrap" v-for="(item, index) in ticketData" :key="index">
+                <div class="table_wrap" v-for="(item, index) in tickitData" :key="index">
                     <table class="tickit_block">
                         <tr>
                             <th>票券{{ index + 1 }}</th>
@@ -30,7 +30,7 @@
                         </tr>
                     </table>
                 </div>
-                <div class="total_price">總金額:<span>450</span>元</div>
+                <div class="total_price">總金額:<span>{{ totalPrice }}</span>元</div>
             </div>
         </div>
     </div>
@@ -39,6 +39,7 @@
 export default {
     data() {
         return {
+            totalPrice: 0,
             tableData: [
                 {   order_number: 'ghguhr12344564', 
                     order_name: '陳小妮', 
@@ -50,7 +51,7 @@ export default {
                 },
 
             ],
-            ticketData:[
+            tickitData:[
                 {
                     tickit:'班比山丘門票',
                     adult:'1',
@@ -66,8 +67,23 @@ export default {
             ],
         };
     },
-    methods: {
+    computed: {
+        subtotalPrice() {
+        return this.tickitData.reduce(
+            (total, item) => total + parseInt(item.price),
+            0
+        );
+        },
     },
+    watch: {
+        subtotalPrice: {
+        handler(newVal) {
+            this.totalPrice = newVal;
+        },
+        immediate: true, 
+        },
+    },
+    
 };
 </script>
 <style lang="scss" scoped>
