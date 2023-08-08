@@ -26,8 +26,8 @@
                 <input type="text" name="member_birthday" id="member_birthday">
             </label>
         </div>
-        <span>性別</span>
-        <Space size="large" class="ivu-p-16">
+        <span>性別</span><br>
+        <Space size="large" class="ivu-p-8">
             <RadioGroup v-model="gender">
                 <Radio label="男" class="ivu-p-8"></Radio>
                 <Radio label="女" class="ivu-p-8"></Radio>
