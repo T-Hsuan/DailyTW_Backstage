@@ -193,6 +193,7 @@ export default {
 <style lang="scss" scoped>
 .form_container {
   .review_card {
+    margin-bottom: 32px;
     border-radius: 10px;
     border: 3px solid var(--text-default, #6a5d4a);
     h5 {
