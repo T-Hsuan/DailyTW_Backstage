@@ -3,9 +3,10 @@
         <h3>電子報訂閱者列表</h3>
         <div class="action_container">
             <div class="searchbar">
-                <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
-                <button class="btn">搜尋</button>
+                <input v-model="searchText" type="text" name="search" id="search" placeholder="請輸入關鍵字" />
+                <button class="btn" @click="search">搜尋</button>
             </div>
+            
             <button class="btn">
                 <span>
                     <Icon type="md-add" />
@@ -28,14 +29,21 @@
                             <Icon type="md-arrow-dropdown" />
                         </button>
                     </th>
-                    <th>取消</th>
+                    <th>狀態</th>
                 </tr>
-                <tr v-for="(item, index) in tableData" :key="index">
-                    <td>{{ index + 1 }}</td>
-                    <td>{{ item.email }}</td>
-                    <td>{{ item.date }}</td>
+                <tr v-for="(item, index) in dataFromMySQL" :key="index">
+                    <td>{{ item.sub_id }}</td>
+                    <td>{{ item.sub_email }}</td>
+                    <td>{{ item.sub_date }}</td>
                     <td>
-                        <button><input type="checkbox"></button>
+                        <Switch size="large" v-model="item.status">
+                            <template #open>
+                                <span>ON</span>
+                            </template>
+                            <template #close>
+                                <span>OFF</span>
+                            </template>
+                        </Switch>
                     </td>
                 </tr>
             </table>
@@ -44,16 +52,13 @@
 </template>
   
 <script>
+import {GET} from '@/plugin/axios'
+
 export default {
     data() {
         return {
-            tableData: [
-                { email: '123456@gmail.com', date: '2023-08-03' },
-                { email: '123456@gmail.com', date: '2023-08-03' },
-                { email: '123456@gmail.com', date: '2023-08-03' },
-                { email: '123456@gmail.com', date: '2023-08-03' },
-                { email: '123456@gmail.com', date: '2023-08-03' },
-            ],
+            dataFromMySQL:[],
+            searchText: "",
         };
     },
     methods: {
@@ -61,6 +66,16 @@ export default {
             this.tableData.splice(index, 1);
         },
         // You can add other methods for handling backend data retrieval, update, etc.
+    },
+    mounted() {
+        GET(`${this.$URL}/SubscriberList.php`)
+            .then((res) => {
+                this.dataFromMySQL = res;
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     },
 };
 </script>

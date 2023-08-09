@@ -21,13 +21,13 @@
                 <span>姓名</span>
                 <input type="text" name="member_name" id="member_name">
             </label>
-            <label for="member_birthday">
+            <label for="member_birthday" class="ivu-mb-8">
                 <span>生日</span>
                 <input type="text" name="member_birthday" id="member_birthday">
             </label>
         </div>
-        <span>性別</span><br>
-        <Space size="large" class="ivu-p-8">
+        <span >性別</span><br>
+        <Space size="large" class="ivu-mt-8">
             <RadioGroup v-model="gender">
                 <Radio label="男" class="ivu-p-8"></Radio>
                 <Radio label="女" class="ivu-p-8"></Radio>
@@ -56,31 +56,51 @@
     
 
 <script>
+import {GET} from '@/plugin/axios'
+
     export default {
         data(){
-        return{
-            regionList: [
-                {
-                    value: '待修改',
-                    label: '待修改'
-                },
-                {
-                    value: '審核中',
-                    label: '審核中'
-                },
-                {
-                    value: '已發布',
-                    label: '已發布'
-                },
+            return{
+                dataFromMySQL:[],
+                regionList: [
+                    {
+                        value: '待修改',
+                        label: '待修改'
+                    },
+                    {
+                        value: '審核中',
+                        label: '審核中'
+                    },
+                    {
+                        value: '已發布',
+                        label: '已發布'
+                    },
+                    
+                ],
+                selectRegion: '',
+                gender: '不告訴你',
                 
-            ],
-            selectRegion: '',
-            gender: '不告訴你',
-
-        }
-    },
+            }
+        },
+        methods: {
+            deleteRow(index) {
+                this.tableData.splice(index, 1);
+            },
+            // You can add other methods for handling backend data retrieval, update, etc.
+        },
+        mounted() {
+            GET(`${this.$URL}/Member.php`)
+            .then((res) => {
+                this.dataFromMySQL = res;
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        },
     }
 </script>
+    
 
 <style lang="scss">
 
