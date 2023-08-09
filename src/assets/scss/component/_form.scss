@@ -36,6 +36,10 @@ textarea {
     @media (min-width: 768px) {
         @include xl_p;
     }
+    &::placeholder {
+        color: $textColor_tint;
+        transform: translateY(1px);
+    }
     &:focus {
         box-shadow: 0px 0px 5px 2px rgba(106, 93, 74, 0.25) inset;
     }
