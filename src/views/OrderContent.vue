@@ -2,11 +2,11 @@
     <div class="order">
         <div class="main_content">
             <h3>訂單內容</h3>
-            <div class="cancel">
+            <!-- <div class="cancel">
                 <button class="btn">
                 <span>取消訂單</span>
                 </button>
-            </div>
+            </div> -->
             <div class="order_content" v-for="(item, index) in tableData" :key="index">
                 <div class="text"><span class="number">訂單編號：</span>{{ item.order_number }}</div>
                 <div class="text"><span>訂購人：</span>{{ item.order_name }}</div>
@@ -89,10 +89,10 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/scss/main.scss";
 .order{
-    .cancel{
-        display: flex;
-        justify-content: end;
-    }
+    // .cancel{
+    //     display: flex;
+    //     justify-content: end;
+    // }
     .order_content{
         .text{
             padding: $sp2 0;
