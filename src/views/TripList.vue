@@ -7,12 +7,14 @@
                 <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
                 <button class="btn">搜尋</button>
             </div>
-            <button class="btn">
-                <span>
-                    <Icon type="md-add" />
-                    新增行程
-                </span>
-            </button>
+            <router-link to="/trip_add">
+                <button class="btn">
+                    <span>
+                        <Icon type="md-add" />
+                        新增行程
+                    </span>
+                </button>
+            </router-link>
         </div>
         <div class="table_wrap">
             <table>
@@ -60,9 +62,11 @@
                         </Switch>
                     </td>
                     <td>
-                        <button>
-                            <Icon type="md-create" />
-                        </button>
+                        <router-link to="/trip_edit">
+                            <button>
+                                <Icon type="md-create" />
+                            </button>
+                        </router-link>
                     </td>
                     <td>
                         <button>

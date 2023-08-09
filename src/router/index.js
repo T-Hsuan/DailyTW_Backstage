@@ -20,6 +20,18 @@ const routes = [
             import(/* webpackChunkName: "trip" */ "@/views/TripList.vue"),
     },
     {
+        path: "/trip_add",
+        name: "trip_add",
+        component: () =>
+            import(/* webpackChunkName: "trip" */ "@/views/TripAdd.vue"),
+    },
+     {
+        path: "/trip_edit",
+        name: "trip_edit",
+        component: () =>
+            import(/* webpackChunkName: "trip" */ "@/views/TripEdit.vue"),
+    },
+    {
         path: "/place_add",
         name: "place_add",
         component: () =>
