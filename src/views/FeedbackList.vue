@@ -29,11 +29,11 @@
                     </th>
                 </tr>
                 <tr v-for="(item, index) in tableData" :key="index" @click="showPopBox">
-                    <td>{{ item.no }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.email }}</td>
-                    <td>{{ item.subject }}</td>
-                    <td>{{ item.date }}</td>
+                    <td>{{ item.feedback_id }}</td>
+                    <td>{{ item.feedback_name }}</td>
+                    <td>{{ item.feedback_email }}</td>
+                    <td>{{ item.feedback_subject}}</td>
+                    <td>{{ item.feedback_date}}</td>
                 </tr>
             </table>
         </div>
@@ -56,28 +56,38 @@
                         </div>
                         <div class="row">
                             <h5>內容說明</h5>
-                            <p>我寫這封信是要向你們表達對你們旅遊與服裝推薦服務的讚賞，我真的非常喜歡你們的服務！<br>首先，你們的網站設計非常好，簡潔明瞭，讓我輕鬆地瀏覽各種旅遊目的地和相關的服裝建議。這讓我能事先準備好適合目的地的穿搭，提升了我的旅行體驗。<br>感謝你們提供如此出色的服務，我會向我的朋友們強烈推薦你們的網站。期待未來更多的旅行冒險和時尚建議！</p>
+                            <p>我寫這封信是要向你們表達對你們旅遊與服裝推薦服務的讚賞，我真的非常喜歡你們的服務！首先，你們的網站設計非常好，簡潔明瞭，讓我輕鬆地瀏覽各種旅遊目的地和相關的服裝建議。這讓我能事先準備好適合目的地的穿搭，提升了我的旅行體驗。感謝你們提供如此出色的服務，我會向我的朋友們強烈推薦你們的網站。期待未來更多的旅行冒險和時尚建議！</p>
                         </div>
                     </div>
                 </div>
                 <button class="btn" @click="closePopBox">關閉</button>
             </div>
         </div>
+        <!-- 切換分頁 -->
+        <div class="pages">
+            <Page 
+            :total="page.total" 
+            :current="page.index"
+            :page-size="page.size"
+            @on-change="pIndexChange"
+            />
+        </div>
     </div>
 </template>
   
 <script>
+import {GET} from '@/plugin/axios'
+
 export default {
     data() {
         return {
-            tableData: [
-                { no: '001', name: '陳小妮', email: '123456@gmail.com', subject: '旅遊與服裝推薦服務回饋', cont:'我寫這封信是要向你們表達對你們旅遊與服裝推薦服務的讚賞，我真的非常喜歡你們的服務！首先，你們的網站設計非常好，簡潔明瞭，讓我輕鬆地瀏覽各種旅遊目的地和相關的服裝建議。這讓我能事先準備好適合目的地的穿搭，提升了我的旅行體驗。感謝你們提供如此出色的服務，我會向我的朋友們強烈推薦你們的網站。期待未來更多的旅行冒險和時尚建議！', date: '2023-08-06' },
-                { no: '002', name: '陳小妮', email: '123456@gmail.com', subject: '旅遊與服裝推薦服務回饋', cont:'', date: '2023-08-06' },
-                { no: '003', name: '陳小妮', email: '123456@gmail.com', subject: '旅遊與服裝推薦服務回饋', cont:'', date: '2023-08-06' },
-                { no: '004', name: '陳小妮', email: '123456@gmail.com', subject: '旅遊與服裝推薦服務回饋', cont:'', date: '2023-08-06' },
-                { no: '005', name: '陳小妮', email: '123456@gmail.com', subject: '旅遊與服裝推薦服務回饋', cont:'', date: '2023-08-06' },
-                { no: '006', name: '陳小妮', email: '123456@gmail.com', subject: '旅遊與服裝推薦服務回饋', cont:'', date: '2023-08-06' },
-            ],
+            rawData: [],
+            tableData: [],
+            page: {
+                index: 1, //當前分頁
+                size: 20, //一頁多少筆資料
+                total: 0
+            },
             showFeedback: false,
         };
     },
@@ -98,7 +108,7 @@ export default {
 
             // Add table rows (data)
             this.tableData.forEach((item) => {
-                const rowData = [item.no, item.name, item.email, item.subject, item.cont, item.date];
+                const rowData = [item.feedback_id, item.feedback_name, item.feedback_email, item.feedback_subject, item.feedback_cont, item.feedback_date];
                 csvContent += rowData.join(",") + "\r\n";
             });
 
@@ -115,6 +125,29 @@ export default {
             // Remove the link from the document
             document.body.removeChild(link);
         },
+        getHome() {
+            const startIdx = (this.page.index - 1) * this.page.size;
+            const endIdx = startIdx + this.page.size;
+
+            this.tableData = this.rawData.slice(startIdx, endIdx);
+        },
+
+        pIndexChange(i) {
+            this.page.index = i;
+            this.getHome();
+        },
+    },
+    mounted() {
+        GET(`${this.$URL}/FeedbackList.php`)
+            .then((res) => {
+                console.log(res);
+                this.rawData = res; // Store the raw fetched data
+                this.page.total = this.rawData.length; // Set total based on raw data length
+                this.getHome(); // Fetch initial paginated data
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     },
 };
 </script>

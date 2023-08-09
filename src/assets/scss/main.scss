@@ -152,6 +152,12 @@
         justify-content: flex-end;
         padding: $sp4 0;
     }
+    //切換分頁區塊
+    .pages{
+        padding-top: $sp3;
+        display: flex;
+        justify-content: center;
+    }
 
     //用戶回饋檢視彈窗
     .feedback_popbox{
@@ -263,5 +269,25 @@
         font-size: 18px !important;
         color: $textColor_default;
         padding: 0 !important;
+    }
+    //分頁
+    .ivu-page-item-active{
+        border-color: $textColor_default;
+    }
+    .ivu-page-item:hover,
+    .ivu-page-next:hover,
+    .ivu-page-prev:hover{
+        border-color: $textColor_tint !important;
+    }
+    .ivu-icon-ios-arrow-forward:before,
+    .ivu-icon-ios-arrow-back:before,
+    .ivu-page-item a,
+    .ivu-page-item-active a,
+    .ivu-page-item-active:hover{
+        color: $textColor_default;
+    }
+    .ivu-page-item-jump-next a i.ivu-icon,
+    .ivu-page-item-jump-prev a i.ivu-icon{
+        color: $textColor_tint;
     }
 }

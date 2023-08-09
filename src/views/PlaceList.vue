@@ -42,10 +42,10 @@
                     <th>刪除</th>
                 </tr>
                 <tr v-for="(item, index) in tableData" :key="index">
-                    <td>{{ item.no }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.date }}</td>
-                    <td>{{ item.stay }}</td>
+                    <td>{{ item.place_id }}</td>
+                    <td>{{ item.place_name }}</td>
+                    <td>{{ item.place_date }}</td>
+                    <td>{{ item.place_stay }}</td>
                     <td>
                         <Switch size="large" v-model="item.status">
                             <template #open>
@@ -71,21 +71,31 @@
                 </tr>
             </table>
         </div>
+        <!-- 切換分頁 -->
+        <div class="pages">
+            <Page 
+            :total="page.total" 
+            :current="page.index"
+            :page-size="page.size"
+            @on-change="pIndexChange"
+            />
+        </div>
     </div>
 </template>
   
 <script>
+import {GET} from '@/plugin/axios'
+
 export default {
     data() {
         return {
-            tableData: [
-                { no: '001', name: '合興車站', date: '2023-08-06', stay: '0.5'},
-                { no: '002', name: '內灣愛情故事館', date: '2023-08-06', stay: '1'},
-                { no: '003', name: '內灣老街', date: '2023-08-06', stay: '2'},
-                { no: '004', name: '劉興欽漫畫館', date: '2023-08-06', stay: '3'},
-                { no: '005', name: '內灣隱藏版咖啡', date: '2023-08-06', stay: '1.5'},
-                { no: '006', name: '清水地熱', date: '2023-08-06', stay: '1.5'},
-            ],
+            rawData: [],
+            tableData: [],
+            page: {
+                index: 1, //當前分頁
+                size: 20, //一頁多少筆資料
+                total: 0
+            },
         };
     },
     methods: {
@@ -101,7 +111,48 @@ export default {
             this.tableData.splice(index, 1);
         },
         // You can add other methods for handling backend data retrieval, update, etc.
+        getHome() {
+            const startIdx = (this.page.index - 1) * this.page.size;
+            const endIdx = startIdx + this.page.size;
+
+            this.tableData = this.rawData.slice(startIdx, endIdx);
+        },
+
+        pIndexChange(i) {
+            this.page.index = i;
+            this.getHome();
+        },
+    },
+    mounted() {
+        GET(`${this.$URL}/PlaceList.php`)
+            .then((res) => {
+                console.log(res);
+                this.rawData = res; // Store the raw fetched data
+                this.page.total = this.rawData.length; // Set total based on raw data length
+                this.getHome(); // Fetch initial paginated data
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     },
 };
 </script>
+
+<style lang="scss" scoped>
+table{
+    table-layout: fixed;
+    tr th:nth-child(2),
+    tr th:nth-child(3),
+    tr td:nth-child(2),
+    tr td:nth-child(3){
+        width: 180px;
+    }
+    tr th:nth-child(4),
+    tr th:nth-child(5),
+    tr td:nth-child(4),
+    tr td:nth-child(5){
+        width: 100px;
+    }
+}
+</style>
   

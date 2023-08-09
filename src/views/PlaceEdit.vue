@@ -32,15 +32,15 @@
                 </div>
                 <label for="place_addr">
                     <span>景點地址</span>
-                    <input type="text" name="place_addr" id="place_addr">
+                    <input type="text" name="place_addr" id="place_addr" v-model="placeData.addr">
                 </label>
                 <label for="place_link">
                     <span>景點連結</span>
-                    <input type="text" name="place_link" id="place_link">
+                    <input type="text" name="place_link" id="place_link" v-model="placeData.link">
                 </label>
                 <label for="place_desc">
                     <span>景點描述</span>
-                    <textarea name="place_desc" id="place_desc" rows="10"></textarea>
+                    <textarea name="place_desc" id="place_desc" rows="10" v-model="placeData.desc"></textarea>
                 </label>
                 <!-- 上傳照片預覽及刪除 -->
                 <div class="img_wrap">
@@ -114,7 +114,9 @@ export default{
         return{
             placeData: {
                 name: '',
-                // Add other fields here as needed
+                addr: '',
+                link: '',
+                desc: '',
             },
             tagList: [
                 {
