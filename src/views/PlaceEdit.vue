@@ -6,7 +6,7 @@
                 <!-- 表單欄位用 label 包 -->
                 <label for="place_name">
                     <span>景點名稱</span>
-                    <input type="text" v-model="placeData.name" name="place_name" id="place_name">
+                    <input type="text" name="place_name" id="place_name">
                 </label>
                 <!-- 下拉選單用 .select_box 包 -->
                 <div class="selection_box">
@@ -32,15 +32,15 @@
                 </div>
                 <label for="place_addr">
                     <span>景點地址</span>
-                    <input type="text" name="place_addr" id="place_addr" v-model="placeData.addr">
+                    <input type="text" name="place_addr" id="place_addr">
                 </label>
                 <label for="place_link">
                     <span>景點連結</span>
-                    <input type="text" name="place_link" id="place_link" v-model="placeData.link">
+                    <input type="text" name="place_link" id="place_link">
                 </label>
                 <label for="place_desc">
                     <span>景點描述</span>
-                    <textarea name="place_desc" id="place_desc" rows="10" v-model="placeData.desc"></textarea>
+                    <textarea name="place_desc" id="place_desc" rows="10"></textarea>
                 </label>
                 <!-- 上傳照片預覽及刪除 -->
                 <div class="img_wrap">
@@ -103,20 +103,22 @@
             <router-link to="/place_list">
                 <button class="cancel_btn">取消</button>
             </router-link>
-            <button type="submit" class="btn">儲存</button>
+            <button type="button" class="btn" @click="saveChanges">儲存</button>
         </div>
     </div>
 </template>
 
 <script>
+import { GET, POST } from '@/plugin/axios';
+
 export default{
     data(){
         return{
             placeData: {
-                name: '',
-                addr: '',
-                link: '',
-                desc: '',
+                place_name: '',
+                place_addr: '',
+                place_link: '',
+                place_desc: '',
             },
             tagList: [
                 {
@@ -340,6 +342,38 @@ export default{
                 uploadedFile.name === file.name && uploadedFile.size === file.size
             );
         },
+        // fetchPlaceDetails() {
+        //     // Fetch the place details based on the place_id parameter
+        //     GET(`/PlaceList.php?place_id=${this.place_id}`)
+        //         .then(response => {
+        //             // Update the placeData with the fetched details
+        //             this.placeData = response;
+        //         })
+        //         .catch(error => {
+        //             console.error("Error fetching place details:", error);
+        //         });
+        // },
+        // saveChanges() {
+        //     // ... (other save logic) ...
+
+        //     // If the status is changed, update it in the local list
+        //     if (this.placeData.place_status !== originalStatus) {
+        //         this.$store.commit('updatePlaceStatus', {
+        //             place_id: this.place_id,
+        //             newStatus: this.placeData.place_status,
+        //         });
+        //     }
+        // },
+    },
+    mounted() {
+        GET(`${this.$URL}/PlaceEdit.php?place_id=${this.place_id}`)
+            .then((res) => {
+                console.log(res);
+                this.placeData = res.data;
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     },
 }
 </script>

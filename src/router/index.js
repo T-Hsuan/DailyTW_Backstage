@@ -38,7 +38,7 @@ const routes = [
             import(/* webpackChunkName: "trip" */ "@/views/PlaceAdd.vue"),
     },
     {
-        path: "/place_edit/:index",
+        path: "/place_edit/:place_id",
         name: "place_edit",
         component: () =>
             import(/* webpackChunkName: "trip" */ "@/views/PlaceEdit.vue"),
