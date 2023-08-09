@@ -21,3 +21,19 @@
         </div>
     </div>
 </template>
+
+<script>
+import {GET} from '@/plugin/axios'
+
+export default{
+    mounted() {
+        GET(`${this.$URL}/test.php`)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    },
+}
+</script>
