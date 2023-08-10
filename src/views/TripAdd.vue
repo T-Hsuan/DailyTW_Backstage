@@ -63,6 +63,7 @@
                     </AutoComplete>
                 </div>
             </div>
+            <button class="btn">新增</button>
         </div>
         
         <!-- 次頁右下角統一用取消及儲存按鈕 -->
@@ -76,6 +77,7 @@
 </template>
 
 <script>
+import {GET} from '@/plugin/axios';
 export default{
     data(){
         return{
@@ -129,12 +131,32 @@ export default{
         }
     },
     methods: {
+        showDeleteConfirmation(index) {
+            // Show the confirm message dialog
+            const isConfirmed = window.confirm('確定刪除此景點?');
+            if (isConfirmed) {
+                // If the user confirms, delete the row
+                this.deleteRow(index);
+            }
+        },
+        deleteRow(index) {
+            this.tableData.splice(index, 1);
+        },
         filterMethod (value, option) {
             return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
         }
     },
     mounted () {
-        
+        GET(`${this.$URL}/TripAdd.php`)
+            .then((res) => {
+                console.log(res);
+                this.rawData = res; // Store the raw fetched data
+                this.page.total = this.rawData.length; // Set total based on raw data length
+                this.getHome(); // Fetch initial paginated data
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 }
 </script>
@@ -175,10 +197,13 @@ export default{
     margin-bottom: 4px;
 }
 .trip_place_add{
+    display: flex;
+    gap: 16px;
+    margin-bottom: 80px;
     .trip_place_region{
-        width: 200px !important;
+        width: 240px !important;
         .region_select{
-            width: 200px;
+            width: 240px;
         }
         span.ivu-select-placeholder {
             display: inline !important;
@@ -187,9 +212,8 @@ export default{
         }
     }
     .trip_place_search{
-        // width: 60%;
+        width: 360px;
         .searchbar{
-            width: 480px;
             display: flex;
             .ivu-icon{
                 margin: auto;
@@ -201,6 +225,10 @@ export default{
                 line-height: 46px;
             }
         }
+    }
+    .btn{
+        height: 46px;
+        align-self: end;
     }
 }
 </style>
