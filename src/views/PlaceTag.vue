@@ -14,23 +14,18 @@
         <div class="table_wrap">
             <table>
                 <tr>
-                    <th>
-                        <button>
-                            NO.
-                            <Icon type="md-arrow-dropdown" />
-                        </button>
-                    </th>
+                    <th>NO.</th>
                     <th>景點類型</th>
                     <th>描述</th>
                     <th>標籤狀態</th>
                     <th>刪除</th>
                 </tr>
                 <tr v-for="(item, index) in tableData" :key="index">
-                    <td>{{ item.no }}</td>
-                    <td>{{ item.type }}</td>
-                    <td>{{ item.description }}</td>
+                    <td>{{ item.place_tag_id }}</td>
+                    <td>{{ item.place_tag_name }}</td>
+                    <td>{{ item.place_tag_desc }}</td>
                     <td>
-                        <Switch size="large" v-model="item.status">
+                        <Switch size="large" v-model="item.place_tag_status" true-value="1" false-value="0">
                             <template #open>
                                 <span>ON</span>
                             </template>
@@ -40,42 +35,65 @@
                         </Switch>
                     </td>
                     <td>
-                        <button>
+                        <button @click="showDeleteConfirmation(index)">
                             <Icon type="md-trash" />
                         </button>
-                        <!-- <button><Icon type="md-trash" @click="deleteRow(index)" /></button> -->
                     </td>
                 </tr>
             </table>
+        </div>
+        <!-- 切換分頁 -->
+        <div class="pages">
+            <Page :total="dataLength" v-model="page.index" :page-size="page.size"  />
         </div>
     </div>
 </template>
   
 <script>
+import { GET } from '@/plugin/axios'
+
 export default {
     data() {
         return {
-            tableData: [
-                { no: '01', type: '親子', description: '適合兒童遊玩', status: true },
-                { no: '02', type: '情侶', description: '適合情侶約會', status: true },
-                { no: '03', type: '小資', description: '消費平價或不用門票', status: true },
-                { no: '04', type: '風景', description: '戶外自然景觀', status: true },
-                { no: '05', type: '樂園', description: '遊樂園', status: true },
-                { no: '06', type: '藝文', description: '有展覽或人文歷史古蹟等', status: true },
-                { no: '07', type: '山林', description: '登山步道或露營區或果園', status: true },
-                { no: '08', type: '海邊', description: '海邊', status: true },
-                { no: '09', type: '放鬆', description: '', status: true },
-                { no: '10', type: '懷舊', description: '古蹟或復古場景', status: true },
-                { no: '11', type: '農場', description: '有動物', status: true },
-                // Add more data rows here
-            ],
+            rawData: [],
+            page: {
+                index: 1, //當前分頁
+                size: 20, //一頁多少筆資料
+            },
         };
     },
+    computed: {
+        //資料分頁
+        tableData() {
+            return this.rawData.slice((this.page.index - 1) * this.page.size, this.page.index * this.page.size);
+        },
+        dataLength() {
+            return this.rawData.length;
+        },
+    },
     methods: {
-        // deleteRow(index) {
-        //     this.tableData.splice(index, 1);
-        // },
-        // You can add other methods for handling backend data retrieval, update, etc.
+        //刪除資料
+        showDeleteConfirmation(index) {
+            // Show the confirm message dialog
+            const isConfirmed = window.confirm('確定刪除此筆資料?');
+            if (isConfirmed) {
+                // If the user confirms, delete the row
+                this.deleteRow(index);
+            }
+        },
+        deleteRow(index) {
+            this.tableData.splice(index, 1);
+        },
+    },
+    mounted() {
+        GET(`${this.$URL}/PlaceTag.php`)
+            .then((res) => {
+                console.log(res);
+                this.rawData = res;
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     },
 };
 </script>
