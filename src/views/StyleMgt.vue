@@ -17,7 +17,6 @@
                     <th>
                         <button>
                             NO.
-                            <Icon type="md-arrow-dropdown" />
                         </button>
                     </th>
                     <th>穿搭風格</th>
@@ -58,14 +57,7 @@ import {GET} from '@/plugin/axios'
 export default {
     data() {
         return {
-            tableData: [
-                { type: '休閒', description: '今天又是個風和日麗的日子', status: true },
-                { type: '潮流', description: '今天又是個風和日麗的日子', status: true },
-                { type: '美式', description: '今天又是個風和日麗的日子', status: true },
-                { type: '簡約', description: '今天又是個風和日麗的日子', status: true },
-                { type: '街頭', description: '今天又是個風和日麗的日子', status: true },
-                // Add more data rows here
-            ],
+            tableData: [],
         };
     },
     methods: {
