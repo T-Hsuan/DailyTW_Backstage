@@ -3,8 +3,8 @@
         <h3>景點列表</h3>
         <div class="action_container">
             <div class="searchbar">
-                <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
-                <button class="btn">搜尋</button>
+                <input v-model="searchText" type="text" name="search" id="search" placeholder="請輸入關鍵字" />
+                <button class="btn" @click="search">搜尋</button>
             </div>
             <router-link to="/place_add">
                 <button class="btn">
@@ -19,22 +19,22 @@
             <table>
                 <tr>
                     <th>
-                        <button>
+                        <button @click="sortBy('place_id', 'no')">
                             NO.
-                            <Icon type="md-arrow-dropdown" />
+                            <Icon :type="sortType === 'no' ? sortIcon : 'md-arrow-dropdown'" />
                         </button>
                     </th>
                     <th>名稱</th>
                     <th>
-                        <button>
+                        <button @click="sortBy('place_date', 'updateDate')">
                             更新時間
-                            <Icon type="md-arrow-dropdown" />
+                            <Icon :type="sortType === 'updateDate' ? sortIcon : 'md-arrow-dropdown'" />
                         </button>
                     </th>
                     <th>
-                        <button>
+                        <button @click="sortBy('place_stay', 'stayTime')">
                             停留時間
-                            <Icon type="md-arrow-dropdown" />
+                            <Icon :type="sortType === 'stayTime' ? sortIcon : 'md-arrow-dropdown'" />
                         </button>
                     </th>
                     <th>狀態</th>
@@ -101,9 +101,13 @@ export default {
                 size: 20, //一頁多少筆資料
                 total: 0
             },
+            sortType: '',
+            sortIcon: 'md-arrow-dropdown',
+            searchText: '',
         };
     },
     methods: {
+        //刪除資料
         showDeleteConfirmation(index) {
             // Show the confirm message dialog
             const isConfirmed = window.confirm('確定刪除此筆資料?');
@@ -126,8 +130,48 @@ export default {
         },
 
         pIndexChange(i) {
+            console.log('Pagination index change event:', i);
             this.page.index = i;
             this.getHome();
+        },
+
+        //排序
+        sortBy(column, sortType) {
+            this.sortType = sortType;
+            this.sortIcon = this.sortIcon === 'md-arrow-dropdown' ? 'md-arrow-dropup' : 'md-arrow-dropdown';
+            this.rawData.sort((a, b) => {
+                const aValue = a[column];
+                const bValue = b[column];
+                if (this.sortType === 'no') {
+                    return this.sortIcon === 'md-arrow-dropdown' ? aValue - bValue : bValue - aValue;
+                } else if (this.sortType === 'updateDate' || this.sortType === 'stayTime') {
+                    return this.sortIcon === 'md-arrow-dropdown' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+                }
+            });
+            this.getHome(); // Refresh paginated data after sorting
+        },
+
+        //搜尋
+        search() {
+            const searchTerm = this.searchText.toLowerCase();
+            
+            if (searchTerm === '') {
+                // If the search term is empty, restore rawData to its original state
+                this.rawData = this.tableData;
+            } else {
+                // Filter the rawData and assign it to tableData
+                this.tableData = this.rawData.filter(item =>
+                    item.place_name.toLowerCase().includes(searchTerm) ||
+                    item.place_id.toString().includes(searchTerm)
+                );
+                
+                // Update rawData to match the filtered data
+                this.rawData = this.tableData;
+            }
+            
+            this.page.index = 1; // Reset the page index to the first page
+            this.page.total = this.tableData.length; // Update total based on filtered data
+            this.getHome(); // Refresh paginated data after filtering
         },
 
         updateStatus(index) {
