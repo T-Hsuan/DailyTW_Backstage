@@ -21,23 +21,23 @@
                         </button>
                     </th>
                     <th>穿搭風格</th>
-                    <th>描述</th>
+                    <th class="style_add_desc">描述</th>
                     <th>置頂</th>
                     <th>標籤狀態</th>
                     <th>刪除</th>
                 </tr>
                 <tr v-for="(item, index) in tableData" :key="index">
                     <td>{{ index + 1 }}</td>
-                    <td>{{ item.type }}</td>
-                    <td>{{ item.description }}</td>
+                    <td>{{ item.style_name }}</td>
+                    <td class="style_add_desc">{{ item.style_desc }}</td>
                     <td><input type="checkbox"></td>
                     <td>
-                        <Switch size="large" v-model="item.status">
-                            <template #open>
-                                <span>ON</span>
-                            </template>
+                        <Switch size="large" v-model="item.style_tag_status" true-value="1" false-value="0">
                             <template #close>
                                 <span>OFF</span>
+                            </template>
+                            <template #open>
+                                <span>ON</span>
                             </template>
                         </Switch>
                     </td>
@@ -53,6 +53,8 @@
 </template>
   
 <script>
+import {GET} from '@/plugin/axios'
+
 export default {
     data() {
         return {
@@ -71,7 +73,36 @@ export default {
             this.tableData.splice(index, 1);
         },
         // You can add other methods for handling backend data retrieval, update, etc.
+
+        
     },
+     mounted() {
+        GET(`${this.$URL}/styleMgt.php`)
+            .then((res) => {
+                console.log(res);
+                this.tableData = res;
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
 };
 </script>
   
+<style lang="scss" scoped>
+    table{
+        width: 100%;
+        table-layout: fixed;
+        box-sizing: border-box;
+        .style_add_desc{
+            width: 300px;
+        }
+        td{
+            word-wrap: break-word;
+        }
+        th,td{
+            white-space: normal;
+        }
+        
+    }
+</style>

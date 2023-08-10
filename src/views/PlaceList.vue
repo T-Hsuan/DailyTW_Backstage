@@ -26,14 +26,14 @@
                     </th>
                     <th>名稱</th>
                     <th>
-                        更新時間
                         <button>
+                            更新時間
                             <Icon type="md-arrow-dropdown" />
                         </button>
                     </th>
                     <th>
-                        停留時間
                         <button>
+                            停留時間
                             <Icon type="md-arrow-dropdown" />
                         </button>
                     </th>
@@ -47,7 +47,12 @@
                     <td>{{ item.place_date }}</td>
                     <td>{{ item.place_stay }}</td>
                     <td>
-                        <Switch size="large" v-model="item.status">
+                        <Switch 
+                            size="large" 
+                            v-model="item.place_status" 
+                            true-value="1" 
+                            false-value="0"
+                        >
                             <template #open>
                                 <span>ON</span>
                             </template>
@@ -57,7 +62,7 @@
                         </Switch>
                     </td>
                     <td>
-                        <router-link :to="{ name: 'place_edit', params: { index } }">
+                        <router-link :to="{ name: 'place_edit', params: { place_id: item.place_id } }">
                             <button class="edit_btn">
                                 <Icon type="md-create" />
                             </button>
@@ -84,7 +89,7 @@
 </template>
   
 <script>
-import {GET} from '@/plugin/axios'
+import {GET, POST} from '@/plugin/axios'
 
 export default {
     data() {
@@ -111,6 +116,8 @@ export default {
             this.tableData.splice(index, 1);
         },
         // You can add other methods for handling backend data retrieval, update, etc.
+        
+        //分頁資料呈現第幾筆到第幾筆
         getHome() {
             const startIdx = (this.page.index - 1) * this.page.size;
             const endIdx = startIdx + this.page.size;
@@ -122,6 +129,35 @@ export default {
             this.page.index = i;
             this.getHome();
         },
+
+        updateStatus(index) {
+            const item = this.tableData[index];
+            const newStatus = item.place_status === "1" ? "0" : "1";
+
+            // Send a POST request to update the status
+            POST("/PlaceList.php", { place_id: item.place_id, place_status: newStatus })
+                .then(response => {
+                    // Update the status locally
+                    item.place_status = newStatus;
+                })
+                .catch(error => {
+                    console.error("Error updating status:", error);
+                });
+        },
+        // updateStatus(index) {
+        //     const item = this.tableData[index];
+        //     const newStatus = item.place_status === "1" ? "0" : "1";
+
+        //     POST("/PlaceList.php", { id: item.place_id, status: newStatus })
+        //         .then(response => {
+        //         // Update the tableData with the updated data from the response
+        //         console.log("updateStatus method called");
+        //         this.tableData = response;
+        //         })
+        //         .catch(error => {
+        //         console.error("Error updating status:", error);
+        //         });
+        // },
     },
     mounted() {
         GET(`${this.$URL}/PlaceList.php`)

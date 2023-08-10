@@ -42,9 +42,10 @@
                         </button>
                     </td>
                     <td>{{ index + 1 }}</td>
-                    <td>{{ item.type }}</td>
-                    <td>{{ item.description }}</td>
+                    <td>{{ item.mem_name }}</td>
+                    <td>{{ item.oott_date }}</td>
                     <td>
+                        <!-- 上架狀態 -->
                         <Switch size="large" v-model="item.status">
                             <template #open>
                                 <span>ON</span>
@@ -54,9 +55,19 @@
                             </template>
                         </Switch>
                     </td>
-                    <td>{{ item.state }}</td>
+                <!-- 審核狀態 -->
+                    <td v-if="item.oott_review_status == 0" >
+                        審核中
+                    </td>
+                    <td v-if="item.oott_review_status == 1" >
+                        已通過
+                    </td>
+                    <td v-if="item.oott_review_status == 2" >
+                        待修改
+                    </td>
+
                     <td>
-                        <router-link to="/oott_post_review">
+                        <router-link to="/oott_post_review" v-if="item.oott_review_status == 0">
                             <button>
                                 <Icon type="md-eye" />
                             </button>
@@ -100,6 +111,8 @@
 </template>
 
 <script>
+import {GET} from '@/plugin/axios'
+
 export default {
     data() {
         return {
@@ -131,7 +144,20 @@ export default {
             this.tableData.splice(index, 1);
         },
         // You can add other methods for handling backend data retrieval, update, etc.
+        test(){
+            console.log(this.tableData.oott_review_status);
+        }
     },
+    mounted() {
+        GET(`${this.$URL}/oottPostList.php`)
+            .then((res) => {
+                console.log(res);
+                this.tableData = res;
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
 };
 </script>
 
