@@ -10,9 +10,9 @@ import "@/assets/scss/main.scss";
 import axios from 'axios';
 
 // 打API用的路徑變數
-import { URL } from '@/assets/js/common.js'
+import { URL,URL_MAC } from '@/assets/js/common.js'
 
 const app = createApp(App)
 app.config.globalProperties.$URL = URL;
-
+app.config.globalProperties.$URL_MAC = URL_MAC;
 app.use(store).use(router).use(ViewUIPlus, { locale }).mount('#app')
