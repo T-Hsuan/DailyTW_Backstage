@@ -13,18 +13,18 @@
             <table>
                 <tr>
                     <th>
-                        <button>
+                        <button @click="sortBy('feedback_id', 'no')">
                             NO.
-                            <Icon type="md-arrow-dropdown" />
+                            <Icon :type="sortType === 'no' ? sortIcon : 'md-arrow-dropdown'" />
                         </button>
                     </th>
                     <th>姓名</th>
                     <th>email</th>
                     <th>主旨</th>
                     <th>
-                        <button>
+                        <button @click="sortBy('feedback_date', 'Date')">
                             日期
-                            <Icon type="md-arrow-dropdown" />
+                            <Icon :type="sortType === 'Date' ? sortIcon : 'md-arrow-dropdown'" />
                         </button>
                     </th>
                 </tr>
@@ -89,6 +89,8 @@ export default {
                 total: 0
             },
             showFeedback: false,
+            sortType: '',
+            sortIcon: 'md-arrow-dropdown',
         };
     },
     methods: {
@@ -135,6 +137,21 @@ export default {
         pIndexChange(i) {
             this.page.index = i;
             this.getHome();
+        },
+        //排序
+        sortBy(column, sortType) {
+            this.sortType = sortType;
+            this.sortIcon = this.sortIcon === 'md-arrow-dropdown' ? 'md-arrow-dropup' : 'md-arrow-dropdown';
+            this.rawData.sort((a, b) => {
+                const aValue = a[column];
+                const bValue = b[column];
+                if (this.sortType === 'no') {
+                    return this.sortIcon === 'md-arrow-dropdown' ? aValue - bValue : bValue - aValue;
+                } else if (this.sortType === 'Date') {
+                    return this.sortIcon === 'md-arrow-dropdown' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+                }
+            });
+            this.getHome(); // Refresh paginated data after sorting
         },
     },
     mounted() {
