@@ -19,22 +19,15 @@
                     <th>管理者帳號</th>
                     <th>狀態</th>
                 </tr>
-                <tr v-for="(employee, index) in tableData" :key="index">
-                    <td>{{ index + 1 }}</td>
-                    <td>{{ employee.name }}</td>
+                <tr v-for="(item, index) in dataFromMySQL" :key="index">
+                    <td>{{ item.manager_id }}</td>
+                    <td>{{ item.manager_name }}</td>
+                    <td>{{ item.manager_type }}</td>
+                    <td>{{ item.manager_account }}</td>
+                    
+                    
                     <td>
-                        <div class="selection_box">
-                            <Select v-model="selectRegion">
-                                <Option v-for="item in accesstype" :value="item.value" :key="item.value">{{ item.label }}
-                                </Option>
-                            </Select>
-                        </div>
-                    </td>
-                    <td>
-                        {{ employee.email }}
-                    </td>
-                    <td>
-                        <Switch size="large" v-model="employee.status">
+                        <Switch size="large">
                             <template #open>
                                 <span>ON</span>
                             </template>
@@ -50,16 +43,13 @@
 </template>
   
 <script>
+import {GET} from '@/plugin/axios'
+
 export default {
     data() {
         return {
-            tableData: [
-                { name: '王小明', email: '123456@gmail.com' },
-                { name: '王小明', email: '123456@gmail.com' },
-                { name: '王小明', email: '123456@gmail.com' },
-                { name: '王小明', email: '123456@gmail.com' },
-                { name: '王小明', email: '123456@gmail.com' },
-            ],
+            dataFromMySQL:[],
+            
             accesstype: [
                 {
                     value: '請選擇',
@@ -77,6 +67,16 @@ export default {
             this.tableData.splice(index, 1);
         },
         // You can add other methods for handling backend data retrieval, update, etc.
+    },
+    mounted() {
+        GET(`${this.$URL}/EmployeeMgt.php`)
+            .then((res) => {
+                this.dataFromMySQL = res;
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     },
 };
 </script>

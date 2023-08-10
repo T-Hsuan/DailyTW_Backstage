@@ -5,7 +5,7 @@
             <label for="employee_name">
                 <span>姓名</span>
                 <input type="text" name="employee_name" id="employee_name" v-width="200">
-                <Icon type="md-create" class="ivu-p-16"/>
+                
             </label>
             <div class="selection_box">
                 <span>權限</span>
