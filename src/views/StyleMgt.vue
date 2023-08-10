@@ -77,7 +77,7 @@ export default {
         
     },
      mounted() {
-        GET(`${this.$URL}/styleMgt.php`)
+        GET(`${this.$URL}/StyleMgt.php`)
             .then((res) => {
                 console.log(res);
                 this.tableData = res;

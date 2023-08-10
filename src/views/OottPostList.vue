@@ -111,7 +111,8 @@
 </template>
 
 <script>
-import {GET} from '@/plugin/axios'
+import axios from 'axios';
+
 
 export default {
     data() {
@@ -149,10 +150,11 @@ export default {
         }
     },
     mounted() {
-        GET(`${this.$URL}/oottPostList.php`)
+        axios
+        .get(`${this.$URL}/OottPostList.php`)
             .then((res) => {
-                console.log(res);
-                this.tableData = res;
+                console.log(res.data);
+                this.tableData = res.data;
             })
             .catch((err) => {
                 console.log(err);
