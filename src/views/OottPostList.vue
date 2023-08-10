@@ -22,13 +22,7 @@
         <div class="table_wrap">
             <table>
                 <tr>
-                    <th></th>
-                    <th>
-                        <button>
-                            NO.
-                            <Icon type="md-arrow-dropdown" />
-                        </button>
-                    </th>
+                    <th>NO.</th>
                     <th>作者</th>
                     <th>更新日期</th>
                     <th>上架狀態</th>
@@ -36,17 +30,12 @@
                     <th>審核</th>
                 </tr>
                 <tr v-for="(item, index) in tableData" :key="index">
-                    <td>
-                        <button>
-                            <Icon type="md-flag" />
-                        </button>
-                    </td>
                     <td>{{ index + 1 }}</td>
-                    <td>{{ item.mem_name }}</td>
+                    <td class="member_name" @click="openLightbox(item)">{{ item.mem_name }}</td>
                     <td>{{ item.oott_date }}</td>
                     <td>
                         <!-- 上架狀態 -->
-                        <Switch size="large" v-model="item.status">
+                        <Switch size="large" v-model="item.oott_status" true-value="1" false-value="0">
                             <template #open>
                                 <span>ON</span>
                             </template>
@@ -76,7 +65,7 @@
                 </tr>
             </table>
         </div>
-        <div class="post_popbox">
+        <div class="post_popbox" v-if="lightboxVisible">
             <div class="post_wrap">
                 <h4>檢視貼文</h4>
                 <div class="post_content">
@@ -90,19 +79,19 @@
                             <div class="profile_photo">
                                 <img src="https://picsum.photos/200/200/?random=10">
                             </div>
-                            <h5 class="profile_name">用戶暱稱</h5>
+                            <h5 class="profile_name">{{selectedUser.mem_name}}</h5>
                         </div>
                         <div class="post_desc">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem iusto impedit modi accusamus veritatis ratione ut eaque similique illo optio provident suscipit natus temporibus nulla et, fugit qui adipisci earum.
+                            {{selectedUser.oott_desc}}
                         </div>
 
                         <!-- 標籤，可以從前面的頁面拿過來 -->
 
-                        <p class="post_date">2023年7月3日</p>
+                        <p class="post_date">{{ selectedUser.oott_date }}</p>
                     </div>
                 </div>
                 <div class="button_area">
-                    <button class="btn">回列表</button>
+                    <button class="btn" @click="closeLightbox">回列表</button>
                 </div>
 
             </div>
@@ -110,44 +99,34 @@
     </div>
 </template>
 
-<script>
+<script> 
 import axios from 'axios';
 
 
 export default {
     data() {
         return {
-            tableData: [
-                { type: "休閒", description: "2023-08-03", state: "審核中" },
-                { type: "休閒", description: "2023-08-03", state: "審核中" },
-                { type: "休閒", description: "2023-08-03", state: "審核中" },
-                { type: "休閒", description: "2023-08-03", state: "審核中" },
-                { type: "休閒", description: "2023-08-03", state: "審核中" },
-            ],
-            reviewList: [
-                {
-                    value: "審核中",
-                    label: "審核中",
-                },
-                {
-                    value: "已通過",
-                    label: "已通過",
-                },
-                {
-                    value: "未通過",
-                    label: "未通過",
-                },
-            ],
+            tableData: [],
+            selectedUser: null,
+            lightboxVisible: false,
         };
     },
     methods: {
+        // lightbox control
+        openLightbox(item){
+            this.selectedUser=item;
+            this.lightboxVisible=true;
+        },
+        closeLightbox(){
+            this.selectedUser=null;
+            this.lightboxVisible=false;
+        },
+
         deleteRow(index) {
             this.tableData.splice(index, 1);
         },
         // You can add other methods for handling backend data retrieval, update, etc.
-        test(){
-            console.log(this.tableData.oott_review_status);
-        }
+
     },
     mounted() {
         axios
@@ -164,6 +143,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.member_name{
+    cursor: pointer;
+    text-decoration: underline;
+}
 .action_container {
     padding-top: 20px;
 
@@ -182,8 +165,6 @@ export default {
 .post_popbox {
     display: flex;
     // 完成功能之後拿掉
-    display: none;
-    
     width: 100%;
     height: 100vh;
     background-color: #6a5d4a80;
@@ -222,6 +203,7 @@ export default {
                 .post_desc{
                     margin-top: 20px;
                     flex-grow: 1;
+                    line-height: 150%;
                 }
                 .post_date{
                     margin-top: auto;

@@ -141,7 +141,7 @@ const routes = [
             import(/* webpackChunkName: "OottStyleAdd" */ "@/views/OottStyleAdd.vue"),
     },
     {
-        path: "/oott_post_review",
+        path: "/oott_post_review/:id",
         name: "oott_post_review",
         component: () =>
             import(/* webpackChunkName: "OottPostReview" */ "@/views/OottPostReview.vue"),
