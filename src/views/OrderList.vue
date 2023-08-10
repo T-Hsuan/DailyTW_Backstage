@@ -14,7 +14,6 @@
         <div class="table_wrap">
             <table>
                 <tr>
-                    <th>會員編號</th>
                     <th>訂單編號</th>
                     <th>票券名稱</th>
                     <th>
@@ -23,25 +22,20 @@
                             <Icon type="md-arrow-dropdown" />
                         </button>
                     </th>
-                    <th>
-                        總金額
-                        <button>
+                    <th>總金額
+                        <!-- <button>
                             <Icon type="md-arrow-dropdown" />
-                        </button>
+                        </button> -->
                     </th>
                     <th>狀態</th>
                 </tr>
-                <tr v-for="(item, index) in dataFromMySQL" :key="index">
-
-
-                    <!-- 會員編號 -->
-                    <td>{{ item.ord_mem }}</td>
-                    <!-- 訂單編號 -->
-                    <td>{{ item.ord_id }}</td>
-                    <td>{{ item.ord_receiver }}</td>
-                    <td>{{ item.ord_date }}</td>
-                    <td>{{ item.ord_sum }}</td>
-                    <td>{{ item.ord_status }}</td>
+                <tr v-for="(item, index) in tableData" :key="index">
+                    <td><router-link to="/order_content">{{ item.number }}</router-link></td>
+                    <td>{{ item.tickit }}</td>
+                    <td>{{ item.member }}</td>
+                    <td>{{ item.time }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.state }}</td>
                 </tr>
             </table>
         </div>
@@ -78,7 +72,7 @@ export default {
     },
 };
 </script>
-<style lang="scss">
+<style lang="scss" >
 @import "@/assets/scss/main.scss";
 
 a {
