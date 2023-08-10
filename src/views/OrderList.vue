@@ -10,12 +10,6 @@
         <div class="table_wrap">
             <table>
                 <tr>
-                    <th>
-                        <button>
-                            NO.
-                            <Icon type="md-arrow-dropdown" />
-                        </button>
-                    </th>
                     <th>訂單編號</th>
                     <th>票券名稱</th>
                     <th>會員編號</th>
@@ -26,14 +20,13 @@
                         </button>
                     </th>
                     <th>總金額
-                        <button>
+                        <!-- <button>
                             <Icon type="md-arrow-dropdown" />
-                        </button>
+                        </button> -->
                     </th>
                     <th>狀態</th>
                 </tr>
                 <tr v-for="(item, index) in tableData" :key="index">
-                    <td>{{ index + 1 }}</td>
                     <td><router-link to="/order_content">{{ item.number }}</router-link></td>
                     <td>{{ item.tickit }}</td>
                     <td>{{ item.member }}</td>
@@ -67,7 +60,7 @@ export default {
     },
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss" >
 @import "@/assets/scss/main.scss";
 
 a {
