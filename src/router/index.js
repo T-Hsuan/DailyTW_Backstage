@@ -25,7 +25,7 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "trip" */ "@/views/TripAdd.vue"),
     },
-     {
+    {
         path: "/trip_edit",
         name: "trip_edit",
         component: () =>
@@ -77,7 +77,13 @@ const routes = [
         path: "/ticket_list",
         name: "ticket_list",
         component: () =>
-            import(/* webpackChunkName: "tickit" */ "@/views/TicketList.vue"),
+            import(/* webpackChunkName: "ticket" */ "@/views/TicketList.vue"),
+    },
+    {
+        path: "/ticket_add",
+        name: "ticket_add",
+        component: () =>
+            import(/* webpackChunkName: "ticket_add" */ "@/views/TicketAdd.vue"),
     },
     {
         path: "/member_mgt",
@@ -85,12 +91,12 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "member_mgt" */ "@/views/MemberMgt.vue"),
     },
-  {
-    path: "/member_view",
-    name: "member_view",
-    component: () =>
-        import(/* webpackChunkName: "member_view" */ "@/views/MemberView.vue"),
-  },
+    {
+        path: "/member_view",
+        name: "member_view",
+        component: () =>
+            import(/* webpackChunkName: "member_view" */ "@/views/MemberView.vue"),
+    },
     {
         path: "/employee_mgt",
         name: "employee_mgt",
@@ -98,18 +104,18 @@ const routes = [
             import(/* webpackChunkName: "employee" */ "@/views/EmployeeMgt.vue"),
     },
     {
-    path: "/employee_add",
-    name: "employee_add",
-    component: () =>
-        import(/* webpackChunkName: "employee_add" */ "@/views/EmployeeAdd.vue"),
-  },
-  {
+        path: "/employee_add",
+        name: "employee_add",
+        component: () =>
+            import(/* webpackChunkName: "employee_add" */ "@/views/EmployeeAdd.vue"),
+    },
+    {
         path: "/order_list",
         name: "order_list",
         component: () =>
             import(/* webpackChunkName: "order" */ "@/views/OrderList.vue"),
 
-    },{
+    }, {
         path: "/order_content",
         name: "order_content",
         component: () =>
@@ -140,7 +146,7 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "OottPostReview" */ "@/views/OottPostReview.vue"),
     },
-  
+
 
 ]
 

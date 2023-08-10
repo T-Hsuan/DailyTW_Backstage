@@ -6,35 +6,37 @@
                 <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
                 <button class="btn">搜尋</button>
             </div>
-            <button class="btn">
-                <span>
-                    <Icon type="md-add" />
-                    新增
-                </span>
-            </button>
+            <router-link to="/ticket_add">
+                <button class="btn" name="ticket_id">
+                    <span>
+                        <Icon type="md-add" />
+                        新增票券
+                    </span>
+                </button></router-link>
         </div>
         <div class="table_wrap">
             <table>
                 <tr>
                     <th>
-                        <button>
-                            NO.
-                            <i class="fa-solid fa-sort"></i>
+                        <button>NO.
+                            <Icon type="md-arrow-dropdown" />
                         </button>
                     </th>
                     <th>票券名稱</th>
-                    <th>上架時間</th>
+                    <th>全票價格</th>
+                    <th>優待票價格</th>
                     <th>折扣標籤</th>
+                    <th>上架時間</th>
                     <th>
                         上架狀態
                         <button>
-                            <i class="fa-solid fa-sort"></i>
+                            <Icon type="md-arrow-dropdown" />
                         </button>
                     </th>
                     <th>
                         置頂
                         <button>
-                            <i class="fa-solid fa-sort"></i>
+                            <Icon type="md-arrow-dropdown" />
                         </button>
                     </th>
                     <th>刪除</th>
@@ -42,18 +44,14 @@
                 <tr v-for="(item, index) in tableData" :key="index">
                     <td>{{ index + 1 }}</td>
                     <td>{{ item.type }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td>{{ item.description }}</td>
                     <td>
-                        {{ item.dwell }}
-                    </td>
-                    <td>
                         <Switch size="large" v-model="item.status">
-                            <template #open>
-                                <span>ON</span>
-                            </template>
-                            <template #close>
-                                <span>OFF</span>
-                            </template>
+                            <template #open><span>ON</span></template>
+                            <template #close><span>OFF</span></template>
                         </Switch>
                     </td>
                     <td>
@@ -64,6 +62,7 @@
                             <Icon type="md-trash" />
                         </button>
                     </td>
+                    <td></td>
                 </tr>
             </table>
         </div>

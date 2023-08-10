@@ -21,18 +21,23 @@
     font-family: $fontFamily;
     color: $textColor_default;
     background: $textColor_white;
+
     h1 {
         @include xl_h1;
     }
+
     h2 {
         @include xl_h2;
     }
+
     h3 {
         @include xl_h3;
     }
+
     h4 {
         @include xl_h4;
     }
+
     h5 {
         @include xl_h5;
     }
@@ -41,68 +46,87 @@
 
 
 //頁面主區塊
-.main_content{
+.main_content {
     width: 900px;
     padding: $sp4 $sp15 $sp7 $sp7;
     box-sizing: border-box;
-    h3{
+
+    h3 {
         padding-bottom: $sp5;
     }
+
     //主頁表格上方區塊(含搜尋欄、新增按鈕)
-    .action_container{
+    .action_container {
         display: flex;
         justify-content: space-between;
         padding-bottom: $sp3;
-        .searchbar{
+
+        .searchbar {
             display: flex;
             gap: $sp1;
         }
     }
+
     //表單欄位
-    .form_container{
+    .form_container {
         display: flex;
         flex-direction: column;
         gap: $sp1;
-        label{
-            span{
+
+        label {
+            span {
                 @include xl_p;
                 display: block;
                 padding: $sp1 0;
             }
+
             input,
-            textarea{
+            textarea {
                 width: 100%;
             }
         }
     }
+
+    .text_wrap {
+        display: flex;
+        gap: $sp3;
+    }
+
     //下拉選單
-    .selection_box{
-        span{
+    .selection_box {
+        span {
             @include xl_p;
             display: block;
             padding: $sp1 0;
             white-space: nowrap;
         }
     }
-    .selection_wrap{
+
+    .selection_wrap,
+    .text_wrap {
         display: flex;
         gap: $sp3;
-        .selection_box{
+
+        .selection_box {
             width: 20%;
             min-width: 100px;
         }
     }
+
     //上傳多張照片
-    .img_wrap{
+    .img_wrap {
         width: 100%;
         margin-bottom: $sp5;
         display: flex;
         gap: $sp3;
-        .img_box{
+
+        .img_box {
             position: relative;
-            label{
+
+            label {
                 cursor: pointer;
-                .upload_click{
+
+                .upload_click {
                     width: 200px;
                     height: 150px;
                     border: 2px dashed $textColor_default;
@@ -111,10 +135,12 @@
                     justify-content: center;
                     align-items: center;
                     position: relative;
-                    .ivu-icon{
+
+                    .ivu-icon {
                         font-size: 32px;
                     }
-                    img{
+
+                    img {
                         position: absolute;
                         top: -2px;
                         left: -2px;
@@ -124,17 +150,20 @@
                         object-fit: cover;
                     }
                 }
-                input{
+
+                input {
                     display: none;
                 }
             }
-            button{
+
+            button {
                 background-color: $textColor_white;
                 border-radius: 50px;
                 position: absolute;
                 right: 8px;
                 top: 40px;
-                .ivu-icon{
+
+                .ivu-icon {
                     font-size: 32px;
                     color: $textColor_default;
                     display: block;
@@ -142,25 +171,27 @@
                 }
             }
         }
-        
+
     }
+
     //取消、儲存鈕
-    .btn_wrap{
+    .btn_wrap {
         display: flex;
         align-items: center;
         gap: $sp3;
         justify-content: flex-end;
         padding: $sp4 0;
     }
+
     //切換分頁區塊
-    .pages{
+    .pages {
         padding-top: $sp3;
         display: flex;
         justify-content: center;
     }
 
     //用戶回饋檢視彈窗
-    .feedback_popbox{
+    .feedback_popbox {
         width: 100%;
         height: 100vh;
         background-color: #6A5D4A80;
@@ -171,7 +202,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        .feedback_wrap{
+
+        .feedback_wrap {
             max-width: 1000px;
             background-color: $textColor_white;
             padding: $sp6;
@@ -179,17 +211,20 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            .row{
+
+            .row {
                 display: flex;
                 gap: $sp2;
                 margin-bottom: $sp4;
-                h5{
+
+                h5 {
                     width: 100px;
                     text-align: right;
                     flex-shrink: 0;
                     line-height: 1.2;
                 }
-                p{
+
+                p {
                     line-height: 1.5;
                 }
             }
@@ -198,40 +233,49 @@
 
     //-----------修改套件樣式------------
     //icon
-    .ivu-icon{
+    .ivu-icon {
         margin-left: -4px;
         font-size: 24px;
     }
-    .action_container button{
-        .ivu-icon{
+
+    .action_container button {
+        .ivu-icon {
             color: $textColor_white;
         }
-        &:hover .ivu-icon{
+
+        &:hover .ivu-icon {
             color: $textColor_default;
         }
-        &:active .ivu-icon{
+
+        &:active .ivu-icon {
             color: $textColor_tint;
         }
-    } 
-    table button .ivu-icon{
+    }
+
+    table button .ivu-icon {
         color: $textColor_default;
     }
+
     //狀態開關
-    .ivu-switch{
+    .ivu-switch {
         border-color: $textColor_tint;
         background-color: $textColor_tint;
     }
-    .ivu-switch:not(.ivu-switch-disabled):focus{
+
+    .ivu-switch:not(.ivu-switch-disabled):focus {
         box-shadow: none;
     }
-    .ivu-switch-checked{
+
+    .ivu-switch-checked {
         border-color: $default_red;
         background-color: $default_red;
     }
+
     //下拉式選單
     span.ivu-select-placeholder {
         display: none !important;
     }
+
     .ivu-select-selection {
         height: 46px;
         border: 2px solid $textColor_default !important;
@@ -240,54 +284,65 @@
         padding: 4px $sp2;
         box-sizing: border-box;
     }
+
     .ivu-select-item {
         color: $textColor_default;
         font-size: 18px !important;
     }
+
     .ivu-select-item-selected,
-    .ivu-select-item-selected::after{
+    .ivu-select-item-selected::after {
         color: $default_red;
     }
+
     .ivu-tag {
         border: none;
         background: $textColor_default;
         height: 28px;
     }
+
     .ivu-tag-text {
         color: $textColor_white;
         line-height: 10px;
     }
+
     .ivu-icon-ios-close {
         color: $textColor_white;
         line-height: 20px;
         font-weight: 700;
     }
+
     .ivu-select-arrow {
         color: $textColor_default;
     }
-    .ivu-select-selected-value{
+
+    .ivu-select-selected-value {
         font-size: 18px !important;
         color: $textColor_default;
         padding: 0 !important;
     }
+
     //分頁
-    .ivu-page-item-active{
+    .ivu-page-item-active {
         border-color: $textColor_default;
     }
+
     .ivu-page-item:hover,
     .ivu-page-next:hover,
-    .ivu-page-prev:hover{
+    .ivu-page-prev:hover {
         border-color: $textColor_tint !important;
     }
+
     .ivu-icon-ios-arrow-forward:before,
     .ivu-icon-ios-arrow-back:before,
     .ivu-page-item a,
     .ivu-page-item-active a,
-    .ivu-page-item-active:hover{
+    .ivu-page-item-active:hover {
         color: $textColor_default;
     }
+
     .ivu-page-item-jump-next a i.ivu-icon,
-    .ivu-page-item-jump-prev a i.ivu-icon{
+    .ivu-page-item-jump-prev a i.ivu-icon {
         color: $textColor_tint;
     }
 }
