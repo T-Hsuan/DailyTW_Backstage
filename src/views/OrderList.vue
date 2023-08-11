@@ -1,15 +1,12 @@
 <template>
     <div class="main_content">
         <h3>訂單列表</h3>
-        <div class="action_container">
+        <!-- <div class="action_container">
             <div class="searchbar">
                 <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
                 <button class="btn">搜尋</button>
             </div>
-        </div>
-
-        
-
+        </div> -->
         <div class="table_wrap">
             <table>
                 <tr>
@@ -34,7 +31,7 @@
                     <!-- 會員編號 -->
                     <td>{{ item.ord_mem }}</td>
                     <!-- 訂單編號 -->
-                    <td>{{ item.ord_id }}</td>
+                    <td><router-link to="/order_content">{{ item.ord_id }}</router-link></td>
                     <td>{{ item.ord_receiver }}</td>
                     <td>{{ item.ord_date }}</td>
                     <td>{{ item.ord_sum }}</td>
@@ -64,7 +61,7 @@ export default {
         // You can add other methods for handling backend data retrieval, update, etc.
     },
     mounted() {
-        GET(`${this.$URL}/phpfile/OrderList.php`)
+        GET(`${this.$URL_MAC}/phpfile/OrderList.php`)
             .then((res) => {
                 this.dataFromMySQL = res;
                 console.log(res);
