@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Entrance from '../views/Entrance.vue'
-
+import TicketEdit from "@/views/TicketEdit.vue";
 const routes = [
     {
         path: '/',
@@ -78,6 +78,12 @@ const routes = [
         name: "ticket_list",
         component: () =>
             import(/* webpackChunkName: "ticket" */ "@/views/TicketList.vue"),
+    },
+    {
+        path: "/ticket_edit/:ticket_id",
+        name: "ticket_edit",
+        component: TicketEdit,
+        props: true,
     },
     {
         path: "/ticket_add",
