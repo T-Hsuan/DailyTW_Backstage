@@ -2,10 +2,10 @@
     <div class="main_content">
         <h3>後台帳號管理</h3>
         <div class="action_container">
-            <div class="searchbar">
+            <!-- <div class="searchbar">
                 <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
                 <button class="btn">搜尋</button>
-            </div>
+            </div> -->
             <router-link to="/employee_add" class="btn">
                 <Icon type="md-add" />新增帳號
             </router-link>
@@ -24,10 +24,8 @@
                     <td>{{ item.manager_name }}</td>
                     <td>{{ item.manager_type }}</td>
                     <td>{{ item.manager_account }}</td>
-                    
-                    
                     <td>
-                        <Switch size="large">
+                        <Switch size="large" v-model="item.place_status" true-value="1" false-value="0">
                             <template #open>
                                 <span>ON</span>
                             </template>
@@ -69,7 +67,7 @@ export default {
         // You can add other methods for handling backend data retrieval, update, etc.
     },
     mounted() {
-        GET(`${this.$URL}/phpfile/EmployeeMgt.php`)
+        GET(`${this.$URL_MAC}/phpfile/EmployeeMgt.php`)
             .then((res) => {
                 this.dataFromMySQL = res;
                 console.log(res);

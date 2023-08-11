@@ -7,26 +7,26 @@
                 <span>取消訂單</span>
                 </button>
             </div> -->
-            <div class="order_content" v-for="(item, index) in tableData" :key="index">
-                <div class="text"><span class="number">訂單編號：</span>{{ item.order_number }}</div>
-                <div class="text"><span>訂購人：</span>{{ item.order_name }}</div>
-                <div class="text"><span>訂購人手機號碼：</span>{{ item.order_phone }}</div>
-                <div class="text"><span>訂購人地址：</span>{{ item.order_adderss }}</div>
-                <div class="text"><span>收件人：</span>{{ item.recipient_name }}</div>
-                <div class="text"><span>收件人手機號碼：</span>{{ item.recipient_phone }}</div>
-                <div class="text"><span>收件人地址：</span>{{ item.recipient_address }}</div>
+            <div class="order_content" v-for="(item, index) in dataFromMySQL" :key="index">
+                <div class="text"><span class="number">訂單編號：</span>{{ item.ord_id }}</div>
+                <div class="text"><span>訂購人：</span>{{ item.ord_receiver }}</div>
+                <div class="text"><span>訂購人手機號碼：</span>{{ item.ord_phone }}</div>
+                <div class="text"><span>訂購人地址：</span>{{ item.ord_addr }}</div>
+                <div class="text"><span>收件人：</span>{{ item.ord_receiver }}</div>
+                <div class="text"><span>收件人手機號碼：</span>{{ item.ord_phone }}</div>
+                <div class="text"><span>收件人地址：</span>{{ item.ord_addr }}</div>
             </div>
             <div class="tickit_block">
-                <div class="table_wrap" v-for="(item, index) in tickitData" :key="index">
+                <div class="table_wrap" v-for="(item, index) in dataFromMySQL" :key="index">
                     <table class="tickit_block">
                         <tr>
                             <th>票券{{ index + 1 }}</th>
                         </tr>
                         <tr>
-                            <td><span>票券名稱:</span>{{ item.tickit }}</td>
-                            <td><span>全票票數:</span>{{ item.adult }}張</td>
-                            <td><span>優待票數:</span>{{ item.discount }}張</td>
-                            <td class="subtotal"><span>金額:</span>{{ item.price }}元</td>
+                            <td><span>票券名稱:</span>{{ item.ticket_name }}</td>
+                            <td><span>全票票數:</span>{{ item.ticket_adult_count }}張</td>
+                            <td><span>優待票數:</span>{{ item.ticket_ex_count}}張</td>
+                            <td class="subtotal"><span>金額:</span>{{ item.total }}元</td>
                         </tr>
                     </table>
                 </div>
@@ -36,22 +36,24 @@
     </div>
 </template>
 <script>
+import {GET} from '@/plugin/axios'
 export default {
     data() {
         return {
+            dataFromMySQL:[],
             totalPrice: 0,
-            tableData: [
-                {   order_number: 'ghguhr12344564', 
-                    order_name: '陳小妮', 
-                    order_phone: '0912345678', 
-                    order_adderss: '320桃園市中壢區復興路46號9樓', 
-                    recipient_name: '陳小妮', 
-                    recipient_phone: '0912345678' ,
-                    recipient_address: '320桃園市中壢區復興路46號9樓' 
-                },
+            // tableData: [
+            //     {   order_number: 'ghguhr12344564', 
+            //         order_name: '陳小妮', 
+            //         order_phone: '0912345678', 
+            //         order_adderss: '320桃園市中壢區復興路46號9樓', 
+            //         recipient_name: '陳小妮', 
+            //         recipient_phone: '0912345678' ,
+            //         recipient_address: '320桃園市中壢區復興路46號9樓' 
+            //     },
 
-            ],
-            tickitData:[
+            // ],
+            ticketData:[
                 {
                     tickit:'班比山丘門票',
                     adult:'1',
@@ -67,10 +69,20 @@ export default {
             ],
         };
     },
+    mounted() {
+        GET(`${this.$URL_MAC}/phpfile/OrderContent.php`)
+            .then((res) => {
+                this.dataFromMySQL = res;
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    },
     computed: {
         subtotalPrice() {
-        return this.tickitData.reduce(
-            (total, item) => total + parseInt(item.price),
+        return this.ticketData.reduce(
+            (total, item) => total + parseInt(item.total),
             0
         );
         },
