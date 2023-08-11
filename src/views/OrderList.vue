@@ -31,8 +31,6 @@
                     <th>狀態</th>
                 </tr>
                 <tr v-for="(item, index) in dataFromMySQL" :key="index">
-
-
                     <!-- 會員編號 -->
                     <td>{{ item.ord_mem }}</td>
                     <!-- 訂單編號 -->

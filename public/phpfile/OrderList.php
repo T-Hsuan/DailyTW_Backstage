@@ -6,7 +6,9 @@ try {
 	require_once("connectDailyTW.php");
 	
 	//執行sql指令並取得pdoStatement
-	$sql = "select * from ord";
+	$sql = "select * from ord
+	 		join member
+			 on ord.ord_mem = member.mem_id";
 	$products = $pdo->query($sql); 
 	$prodRows = $products->fetchAll(PDO::FETCH_ASSOC);
   echo json_encode($prodRows);
