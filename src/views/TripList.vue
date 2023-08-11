@@ -3,8 +3,8 @@
         <h3>行程列表</h3>
         <div class="action_container">
             <div class="searchbar">
-                <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
-                <button class="btn">搜尋</button>
+                <input v-model="searchText" type="text" name="search" id="search" placeholder="請輸入關鍵字" />
+                <button class="btn" @click="search">搜尋</button>
             </div>
             <router-link to="/trip_add">
                 <button class="btn">
@@ -20,20 +20,20 @@
                 <tr>
                     <th></th>
                     <th>
-                        <button>
+                        <button @click="sortBy('trip_id', 'no')">
                             NO.
-                            <Icon type="md-arrow-dropdown" />
+                            <Icon :type="sortType === 'no' ? sortIcon : 'md-arrow-dropdown'" />
                         </button>
                     </th>
                     <th>標題</th>
                     <th>更新日期
-                        <button>
-                            <Icon type="md-arrow-dropdown" />
+                        <button @click="sortBy('trip_date', 'updateDate')">
+                            <Icon :type="sortType === 'updateDate' ? sortIcon : 'md-arrow-dropdown'" />
                         </button>
                     </th>
                     <th>瀏覽數
-                        <button>
-                            <Icon type="md-arrow-dropdown" />
+                        <button @click="sortBy('trip_view', 'viewCount')">
+                            <Icon :type="sortType === 'viewCount' ? sortIcon : 'md-arrow-dropdown'" />
                         </button>
                     </th>
                     <th>狀態</th>
@@ -51,7 +51,7 @@
                     <td>{{ item.trip_date }}</td>
                     <td>{{ item.trip_view }}</td>
                     <td>
-                        <Switch size="large" v-model="item.trip_status">
+                        <Switch size="large" v-model="item.trip_status" true-value="1" false-value="0">
                             <template #open>
                                 <span>ON</span>
                             </template>
@@ -61,8 +61,8 @@
                         </Switch>
                     </td>
                     <td>
-                        <router-link :to="{ name: 'trip_edit', params: { index } }">
-                            <button>
+                        <router-link :to="{ name: 'trip_edit', params: { trip_id: item.trip_id } }">
+                            <button class="edit_btn">
                                 <Icon type="md-create" />
                             </button>
                         </router-link>
@@ -78,10 +78,9 @@
         <!-- 切換分頁 -->
         <div class="pages">
             <Page 
-            :total="page.total" 
+            :total="dataLength" 
             :current="page.index"
             :page-size="page.size"
-            @on-change="pIndexChange"
             />
         </div>
     </div>
@@ -94,15 +93,48 @@ export default {
 
         return {
             rawData: [],
-            tableData: [],
             page: {
                 index: 1, //當前分頁
                 size: 20, //一頁多少筆資料
-                total: 0
             },
+            sortType: '',
+            sortColumn: '',
+            sortIcon: 'md-arrow-dropdown',
+            searchText: '',
+            filterText: '',
         };
     },
+    computed: {
+        //搜尋結果資料
+        searchData() {
+            return this.rawData.filter(item => 
+                item.trip_name.toLowerCase().includes(this.filterText.toLowerCase()) ||
+                item.trip_id.toString().includes(this.filterText.toLowerCase())
+            )
+        },
+        //資料排序
+        sortData() {
+            const arr= [...this.searchData];
+            return arr.sort((a, b) => {
+                const aValue = a[this.sortColumn];
+                const bValue = b[this.sortColumn];
+                if (this.sortType === 'no') {
+                    return this.sortIcon === 'md-arrow-dropdown' ? aValue - bValue : bValue - aValue;
+                } else if (this.sortType === 'updateDate' || this.sortType === 'viewCount') {
+                    return this.sortIcon === 'md-arrow-dropdown' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+                }
+            });
+        },
+        //資料分頁
+        tableData() {
+            return this.sortData.slice((this.page.index - 1) * this.page.size, this.page.index * this.page.size);
+        },
+        dataLength() {
+            return this.searchData.length;
+        },
+    },
     methods: {
+        //刪除資料
         showDeleteConfirmation(index) {
             // Show the confirm message dialog
             const isConfirmed = window.confirm('確定刪除此筆資料?');
@@ -114,17 +146,19 @@ export default {
         deleteRow(index) {
             this.tableData.splice(index, 1);
         },
-        // You can add other methods for handling backend data retrieval, update, etc.
-        getHome() {
-            const startIdx = (this.page.index - 1) * this.page.size;
-            const endIdx = startIdx + this.page.size;
 
-            this.tableData = this.rawData.slice(startIdx, endIdx);
+        //排序
+        sortBy(column, sortType) {
+            this.sortType = sortType;
+            this.sortColumn = column;
+            this.sortIcon = this.sortIcon === 'md-arrow-dropdown' ? 'md-arrow-dropup' : 'md-arrow-dropdown';
         },
 
-        pIndexChange(i) {
-            this.page.index = i;
-            this.getHome();
+        //搜尋
+        search() {
+            const searchTerm = this.searchText.toLowerCase();
+            this.filterText = searchTerm;
+            this.page.index = 1;
         },
     },
     mounted() {
@@ -132,8 +166,6 @@ export default {
             .then((res) => {
                 console.log(res);
                 this.rawData = res; // Store the raw fetched data
-                this.page.total = this.rawData.length; // Set total based on raw data length
-                this.getHome(); // Fetch initial paginated data
             })
             .catch((err) => {
                 console.log(err);
