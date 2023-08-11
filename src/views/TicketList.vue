@@ -24,12 +24,13 @@
                         </button>
                     </th>
                     <th class="ticket_name">票券名稱</th>
-                    <th class="ticket_date">上架時間</th>
-                    <th class="ticket_status">
-                        <button @click="sortBy('ticket_status', 'status')">
-                            上架狀態
-                            <Icon :type="sortType === 'status' ? sortIcon : 'md-arrow-dropdown'" />
+                    <th class="ticket_date">
+                        <button @click="sortBy('ticket_date', 'date')">上架時間
+                            <Icon :type="sortType === 'date' ? sortIcon : 'md-arrow-dropdown'" />
                         </button>
+                    </th>
+                    <th class="ticket_status">
+                        上架狀態
                     </th>
                     <th class="ticket_top">
 
@@ -38,13 +39,12 @@
                             <Icon :type="sortType === 'top' ? sortIcon : 'md-arrow-dropdown'" />
                         </button>
                     </th>
+                    <th>編輯</th>
                     <th class="ticket_delete">刪除</th>
                 </tr>
                 <tr v-for="(item, index ) in ticketData" :key="item.ticket_id">
                     <td>{{ item.ticket_id }}</td>
-                    <router-link :to="'/ticket_edit/' + item.ticket_id" title="票券編輯">
-                        <td>{{ item.ticket_name }}</td>
-                    </router-link>
+                    <td>{{ item.ticket_name }}</td>
                     <td>{{ item.ticket_date }}</td>
                     <td>
                         <Switch size="large" v-model="item.ticket_status" :true-value=1 :false-value=0>
@@ -56,7 +56,15 @@
                         <button><input type="checkbox" v-model="item.ticket_top" :true-value=1 :false-value=0></button>
                     </td>
                     <td>
-                        <button>
+                        <router-link :to="'/ticket_edit/' + item.ticket_id" title="票券編輯">
+                            <button class="edit_btn">
+                                <Icon type="md-create" />
+                            </button>
+                        </router-link>
+                    </td>
+                    <td>
+                        <!-- @click="saveData()" -->
+                        <button @click="saveData()">
                             <Icon type="md-trash" />
                         </button>
                     </td>
@@ -88,11 +96,12 @@ export default {
                 const bValue = b[column];
                 if (this.sortType === 'no') {
                     return this.sortIcon === 'md-arrow-dropdown' ? aValue - bValue : bValue - aValue;
-                } else if (this.sortType === 'status' || this.sortType === 'top') {
+                } else if (this.sortType === 'top') {
                     return this.sortIcon === 'md-arrow-dropdown' ? bValue - aValue : aValue - bValue;
+                } else if (this.sortType === 'date') {
+                    return this.sortIcon === 'md-arrow-dropdown' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
                 }
             });
-            // this.getHome(); // Refresh paginated data after sorting
         },
         // deleteRow(index) {
         //     const item = this.ticketData[index];
@@ -106,18 +115,23 @@ export default {
         //         });
         // },
         saveData() {
-            const saveData = this.ticketData;
-            // 發送 POST 請求以保存新數據
-            axios.post('http://localhost/DailyTW_Backstage/public/phpfile/TicketList.php', saveData)
+            const saveData = JSON.stringify(this.ticketData); // 将数据转换为 JSON 字符串
+            // 发送 POST 请求以保存新数据
+            axios.post('http://localhost/DailyTW_Backstage/public/phpfile/TicketList.php', saveData, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
                 .then(response => {
-                    console.log('數據已保存', response.data);
+                    swal("資料已保存", "", "success");
+                    console.log('資料已保存', response.data);
                 })
                 .catch(error => {
-                    console.error('錯誤!未保存', error);
+                    console.error('儲存錯誤', error);
                 });
-        }
-
+        },
     },
+
     computed: {
         ...mapGetters(['ticketData']),
     },
