@@ -44,23 +44,21 @@
                             </template>
                         </Switch>
                     </td>
-                <!-- 審核狀態 -->
-                    <td v-if="item.oott_review_status == 0" >
+                    <!-- 審核狀態 -->
+                    <td v-if="item.oott_review_status == 0">
                         審核中
                     </td>
-                    <td v-if="item.oott_review_status == 1" >
+                    <td v-if="item.oott_review_status == 1">
                         已通過
                     </td>
-                    <td v-if="item.oott_review_status == 2" >
+                    <td v-if="item.oott_review_status == 2">
                         待修改
                     </td>
 
                     <td>
-                        <router-link to="/oott_post_review" v-if="item.oott_review_status == 0">
-                            <button>
-                                <Icon type="md-eye" />
-                            </button>
-                        </router-link>
+                        <button v-if="item.oott_review_status == 0" @click="reviewDetails(item.oott_id)">
+                            <Icon type="md-eye" />
+                        </button>
                     </td>
                 </tr>
             </table>
@@ -72,17 +70,17 @@
                     <div class="post_photo">
                         <img src="https://picsum.photos/279/369/?random=10">
                     </div>
-                        <!-- 右方文字內容 -->
+                    <!-- 右方文字內容 -->
                     <div class="post_text">
                         <!-- 用戶資料 -->
                         <div class="post_profile">
                             <div class="profile_photo">
                                 <img src="https://picsum.photos/200/200/?random=10">
                             </div>
-                            <h5 class="profile_name">{{selectedUser.mem_name}}</h5>
+                            <h5 class="profile_name">{{ selectedUser.mem_name }}</h5>
                         </div>
                         <div class="post_desc">
-                            {{selectedUser.oott_desc}}
+                            {{ selectedUser.oott_desc }}
                         </div>
 
                         <!-- 標籤，可以從前面的頁面拿過來 -->
@@ -99,7 +97,7 @@
     </div>
 </template>
 
-<script> 
+<script>
 import axios from 'axios';
 
 
@@ -113,24 +111,28 @@ export default {
     },
     methods: {
         // lightbox control
-        openLightbox(item){
-            this.selectedUser=item;
-            this.lightboxVisible=true;
+        openLightbox(item) {
+            this.selectedUser = item;
+            this.lightboxVisible = true;
         },
-        closeLightbox(){
-            this.selectedUser=null;
-            this.lightboxVisible=false;
+        closeLightbox() {
+            this.selectedUser = null;
+            this.lightboxVisible = false;
         },
 
         deleteRow(index) {
             this.tableData.splice(index, 1);
         },
-        // You can add other methods for handling backend data retrieval, update, etc.
 
+        //審核資料 
+        reviewDetails(oottId){
+            this.$router.push({name:'oott_post_review',params:{oottId:oottId}}) 
+        }
+       
     },
     mounted() {
         axios
-        .get(`${this.$URL}/OottPostList.php`)
+            .get(`${this.$URL}/OottPostList.php`)
             .then((res) => {
                 console.log(res.data);
                 this.tableData = res.data;
@@ -143,10 +145,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.member_name{
+.member_name {
     cursor: pointer;
     text-decoration: underline;
 }
+
 .action_container {
     padding-top: 20px;
 
@@ -174,46 +177,54 @@ export default {
     z-index: 9999;
     align-items: center;
     justify-content: center;
-    .post_wrap{
+
+    .post_wrap {
         width: 1000px;
-        background-color:#fefff5; 
+        background-color: #fefff5;
         padding: 48px;
-        margin: 80px; 
-        .post_content{
+        margin: 80px;
+
+        .post_content {
             margin: 40px 0;
             display: flex;
             gap: 40px;
-            .post_text{
+
+            .post_text {
                 display: flex;
                 flex-direction: column;
-                .post_profile{
+
+                .post_profile {
                     display: flex;
                     align-items: center;
                     gap: 22px;
-                    .profile_photo{
+
+                    .profile_photo {
                         width: 120px;
                         height: 120px;
                         border-radius: 50%;
                         overflow: hidden;
-                        img{
+
+                        img {
                             width: 100%;
                         }
                     }
                 }
-                .post_desc{
+
+                .post_desc {
                     margin-top: 20px;
                     flex-grow: 1;
                     line-height: 150%;
                 }
-                .post_date{
+
+                .post_date {
                     margin-top: auto;
                 }
             }
         }
-        .button_area{
-                display: flex;
-                justify-content: end;
-            }
+
+        .button_area {
+            display: flex;
+            justify-content: end;
+        }
     }
-}
-</style>
+}</style>

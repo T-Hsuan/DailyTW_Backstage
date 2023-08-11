@@ -40,10 +40,7 @@
       <label class="review_card">
         <h5>穿搭描述</h5>
         <div class="oott_desc">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi
-          culpa fuga veniam? Debitis molestiae, quia adipisci, aut id libero
-          error earum commodi tenetur velit doloribus, suscipit consequatur
-          voluptatem eveniet dolorum?
+          {{ oott.oott_desc }}
         </div>
         <span class="review_result">
           穿搭描述審核結果:
@@ -77,7 +74,9 @@
       <!-- 穿搭風格 -->
       <label class="review_card">
         <h5>穿搭風格</h5>
-        <div class="oott_desc">Lorem ipsum dolor sit amet</div>
+        <div class="oott_desc">
+          #{{ oott.concatenated_style_name }}
+        </div>
         <span class="review_result">
           穿搭風格審核結果:
           <label for="style_approve" class="radio-button approve">
@@ -110,7 +109,9 @@
       <!-- 景點類型 -->
       <label class="review_card">
         <h5>景點類型</h5>
-        <div class="oott_desc">Lorem ipsum dolor sit amet</div>
+        <div class="oott_desc">
+          #{{ oott.concatenated_place_tag_name }}
+        </div>
         <span class="review_result">
           景點類型審核結果:
           <label for="place_approve" class="radio-button approve">
@@ -143,7 +144,9 @@
       <!-- 穿搭季節 -->
       <label class="review_card">
         <h5>穿搭季節</h5>
-        <div class="oott_desc">Lorem ipsum dolor sit amet</div>
+        <div class="oott_desc">
+          {{ oott.oott_season }}
+        </div>
         <span class="review_result">
           穿搭季節審核結果:
           <label for="season_approve" class="radio-button approve">
@@ -185,8 +188,31 @@
 </template>
 
 <script>
+import axios from'axios';
+
 export default {
-  methods: {},
+  props:['oottId'],
+  data() {
+    return {
+      oott:{},
+    }
+  },
+  methods: {
+    fetchPostDetails(){
+      axios.get(`${this.$URL}/OottPostReview.php?oottId=${this.oottId}`)
+      // axios.get(`OottPostReview.php?oottId=${this.oottId}`)
+      .then(response =>{
+        this.oott = response.data;
+        console.log(this.oott)
+      })
+      .catch(error =>{
+        console.error('Error fetching post details:', error);
+      })
+    }
+  },
+  created(){
+    this.fetchPostDetails();
+  },
 };
 </script>
 
