@@ -25,7 +25,7 @@
                     <td>{{ item.place_tag_name }}</td>
                     <td>{{ item.place_tag_desc }}</td>
                     <td>
-                        <Switch size="large" v-model="item.place_tag_status" true-value="1" false-value="0">
+                        <Switch size="large" v-model="item.place_tag_status" true-value="1" false-value="0" @on-change="updatePlaceTagStatus(item)">
                             <template #open>
                                 <span>ON</span>
                             </template>
@@ -50,7 +50,8 @@
 </template>
   
 <script>
-import { GET } from '@/plugin/axios'
+import { GET } from '@/plugin/axios';
+import  axios  from "axios";
 
 export default {
     data() {
@@ -81,8 +82,37 @@ export default {
                 this.deleteRow(index);
             }
         },
-        deleteRow(index) {
-            this.tableData.splice(index, 1);
+        async deleteRow(rowIndex) {
+            const rawDataIndex = (this.page.index - 1) * this.page.size + rowIndex;
+            const placeTagId = this.rawData[rawDataIndex].place_tag_id;
+            this.rawData.splice(rawDataIndex, 1);
+
+            // Send a request to your server to update the database
+            try {
+                await this.deleteOnServer(placeTagId);
+            } catch (error) {
+                console.error('Error deleting place:', error);
+            }
+        },
+        async deleteOnServer(placeTagId) {
+            try {
+                const response = await axios.get(`${this.$URL}/PlaceTagDelete.php?place_tag_id=${placeTagId}`);
+                console.log('Place tag deleted on server:', response.data);
+            } catch (error) {
+                console.error('Error deleting place tag on server:', error);
+            }
+        },
+
+        //更新資料狀態
+        async updatePlaceTagStatus(item) {
+            const newStatus = item.place_tag_status === '1' ? '1' : '0';
+            const placeTagId = item.place_tag_id;
+            try {
+                const status = await axios.get(`${this.$URL}/PlaceTagStatus.php?place_tag_id=${placeTagId}&place_tag_status=${newStatus}`);
+                console.log('Place tag status updated on server', status.data);
+            } catch (error) {
+                console.error('Error updating place tag status:', error);
+            }
         },
     },
     mounted() {
