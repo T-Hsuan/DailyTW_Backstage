@@ -11,8 +11,8 @@ export default createStore({
         SET_TICKET_DATA(state, data) {
             state.ticketData = data;
         },
-        restoreTicketItems(state, ticketData) {
-            // 還原購物車資料
+        restoreticketData(state, ticketData) {
+            // 還原票券資料
             state.ticketData = ticketData;
         },
 

@@ -8,6 +8,7 @@
 <script>
 import Header from "@/components/Header.vue";
 import Sidenavbar from "@/components/Sidenavbar.vue";
+import swal from 'sweetalert';
 export default {
     components: {
         Header,

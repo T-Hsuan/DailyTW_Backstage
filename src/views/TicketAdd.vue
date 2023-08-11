@@ -1,7 +1,7 @@
 <template>
     <div class="main_content">
         <h3>票券新增</h3>
-        <div class="form_container">
+        <div class="form_container" @submit.prevent="addData">
             <!-- 上傳照片預覽及刪除 -->
             <div class="img_wrap">
                 <div class="img_box">
@@ -22,7 +22,8 @@
                 <!-- 票券名稱 -->
                 <label for="ticket_name">
                     <span>票券名稱</span>
-                    <input type="text" name="ticket_name" id="ticket_name" placeholder="請輸入票券名稱">
+                    <input type="text" name="ticket_name" id="ticket_name" placeholder="請輸入票券名稱"
+                        v-model="AddticketData.ticket_name">
                 </label>
                 <!-- 景點地區 -->
                 <div class="selection_box">
@@ -44,27 +45,29 @@
             <div class="selection_wrap">
                 <label for="ticket_adult">
                     <span>全票售價</span>
-                    <input type="number" name="ticket_adult" id="ticket_adult">
+                    <input type="number" name="ticket_adult" id="ticket_adult" v-model="AddticketData.ticket_adult">
                 </label>
                 <label for="ticket_ex">
                     <span>優待票售價</span>
-                    <input type="number" name="ticket_ex" id="ticket_ex">
+                    <input type="number" name="ticket_ex" id="ticket_ex" v-model="AddticketData.ticket_ex">
                 </label>
                 <label for="ticket_discount">
                     <span>折扣</span>
-                    <input type="number" name="ticket_discount" id="ticket_discount">
+                    <input type="number" name="ticket_discount" id="ticket_discount"
+                        v-model="AddticketData.ticket_discount">
                 </label>
             </div>
             <!-- 票券描述 -->
             <label for="ticket_desc">
                 <span>票券描述</span>
-                <textarea name="ticket_desc" id="ticket_desc" rows="10" placeholder="請輸入票券描述"></textarea>
+                <textarea name="ticket_desc" id="ticket_desc" rows="10" placeholder="請輸入票券描述"
+                    v-model="AddticketData.ticket_desc"></textarea>
             </label>
 
             <label for="ticket_notice">
                 <span>注意事項</span>
-                <textarea name="ticket_notice" id="ticket_notice" rows="10"
-                    placeholder="請輸入票券描述">單日門票有效期：
+                <textarea name="ticket_notice" id="ticket_notice" rows="10" placeholder="請輸入票券描述"
+                    v-model="AddticketData.ticket_desc">單日門票有效期：
 請注意，此門票僅限於2023年12月31日前入園。請務必參閱官方時間表，確認景點的最新開放日期與時間，並確保在有效期內使用門票。
 禁止轉售：
 門票僅限持票人使用，不可進行轉售或嘗試轉售。任何發現的轉售行為，無論成功與否，將導致門票作廢，並可能面臨法律追究。
@@ -77,7 +80,7 @@
             <router-link to="/ticket_list">
                 <button class="cancel_btn">取消</button>
             </router-link>
-            <button class="btn">儲存</button>
+            <button type="submit" class="btn" @click="addData">儲存</button>
         </div>
     </div>
 </template>
@@ -86,6 +89,17 @@
 export default {
     data() {
         return {
+            AddticketData: {
+                ticket_name: '',
+                place_img: '',
+                region_name: '',
+                place_tag: '',
+                ticket_adult: 0,
+                ticket_ex: 0,
+                ticket_discount: 0,
+                ticket_desc: '',
+                ticket_notice: '',
+            },
             region_name: ["新北", "臺北", "基隆", "桃園", "新竹", "苗栗", "臺中", "彰化", "雲林", "嘉義", "南投", "臺南", "高雄", "屏東", "宜蘭", "花蓮", "臺東", "澎湖", "金門", "馬祖"],
             place_tag: [
                 { place_tag_name: "#親子" },
@@ -139,11 +153,48 @@ export default {
                 uploadedFile.name === file.name && uploadedFile.size === file.size
             );
         },
+        async addData() {
+            try {
+                const response = await fetch(`${this.$URL}/TicketAdd.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: this.AddticketData.ticket_name,
+                        img: this.AddticketData.place_img,
+                        region: this.AddticketData.region_name,
+                        tag: this.AddticketData.place_tag,
+                        adult: this.AddticketData.ticket_adult,
+                        ex: this.AddticketData.ticket_ex,
+                        discount: this.AddticketData.ticket_discount,
+                        desc: this.AddticketData.ticket_desc,
+                        notice: this.AddticketData.ticket_notice,
+                    })
+                });
+                const result = await response.json();
+                console.log('新增成功:', result);
+                // 清空輸入欄位
+                this.AddticketData.ticket_name = '';
+                this.AddticketData.place_img = '';
+                this.AddticketData.region_name = '';
+                this.AddticketData.place_tag = '';
+                this.AddticketData.ticket_adult = 0;
+                this.AddticketData.ticket_ex = 0;
+                this.AddticketData.ticket_discount = 0;
+                this.AddticketData.ticket_desc = '';
+                this.AddticketData.ticket_notice = '';
+            } catch (error) {
+                console.error('新增失敗');
+            }
+        }
+
     },
     mounted() {
 
     }
 }
+
 </script>
 
 <style lang="scss" scoped>

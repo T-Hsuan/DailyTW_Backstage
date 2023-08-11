@@ -10,14 +10,14 @@ import "@/assets/scss/main.scss";
 import axios from 'axios';
 
 // 打API用的路徑變數
-import { URL,URL_MAC } from '@/assets/js/common.js'
+import { URL, URL_MAC } from '@/assets/js/common.js'
 
 // 在創建 Vue app 之前，先將 sessionStorage 的資料還原到 Vuex store 中
-const TICKET_KEY = "StoreData"; // 作為 localStorage 的 key
-const storedTicketItems = sessionStorage.getItem(TICKET_KEY);
+const TICKET_KEY = "StoreTicketData"; // 作為 localStorage 的 key
+const storedticketData = sessionStorage.getItem(TICKET_KEY);
 
-if (storedTicketItems) {
-    store.commit("restoreTicketItems", JSON.parse(storedTicketItems));
+if (storedticketData) {
+    store.commit("restoreticketData", JSON.parse(storedticketData));
 }
 // 在網頁重整前將購物車資料存入 sessionStorage
 window.addEventListener("beforeunload", () => {
