@@ -7,11 +7,11 @@ try {
     require_once("connectDailyTW.php");
 
     //寫入資料庫
-    $sql = "update place_tag set place_tag_status = :place_tag_status where place_tag_id = :place_tag_id";
-    $tagUpdate = $pdo->prepare($sql);
-    $tagUpdate -> bindValue(":place_tag_status", $_REQUEST["place_tag_status"]);
-    $tagUpdate -> bindValue(":place_tag_id", $_REQUEST["place_tag_id"]);
-    $tagUpdate -> execute();
+    $sql = "update place set place_status = :place_status where place_id = :place_id";
+    $statusUpdate = $pdo->prepare($sql);
+    $statusUpdate -> bindValue(":place_status", $_REQUEST["place_status"]);
+    $statusUpdate -> bindValue(":place_id", $_REQUEST["place_id"]);
+    $statusUpdate -> execute();
     echo "更新成功";
 
 } catch (PDOException $e) {

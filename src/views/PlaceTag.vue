@@ -25,7 +25,7 @@
                     <td>{{ item.place_tag_name }}</td>
                     <td>{{ item.place_tag_desc }}</td>
                     <td>
-                        <Switch size="large" v-model="item.place_tag_status" true-value="1" false-value="0" @on-change="updatePlaceTagStatus(item)">
+                        <Switch size="large" v-model="item.place_tag_status" true-value="1" false-value="0" @on-change="updateStatus(item)">
                             <template #open>
                                 <span>ON</span>
                             </template>
@@ -104,7 +104,7 @@ export default {
         },
 
         //更新資料狀態
-        async updatePlaceTagStatus(item) {
+        async updateStatus(item) {
             const newStatus = item.place_tag_status === '1' ? '1' : '0';
             const placeTagId = item.place_tag_id;
             try {
