@@ -1,5 +1,6 @@
 <?php
 header('Access-Control-Allow-Origin:*');
+header('Access-Control-Allow-Methods: DELETE');
 header("Content-Type:application/json;charset=utf-8");
 
 try {
@@ -7,11 +8,11 @@ try {
     require_once("connectDailyTW.php");
 
     //寫入資料庫
-    $sql = "insert into place_tag (`place_tag_name`, `place_tag_desc`) values (:place_tag_name, :place_tag_desc)";
-    $tagAdd = $pdo->prepare($sql);
-    $tagAdd -> bindValue(":place_tag_name", $_POST['place_tag_name']);
-    $tagAdd -> bindValue(":place_tag_desc", $_POST['place_tag_desc']);
-    $tagAdd -> execute();
+    $sql = "delete from place_tag where place_tag_id = :place_tag_id";
+    $tagDelete = $pdo->prepare($sql);
+    $tagDelete -> bindValue(":place_tag_id", $_REQUEST["place_tag_id"]);
+    $tagDelete -> execute();
+    echo "刪除成功";
 
 } catch (PDOException $e) {
     echo "錯誤行號 : ", $e->getLine(), "<br>";
