@@ -28,7 +28,7 @@
                         </button>
                     </th>
                 </tr>
-                <tr v-for="(item, index) in tableData" :key="index" @click="showPopBox">
+                <tr v-for="(item, index) in tableData" :key="index" @click="showPopBox(item)">
                     <td>{{ item.feedback_id }}</td>
                     <td>{{ item.feedback_name }}</td>
                     <td>{{ item.feedback_email }}</td>
@@ -44,19 +44,19 @@
                     <div class="block">
                         <div class="row">
                             <h5>姓名</h5>
-                            <p>陳小妮</p>
+                            <p>{{ selectedFeedback.feedback_name }}</p>
                         </div>
                         <div class="row">
                             <h5>email</h5>
-                            <p>123456@gmail.com</p>
+                            <p>{{ selectedFeedback.feedback_email }}</p>
                         </div>
                         <div class="row">
                             <h5>主旨</h5>
-                            <p>旅遊與服裝推薦服務回饋</p>
+                            <p>{{ selectedFeedback.feedback_subject }}</p>
                         </div>
                         <div class="row">
                             <h5>內容說明</h5>
-                            <p>我寫這封信是要向你們表達對你們旅遊與服裝推薦服務的讚賞，我真的非常喜歡你們的服務！首先，你們的網站設計非常好，簡潔明瞭，讓我輕鬆地瀏覽各種旅遊目的地和相關的服裝建議。這讓我能事先準備好適合目的地的穿搭，提升了我的旅行體驗。感謝你們提供如此出色的服務，我會向我的朋友們強烈推薦你們的網站。期待未來更多的旅行冒險和時尚建議！</p>
+                            <p>{{ selectedFeedback.feedback_cont }}</p>
                         </div>
                     </div>
                 </div>
@@ -91,13 +91,16 @@ export default {
             showFeedback: false,
             sortType: '',
             sortIcon: 'md-arrow-dropdown',
+            selectedFeedback: null,
         };
     },
     methods: {
-        showPopBox() {
+        showPopBox(item) {
+            this.selectedFeedback = item;
             this.showFeedback = true;
         },
         closePopBox() {
+            this.selectedFeedback = null;
             this.showFeedback = false;
         },
         exportToCSV() {
