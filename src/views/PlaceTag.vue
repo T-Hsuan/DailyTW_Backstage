@@ -52,6 +52,7 @@
 <script>
 import { GET } from '@/plugin/axios';
 import  axios  from "axios";
+import swal from "sweetalert";
 
 export default {
     data() {
@@ -76,11 +77,18 @@ export default {
         //刪除資料
         showDeleteConfirmation(index) {
             // Show the confirm message dialog
-            const isConfirmed = window.confirm('確定刪除此筆資料?');
-            if (isConfirmed) {
-                // If the user confirms, delete the row
-                this.deleteRow(index);
-            }
+            swal({
+                title: "確定刪除此筆資料?",
+                icon: "warning",
+                buttons: ["取消", "確定"],
+                dangerMode: true,
+                })
+                .then((willDelete) => {
+                if (willDelete) {
+                    // If the user confirms, delete the row
+                    this.deleteRow(index);
+                }
+            });
         },
         async deleteRow(rowIndex) {
             const rawDataIndex = (this.page.index - 1) * this.page.size + rowIndex;

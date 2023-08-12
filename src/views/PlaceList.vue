@@ -130,11 +130,18 @@ export default {
         //刪除資料
         showDeleteConfirmation(index) {
             // Show the confirm message dialog
-            const isConfirmed = window.confirm('確定刪除此筆資料?');
-            if (isConfirmed) {
-                // If the user confirms, delete the row
-                this.deleteRow(index);
-            }
+            swal({
+                title: "確定刪除此筆資料?",
+                icon: "warning",
+                buttons: ["取消", "確定"],
+                dangerMode: true,
+                })
+                .then((willDelete) => {
+                if (willDelete) {
+                    // If the user confirms, delete the row
+                    this.deleteRow(index);
+                }
+            });
         },
         async deleteRow(rowIndex) {
             //因搜尋或排序後，刪除的資料index會不正確，因此需抓資料id

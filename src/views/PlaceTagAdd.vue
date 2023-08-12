@@ -37,8 +37,7 @@ export default {
     computed:{
         formValid(){
             return(
-                this.place_tag_name !== '' &&
-                this.place_tag_desc !== ''
+                this.place_tag_name !== ''
             )
         }
     },
@@ -56,11 +55,18 @@ export default {
                         'Content-Type': 'multipart/form-data', // Use multipart/form-data for form data
                     },
                 });
-                window.alert('新增成功!');
-                console.log('Data sent successfully', response.data);
+                // window.alert('新增成功!');
+                swal({
+                    title: "新增成功!",
+                    icon: "success",
+                }).then((value) => {
+                    console.log('Data sent successfully', response.data);
+                    // Redirect to the "/place_tag" page
+                    this.$router.push('/place_tag');
+                });
                 
-                // Redirect to the "/place_tag" page
-                this.$router.push('/place_tag');
+                // // Redirect to the "/place_tag" page
+                // this.$router.push('/place_tag');
 
             } catch (error) {
                 console.log(error);
