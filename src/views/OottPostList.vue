@@ -68,7 +68,7 @@
                 <h4>檢視貼文</h4>
                 <div class="post_content">
                     <div class="post_photo">
-                        <img src="https://picsum.photos/279/369/?random=10">
+                        <img :src="getOottImgPath()">
                     </div>
                     <!-- 右方文字內容 -->
                     <div class="post_text">
@@ -127,8 +127,15 @@ export default {
         //審核資料 
         reviewDetails(oottId){
             this.$router.push({name:'oott_post_review',params:{oottId:oottId}}) 
-        }
+        },
+
+        getOottImgPath(){
+            return `DailyTW/public/oottImg/${this.selectedUser.oott_img}.png`;  
+        },  
        
+    },
+    computed:{
+
     },
     mounted() {
         axios
@@ -188,6 +195,14 @@ export default {
             margin: 40px 0;
             display: flex;
             gap: 40px;
+            .post_photo{
+                width:279px;
+                height: 369px;
+                flex-shrink: 0;
+                img{
+                    width: 100% ;
+                }
+            }
 
             .post_text {
                 display: flex;
