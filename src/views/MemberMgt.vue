@@ -74,11 +74,18 @@ export default {
 
     computed: {
         //搜尋結果資料
+        //item.mem_name.toLowerCase().includes(this.filterText.toLowerCase()) ||
+        // searchData() {
+        //     return this.rawData.filter(item => 
+        //     item.mem_name.includes(this.filterText) ||
+        //         item.mem_id.toString().includes(this.filterText.toLowerCase())
+        //     )
+        // },
         searchData() {
-            return this.rawData.filter(item => 
-                item.mem_name.toLowerCase().includes(this.filterText.toLowerCase()) ||
-                item.mem_id.toString().includes(this.filterText.toLowerCase())
-            )
+            return this.rawData.filter(item =>
+                (item.mem_name && item.mem_name.includes(this.filterText)) ||
+                (item.mem_id && item.mem_id.toString().includes(this.filterText.toLowerCase()))
+            );
         },
         //資料排序
         sortData() {
