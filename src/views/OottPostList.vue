@@ -75,7 +75,7 @@
                         <!-- 用戶資料 -->
                         <div class="post_profile">
                             <div class="profile_photo">
-                                <img src="https://picsum.photos/200/200/?random=10">
+                                <img :src="getOottProfilePath()">
                             </div>
                             <h5 class="profile_name">{{ selectedUser.mem_name }}</h5>
                         </div>
@@ -131,6 +131,10 @@ export default {
 
         getOottImgPath(){
             return `${this.$IMG_URL}/oottImg/${this.selectedUser.oott_img}.png`;  
+        },  
+
+        getOottProfilePath(){
+            return `${this.$IMG_URL}/profileImg/${this.selectedUser.mem_img}.png`;  
         },  
        
     },
