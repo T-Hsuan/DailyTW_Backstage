@@ -57,7 +57,7 @@
                         </Switch>
                     </td>
                     <td>
-                        <router-link :to="{ name: 'place_edit', params: { place_id: item.place_id } }">
+                        <router-link :to="'/place_edit/' + item.place_id">
                             <button class="edit_btn">
                                 <Icon type="md-create" />
                             </button>
@@ -195,21 +195,6 @@ export default {
                 console.error('Error updating place status:', error);
             }
         },
-
-        // updateStatus(index) {
-        //     const item = this.tableData[index];
-        //     const newStatus = item.place_status === "1" ? "0" : "1";
-
-        //     // Send a POST request to update the status
-        //     POST("/PlaceList.php", { place_id: item.place_id, place_status: newStatus })
-        //         .then(response => {
-        //             // Update the status locally
-        //             item.place_status = newStatus;
-        //         })
-        //         .catch(error => {
-        //             console.error("Error updating status:", error);
-        //         });
-        // },
     },
     mounted() {
         GET(`${this.$URL}/PlaceList.php`)
@@ -232,14 +217,14 @@ table {
     tr th:nth-child(3),
     tr td:nth-child(2),
     tr td:nth-child(3) {
-        width: 180px;
+        width: 200px;
     }
 
     tr th:nth-child(4),
     tr th:nth-child(5),
     tr td:nth-child(4),
     tr td:nth-child(5) {
-        width: 100px;
+        width: 110px;
     }
 }
 </style>

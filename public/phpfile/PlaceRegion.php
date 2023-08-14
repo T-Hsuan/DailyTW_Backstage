@@ -6,7 +6,7 @@ try {
 	require_once("connectDailyTW.php");
 	
 	//執行sql指令並取得pdoStatement
-	$sql = "select * from place_tag order by place_tag_id;";
+	$sql = "select * from region";
 	$products = $pdo->query($sql); 
 	$prodRows = $products->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($prodRows);

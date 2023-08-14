@@ -2,17 +2,17 @@
     <div class="main_content">
         <h3>景點編輯</h3>
         <div class="form_container">
-            <form @submit.prevent="saveChanges">
+            <form @submit.prevent="saveChanges" v-if="placeInfo">
                 <!-- 表單欄位用 label 包 -->
                 <label for="place_name">
                     <span>景點名稱</span>
-                    <input type="text" name="place_name" id="place_name">
+                    <input type="text" name="place_name" id="place_name" v-model="placeInfo.place_name">
                 </label>
                 <!-- 下拉選單用 .select_box 包 -->
                 <div class="selection_box">
                     <span>景點類型(多選)</span>
                     <Select v-model="selectTags" multiple>
-                        <Option v-for="item in tagList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        <Option v-for="(item, index) in tagList" :value="item.place_tag_name" :key="index">{{ item.place_tag_name }}</Option>
                     </Select>
                 </div>
                 <!-- 在同一列的下拉選單用 .selection_wrap 包 -->
@@ -20,27 +20,27 @@
                     <div class="selection_box">
                         <span>地區</span>
                         <Select v-model="selectRegion">
-                            <Option v-for="item in regionList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            <Option v-for="(item, index) in regionList" :value="item.region_name" :key="index">{{ item.region_name }}</Option>
                         </Select>
                     </div>
                     <div class="selection_box">
                         <span>停留時間(hr)</span>
                         <Select v-model="selectTime">
-                            <Option v-for="item in timeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            <Option v-for="(item, index) in timeList" :value="item.place_stay" :key="index">{{ item.place_stay }}</Option>
                         </Select>
                     </div>
                 </div>
                 <label for="place_addr">
                     <span>景點地址</span>
-                    <input type="text" name="place_addr" id="place_addr">
+                    <input type="text" name="place_addr" id="place_addr" v-model="placeInfo.place_addr">
                 </label>
                 <label for="place_link">
                     <span>景點連結</span>
-                    <input type="text" name="place_link" id="place_link">
+                    <input type="text" name="place_link" id="place_link" v-model="placeInfo.place_link">
                 </label>
                 <label for="place_desc">
                     <span>景點描述</span>
-                    <textarea name="place_desc" id="place_desc" rows="10"></textarea>
+                    <textarea name="place_desc" id="place_desc" rows="10" v-model="placeInfo.place_desc"></textarea>
                 </label>
                 <!-- 上傳照片預覽及刪除 -->
                 <div class="img_wrap">
@@ -50,14 +50,13 @@
                             <div class="upload_click">
                                 <Icon type="ios-camera" />
                                 <img
-                                    v-if="uploadedImage1"
-                                    :src="uploadedImage1" 
-                                    width="200"
+                                    v-if="uploadedImage1 || placeInfo.place_img1"
+                                    :src="uploadedImage1 || getPlaceImg(placeInfo.place_img1)"
                                 />
                             </div>
                             <input type="file" name="place_img1" id="place_img1" ref="fileInput1" @change="onfile(1)">
                         </label>
-                        <button v-if="uploadedImage1" class="delete_img" @click="deleteImage(1)">
+                        <button v-if="uploadedImage1 || placeInfo.place_img1" class="delete_img" @click="deleteImage(1)">
                             <Icon type="md-close-circle" />
                         </button>
                     </div>
@@ -67,14 +66,13 @@
                             <div class="upload_click">
                                 <Icon type="ios-camera" />
                                 <img
-                                    v-if="uploadedImage2"
-                                    :src="uploadedImage2" 
-                                    width="200"
+                                    v-if="uploadedImage2 || placeInfo.place_img2"
+                                    :src="uploadedImage2 || getPlaceImg(placeInfo.place_img2)"
                                 />
                             </div>
                             <input type="file" name="place_img2" id="place_img2" ref="fileInput2" @change="onfile(2)">
                         </label>
-                        <button v-if="uploadedImage2" class="delete_img" @click="deleteImage(2)">
+                        <button v-if="uploadedImage2 || placeInfo.place_img2" class="delete_img" @click="deleteImage(2)">
                             <Icon type="md-close-circle" />
                         </button>
                     </div>
@@ -84,14 +82,13 @@
                             <div class="upload_click">
                                 <Icon type="ios-camera" />
                                 <img
-                                    v-if="uploadedImage3"
-                                    :src="uploadedImage3" 
-                                    width="200"
+                                    v-if="uploadedImage3 || placeInfo.place_img3"
+                                    :src="uploadedImage3 || getPlaceImg(placeInfo.place_img3)"
                                 />
                             </div>
                             <input type="file" name="place_img3" id="place_img3" ref="fileInput3" @change="onfile(3)">
                         </label>
-                        <button v-if="uploadedImage3" class="delete_img" @click="deleteImage(3)">
+                        <button v-if="uploadedImage3 || placeInfo.place_img3" class="delete_img" @click="deleteImage(3)">
                             <Icon type="md-close-circle" />
                         </button>
                     </div>
@@ -109,197 +106,19 @@
 </template>
 
 <script>
-import { GET, POST } from '@/plugin/axios';
+import { GET } from '@/plugin/axios';
+import  axios  from "axios";
 
 export default{
     data(){
         return{
-            placeData: {
-                place_name: '',
-                place_addr: '',
-                place_link: '',
-                place_desc: '',
-            },
-            tagList: [
-                {
-                    value: '親子',
-                    label: '親子'
-                },
-                {
-                    value: '情侶',
-                    label: '情侶'
-                },
-                {
-                    value: '小資',
-                    label: '小資'
-                },
-                {
-                    value: '風景',
-                    label: '風景'
-                },
-                {
-                    value: '樂園',
-                    label: '樂園'
-                },
-                {
-                    value: '藝文',
-                    label: '藝文'
-                },
-                {
-                    value: '山林',
-                    label: '山林'
-                },
-                {
-                    value: '海邊',
-                    label: '海邊'
-                },
-                {
-                    value: '放鬆',
-                    label: '放鬆'
-                },
-                {
-                    value: '懷舊',
-                    label: '懷舊'
-                },
-                {
-                    value: '農場',
-                    label: '農場'
-                },
-            ],
+            placeInfo: null,
+            placeData: [],
+            tagList: [],
             selectTags: [],
-            regionList: [
-                {
-                    value: '台北',
-                    label: '台北'
-                },
-                {
-                    value: '新北',
-                    label: '新北'
-                },
-                {
-                    value: '基隆',
-                    label: '基隆'
-                },
-                {
-                    value: '宜蘭',
-                    label: '宜蘭'
-                },
-                {
-                    value: '桃園',
-                    label: '桃園'
-                },
-                {
-                    value: '新竹',
-                    label: '新竹'
-                },
-                {
-                    value: '苗栗',
-                    label: '苗栗'
-                },
-                {
-                    value: '台中',
-                    label: '台中'
-                },
-                {
-                    value: '彰化',
-                    label: '彰化'
-                },
-                {
-                    value: '南投',
-                    label: '南投'
-                },
-                {
-                    value: '雲林',
-                    label: '雲林'
-                },
-                {
-                    value: '嘉義',
-                    label: '嘉義'
-                },
-                {
-                    value: '台南',
-                    label: '台南'
-                },
-                {
-                    value: '高雄',
-                    label: '高雄'
-                },
-                {
-                    value: '屏東',
-                    label: '屏東'
-                },
-                {
-                    value: '花蓮',
-                    label: '花蓮'
-                },
-                {
-                    value: '台東',
-                    label: '台東'
-                },
-                {
-                    value: '金門',
-                    label: '金門'
-                },
-                {
-                    value: '馬祖',
-                    label: '馬祖'
-                },
-                {
-                    value: '澎湖',
-                    label: '澎湖'
-                }
-            ],
+            regionList: [],
             selectRegion: '',
-            timeList: [
-                {
-                    value: '0.5',
-                    label: '0.5'
-                },
-                {
-                    value: '1',
-                    label: '1'
-                },
-                {
-                    value: '1.5',
-                    label: '1.5'
-                },
-                {
-                    value: '2',
-                    label: '2'
-                },
-                {
-                    value: '2.5',
-                    label: '2.5'
-                },
-                {
-                    value: '3',
-                    label: '3'
-                },
-                {
-                    value: '3.5',
-                    label: '3.5'
-                },
-                {
-                    value: '4',
-                    label: '4'
-                },
-                {
-                    value: '4.5',
-                    label: '4.5'
-                },
-                {
-                    value: '5',
-                    label: '5'
-                },
-                {
-                    value: '5.5',
-                    label: '5.5'
-                },
-                {
-                    value: '6',
-                    label: '6'
-                },
-            ],
+            timeList: [],
             selectTime: '',
             uploadedImage1: '',
             uploadedImage2: '',
@@ -308,6 +127,16 @@ export default{
         }
     },
     methods: {
+        //取得單一景點資料
+        getPlaceContent(placeId) {
+            console.log('[匯入]placeData:', this.placeData);
+            return this.placeData.find(item => item.place_id === placeId);
+        },
+        //修正圖片路徑
+        getPlaceImg(placeImg){
+            return process.env.BASE_URL + 'placeImg/' + placeImg;  
+        },
+        //上傳圖片預覽及刪除
         onfile(imageNumber) {
             const inputRef = `fileInput${imageNumber}`;
             const imageProp = `uploadedImage${imageNumber}`;
@@ -328,52 +157,102 @@ export default{
         },
         deleteImage(imageNumber) {
             const imageProp = `uploadedImage${imageNumber}`;
+            const placeImgProp = `place_img${imageNumber}`;
             const inputRef = `fileInput${imageNumber}`;
-            const deletedFile = this.$refs[inputRef].files[0];
-            // Remove the deleted file from the uploadedImages array
-            this.uploadedImages = this.uploadedImages.filter(
-                (file) => file !== deletedFile
-            );
-            this[imageProp] = '';
-            this.$refs[inputRef].value = '';
+            
+            if (this.placeInfo[placeImgProp]) {
+                // If there's an existing place_img property, clear it
+                this.placeInfo[placeImgProp] = null;
+            } else {
+                // If there's no existing place_img property, remove the uploaded image
+                const deletedFile = this.$refs[inputRef].files[0];
+                this.uploadedImages = this.uploadedImages.filter(
+                    (file) => file !== deletedFile
+                );
+                this[imageProp] = '';
+                this.$refs[inputRef].value = '';
+            }
         },
         isImageUploaded(file) {
             return this.uploadedImages.some(uploadedFile =>
                 uploadedFile.name === file.name && uploadedFile.size === file.size
             );
         },
-        // fetchPlaceDetails() {
-        //     // Fetch the place details based on the place_id parameter
-        //     GET(`/PlaceList.php?place_id=${this.place_id}`)
+        //更新資料庫資料
+        // saveChanges() {
+        //     // Prepare the data to send to the server
+        //     const formData = new FormData();
+
+        //     // Add your other form data here, like place_name, place_tag_group, etc.
+        //     formData.append('place_name', this.placeInfo.place_name);
+        //     formData.append('place_tag_group', this.selectTags.join(',')); // Convert array to comma-separated string
+        //     // ... Add other form fields ...
+
+        //     // Check if uploadedImage1 has changed and needs to be updated
+        //     if (this.uploadedImage1) {
+        //         formData.append('place_img1', this.uploadedImage1);
+        //     } else if (this.placeInfo.place_img1) {
+        //         // If there's a previous place_img1 value and no new image uploaded, retain the old value
+        //         formData.append('place_img1', this.placeInfo.place_img1);
+        //     }
+
+        //     // Repeat the same pattern for uploadedImage2 and uploadedImage3
+
+        //     // Make your API call to update the data
+        //     axios.post('/your-update-api-endpoint', formData)
         //         .then(response => {
-        //             // Update the placeData with the fetched details
-        //             this.placeData = response;
+        //             // Handle the response as needed
+        //             console.log('Data updated successfully:', response.data);
         //         })
         //         .catch(error => {
-        //             console.error("Error fetching place details:", error);
+        //             // Handle errors
+        //             console.error('Error updating data:', error);
         //         });
-        // },
-        // saveChanges() {
-        //     // ... (other save logic) ...
-
-        //     // If the status is changed, update it in the local list
-        //     if (this.placeData.place_status !== originalStatus) {
-        //         this.$store.commit('updatePlaceStatus', {
-        //             place_id: this.place_id,
-        //             newStatus: this.placeData.place_status,
-        //         });
-        //     }
-        // },
+        // }
     },
     mounted() {
-        GET(`${this.$URL}/PlaceEdit.php?place_id=${this.place_id}`)
+        GET(`${this.$URL}/PlaceEdit.php`)
             .then((res) => {
                 console.log(res);
-                this.placeData = res.data;
+                this.placeData = res;
+                const placeId = this.$route.params.id;
+                this.placeInfo = this.getPlaceContent(placeId);
+                console.log('[景點]Received placeInfo:', this.placeInfo);
+
+                // Assign selectRegion only when placeInfo is not null
+                if (this.placeInfo) {
+                    this.selectTags = this.placeInfo.place_tag_group.split(',');
+                    this.selectRegion = this.placeInfo.region_name;
+                    this.selectTime = this.placeInfo.place_stay;
+                }
             })
             .catch((err) => {
                 console.log(err);
+            });
+        GET(`${this.$URL}/PlaceTag.php`)
+            .then((res) => {
+                console.log(res);
+                this.tagList = res;
             })
+            .catch((err) => {
+                console.log(err);
+            });
+        GET(`${this.$URL}/PlaceRegion.php`)
+            .then((res) => {
+                console.log(res);
+                this.regionList = res;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        GET(`${this.$URL}/PlaceStay.php`)
+            .then((res) => {
+                console.log(res);
+                this.timeList = res;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     },
 }
 </script>

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Entrance from '../views/Entrance.vue'
 import TicketEdit from "@/views/TicketEdit.vue";
+import PlaceEdit from "@/views/PlaceEdit.vue";
 const routes = [
     {
         path: '/',
@@ -38,10 +39,10 @@ const routes = [
             import(/* webpackChunkName: "trip" */ "@/views/PlaceAdd.vue"),
     },
     {
-        path: "/place_edit/:place_id",
+        path: "/place_edit/:id",
         name: "place_edit",
-        component: () =>
-            import(/* webpackChunkName: "trip" */ "@/views/PlaceEdit.vue"),
+        component: PlaceEdit,
+        props: true,
     },
     {
         path: "/place_list",

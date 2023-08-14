@@ -127,8 +127,8 @@
                 cursor: pointer;
 
                 .upload_click {
-                    width: 200px;
-                    height: 150px;
+                    width: 240px;
+                    height: 180px;
                     border: 2px dashed $textColor_default;
                     border-radius: 4px;
                     display: flex;
@@ -145,8 +145,8 @@
                         top: -2px;
                         left: -2px;
                         border-radius: 4px;
-                        width: 200px;
-                        height: 150px;
+                        width: 240px;
+                        height: 180px;
                         object-fit: cover;
                     }
                 }
