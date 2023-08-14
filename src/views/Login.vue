@@ -2,15 +2,6 @@
     <div class="main_content">
         <h2>登入</h2>
         <Login>
-            <!-- <label for="username">帳號
-                <UserName name="username" placeholder="請輸入帳號" clearable />
-            </label>
-
-            <label for="password">密碼
-                <Password name="password" password placeholder="請輸入密碼" clearable>
-                    <div class="ivu-form-item-error-tip">密碼！</div>
-                </Password>
-            </label> -->
             <label for="username">帳號
                 <Input prefix="ios-contact-outline" name="username" placeholder="請輸入帳號" style="width: auto" clearable />
             </label>

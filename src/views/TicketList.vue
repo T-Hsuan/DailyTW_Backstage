@@ -3,8 +3,8 @@
         <h3>票券列表</h3>
         <div class="action_container">
             <div class="searchbar">
-                <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
-                <button class="btn">搜尋</button>
+                <input v-model="searchText" type="text" name="search" id="search" placeholder="請輸入關鍵字" />
+                <button class="btn" @click="search">搜尋</button>
             </div>
             <router-link to="/ticket_add">
                 <button class="btn" name="ticket_id">
@@ -18,14 +18,14 @@
             <table>
                 <tr>
                     <th class="ticket_id">
-                        <button @click="sortBy('ticket_id', 'no')">
+                        <button @click="sortBy('id', 'no')">
                             NO.
                             <Icon :type="sortType === 'no' ? sortIcon : 'md-arrow-dropdown'" />
                         </button>
                     </th>
                     <th class="ticket_name">票券名稱</th>
                     <th class="ticket_date">
-                        <button @click="sortBy('ticket_date', 'date')">上架時間
+                        <button @click="sortBy('date', 'date')">上架時間
                             <Icon :type="sortType === 'date' ? sortIcon : 'md-arrow-dropdown'" />
                         </button>
                     </th>
@@ -34,7 +34,7 @@
                     </th>
                     <th class="ticket_top">
 
-                        <button @click="sortBy('ticket_top', 'top')">
+                        <button @click="sortBy('top', 'top')">
                             置頂
                             <Icon :type="sortType === 'top' ? sortIcon : 'md-arrow-dropdown'" />
                         </button>
@@ -42,21 +42,22 @@
                     <th>編輯</th>
                     <th class="ticket_delete">刪除</th>
                 </tr>
-                <tr v-for="(item, index ) in ticketData" :key="item.ticket_id">
-                    <td>{{ item.ticket_id }}</td>
-                    <td>{{ item.ticket_name }}</td>
-                    <td>{{ item.ticket_date }}</td>
+                <tr v-for="item in tableData" :key="item.id">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.Name }}</td>
+                    <td>{{ item.date }}</td>
                     <td>
-                        <Switch size="large" v-model="item.ticket_status" :true-value=1 :false-value=0>
+                        <Switch size="large" v-model="item.status" :true-value="1" :false-value="0"
+                            @change="updateStatus(item)">
                             <template #open><span>ON</span></template>
                             <template #close><span>OFF</span></template>
                         </Switch>
                     </td>
                     <td>
-                        <button><input type="checkbox" v-model="item.ticket_top" :true-value=1 :false-value=0></button>
+                        <button><input type="checkbox" v-model="item.top" true-value=1 false-value=0></button>
                     </td>
                     <td>
-                        <router-link :to="'/ticket_edit/' + item.ticket_id" title="票券編輯">
+                        <router-link :to="'/ticket_edit/' + item.id" title="票券編輯">
                             <button class="edit_btn">
                                 <Icon type="md-create" />
                             </button>
@@ -64,80 +65,137 @@
                     </td>
                     <td>
                         <!-- @click="saveData()" -->
-                        <button @click="saveData()">
+                        <button @click="DeleteConfirmation(item.id)">
                             <Icon type="md-trash" />
                         </button>
                     </td>
                 </tr>
             </table>
         </div>
+        <!-- 切換分頁 -->
+        <div class="pages">
+            <Page :total="dataLength" v-model="page.index" :page-size="page.size" />
+        </div>
     </div>
 </template>
   
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { GET } from '@/plugin/axios';
 import axios from 'axios';
 export default {
     data() {
         return {
+            page: {
+                index: 1, //當前分頁
+                size: 20, //一頁多少筆資料
+            },
+            searchText: '',
+            filterText: '',
             sortType: '',
             sortIcon: 'md-arrow-dropdown',
-            searchText: '',
+            sortColumn: '',
         };
     },
     methods: {
         ...mapActions(['fetchTicketData']),
+        //搜尋
+        search() {
+            const searchTerm = this.searchText.toLowerCase();
+            this.filterText = searchTerm;
+            this.page.index = 1;
+        },
         //排序
         sortBy(column, sortType) {
             this.sortType = sortType;
+            this.sortColumn = column;
             this.sortIcon = this.sortIcon === 'md-arrow-dropdown' ? 'md-arrow-dropup' : 'md-arrow-dropdown';
-            this.ticketData.sort((a, b) => {
-                const aValue = a[column];
-                const bValue = b[column];
+        },
+
+        //刪除確認
+        async DeleteConfirmation(itemId) {
+            // Show the confirm message dialog
+            const Confirmed = await swal("確定要刪除嗎？", {
+                dangerMode: true,
+                buttons: ["取消", "確定"],
+            });
+            if (Confirmed) {
+                // If the user confirms, delete the row
+                this.deleteRow(itemId);
+            }
+        },
+        //更新資料狀態
+        async updateStatus(item) {
+            const newStatus = item.status === 1 ? 1 : 0;
+            const ticketId = item.id;
+            console.log('ticketId', ticketId);
+            console.log('newStatus', newStatus);
+            try {
+                const status = await axios.get(`${this.$URL}/TicketStatus.php?ticket_id=${ticketId}&ticket_status=${newStatus}`);
+                console.log('ticket status updated on server', status.data);
+            } catch (error) {
+                console.error('Error updating ticket status:', error);
+            }
+        },
+        async deleteRow(itemId) {
+            //因搜尋或排序後，刪除的資料index會不正確，因此需抓資料id
+            const Index = this.ticketData.findIndex(item => item.id === itemId);
+
+            if (Index !== -1) {
+                const ticketId = this.ticketData[Index].id;
+                this.ticketData.splice(Index, 1);
+                console.log(ticketId);
+                try {
+                    await this.deleteOnServer(itemId);
+                } catch (error) {
+                    console.error('Error deleting ticket:', error);
+                }
+            }
+        },
+        async deleteOnServer(ticketId) {
+            try {
+                const response = await axios.get(`${this.$URL}/TicketDelete.php?ticket_id=${ticketId}`);
+                console.log('ticketId deleted on server:', response.data);
+            } catch (error) {
+                console.error('Error deleting ticketId on server:', error);
+            }
+        },
+    },
+    computed: {
+        ...mapGetters(['ticketData']),
+        //搜尋結果資料
+        searchData() {
+            return this.ticketData.filter(item =>
+                item.Name.toLowerCase().includes(this.filterText.toLowerCase()) ||
+                item.id.toString().includes(this.filterText.toLowerCase())
+            )
+        },
+        // //排序
+        sortData() {
+            const arr = [...this.searchData];
+            return arr.sort((a, b) => {
+                const aValue = a[this.sortColumn];
+                const bValue = b[this.sortColumn];
                 if (this.sortType === 'no') {
                     return this.sortIcon === 'md-arrow-dropdown' ? aValue - bValue : bValue - aValue;
-                } else if (this.sortType === 'top') {
-                    return this.sortIcon === 'md-arrow-dropdown' ? bValue - aValue : aValue - bValue;
                 } else if (this.sortType === 'date') {
                     return this.sortIcon === 'md-arrow-dropdown' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+                } else if (this.sortType === 'top') {
+                    return this.sortIcon === 'md-arrow-dropdown' ? bValue - aValue : aValue - bValue;
                 }
             });
         },
-        // deleteRow(index) {
-        //     const item = this.ticketData[index];
-        //     axios.delete(`http://localhost/DailyTW_Backstage/public/phpfile/TicketList.php?id=${item.ticket_id}`)
-        //         .then(response => {
-        //             console.log('数据已从数据库删除', response.data);
-        //             this.ticketData.splice(index, 1);
-        //         })
-        //         .catch(error => {
-        //             console.error('删除数据时出错', error);
-        //         });
-        // },
-        saveData() {
-            const saveData = JSON.stringify(this.ticketData); // 将数据转换为 JSON 字符串
-            // 发送 POST 请求以保存新数据
-            axios.post('http://localhost/DailyTW_Backstage/public/phpfile/TicketList.php', saveData, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => {
-                    swal("資料已保存", "", "success");
-                    console.log('資料已保存', response.data);
-                })
-                .catch(error => {
-                    console.error('儲存錯誤', error);
-                });
+        // //資料分頁
+        tableData() {
+            return this.sortData.slice((this.page.index - 1) * this.page.size, this.page.index * this.page.size);
         },
-    },
-
-    computed: {
-        ...mapGetters(['ticketData']),
+        dataLength() {
+            return this.searchData.length;
+        },
     },
     mounted() {
         this.fetchTicketData();// 调用 Vuex 的 fetchTicketData action
-    }
+    },
 };
 </script>
   

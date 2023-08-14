@@ -22,13 +22,12 @@
                 <!-- 票券名稱 -->
                 <label for="ticket_name">
                     <span>票券名稱</span>
-                    <input type="text" name="ticket_name" id="ticket_name" placeholder="請輸入票券名稱"
-                        :value="ticketInfo.ticket_name">
+                    <input type="text" name="ticket_name" id="ticket_name" placeholder="請輸入票券名稱" :value="ticketInfo.Name">
                 </label>
                 <!-- 景點地區 -->
                 <div class="selection_box">
                     <span>景點地區</span>
-                    <Select v-model="selectRegion">
+                    <Select v-model="selectRegion" required>
                         <Option v-for=" name  in  region_name " :value="name" :key="name">{{ name }}</Option>
                     </Select>
                 </div>
@@ -45,32 +44,28 @@
             <div class="selection_wrap">
                 <label for="ticket_adult">
                     <span>全票售價</span>
-                    <input type="number" name="ticket_adult" id="ticket_adult" :value="ticketInfo.ticket_adult">
+                    <input type="number" name="ticket_adult" id="ticket_adult" :value="ticketInfo.price_adult">
                 </label>
                 <label for="ticket_ex">
                     <span>優待票售價</span>
-                    <input type="number" name="ticket_ex" id="ticket_ex" :value="ticketInfo.ticket_ex">
+                    <input type="number" name="ticket_ex" id="ticket_ex" :value="ticketInfo.price_ex">
                 </label>
                 <label for="ticket_discount">
                     <span>折扣</span>
-                    <input type="number" name="ticket_discount" id="ticket_discount" :value="ticketInfo.ticket_discount">
+                    <input type="number" name="ticket_discount" id="ticket_discount" :value="ticketInfo.discount">
                 </label>
             </div>
             <!-- 票券描述 -->
             <label for="ticket_desc">
                 <span>票券描述</span>
-                <textarea name="ticket_desc" id="ticket_desc" rows="10" placeholder="請輸入票券描述"></textarea>
+                <textarea name="ticket_desc" id="ticket_desc" rows="10"
+                    placeholder="請輸入票券描述">{{ ticketInfo.desc }}</textarea>
             </label>
 
             <label for="ticket_notice">
                 <span>注意事項</span>
                 <textarea name="ticket_notice" id="ticket_notice" rows="10"
-                    placeholder="請輸入票券描述">單日門票有效期：
-請注意，此門票僅限於2023年12月31日前入園。請務必參閱官方時間表，確認景點的最新開放日期與時間，並確保在有效期內使用門票。
-禁止轉售：
-門票僅限持票人使用，不可進行轉售或嘗試轉售。任何發現的轉售行為，無論成功與否，將導致門票作廢，並可能面臨法律追究。
-身份證明：
-兌換門票或進入景點時，請攜帶有效的身份證明文件，以核實您的身份。根據本公司的要求，可能需要出示票券或購票憑據以及個人身份證明文件。請遵守以上注意事項，確保您的入場體驗順利且安全。如有其他驗證安排或細則，請查閱相關的官方公告以瞭解更多資訊。</textarea>
+                    placeholder="請輸入票券描述">{{ ticketInfo.notice }}</textarea>
             </label>
         </div>
         <!-- 次頁右下角統一用取消及儲存按鈕 -->
@@ -87,7 +82,7 @@
 import { mapActions, mapGetters } from 'vuex';
 export default {
     props: {
-        ticket_id: {
+        id: {
             type: Number,
             required: true // 要求接收 id 屬性
         }
@@ -96,6 +91,7 @@ export default {
         return {
             ticketInfo: null,
             region_name: ["新北", "臺北", "基隆", "桃園", "新竹", "苗栗", "臺中", "彰化", "雲林", "嘉義", "南投", "臺南", "高雄", "屏東", "宜蘭", "花蓮", "臺東", "澎湖", "金門", "馬祖"],
+            selectRegion: '',
             place_tag: [
                 { place_tag_name: "#親子" },
                 { place_tag_name: "#情侶" },
@@ -116,7 +112,7 @@ export default {
     methods: {
         getTicketContent(ticketId) {
             console.log('[匯入]ticketData:', this.ticketData);
-            return this.ticketData.find(ticketData => ticketData.ticket_id === ticketId);
+            return this.ticketData.find(ticketData => ticketData.id === ticketId);
         },
         onfile(imageNumber) {
             const inputRef = `fileInput${imageNumber}`;
@@ -160,12 +156,13 @@ export default {
     },
     created() {
         //接收前一頁的票券id
-        const ticketId = parseInt(this.$route.params.ticket_id);
-        console.log('Received id:', ticketId);
+        const ticketId = parseInt(this.$route.params.id);
+        console.log('[票券]Received id:', ticketId);
         this.ticketInfo = this.getTicketContent(ticketId);
-        console.log('Received ticketInfo:', this.ticketInfo);
+        console.log('[票券]Received ticketInfo:', this.ticketInfo);
     },
     mounted() {
+        this.selectRegion = this.ticketInfo.location;//顯示票券的地區
     }
 }
 </script>

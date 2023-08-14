@@ -25,7 +25,7 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "trip" */ "@/views/TripAdd.vue"),
     },
-     {
+    {
         path: "/trip_edit/:trip_id",
         name: "trip_edit",
         component: () =>
@@ -80,7 +80,7 @@ const routes = [
             import(/* webpackChunkName: "ticket" */ "@/views/TicketList.vue"),
     },
     {
-        path: "/ticket_edit/:ticket_id",
+        path: "/ticket_edit/:id",
         name: "ticket_edit",
         component: TicketEdit,
         props: true,
@@ -157,7 +157,7 @@ const routes = [
         name: "oott_post_review",
         component: () =>
             import(/* webpackChunkName: "OottPostReview" */ "@/views/OottPostReview.vue"),
-            props: true,
+        props: true,
     },
 
 
