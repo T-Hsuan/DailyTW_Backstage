@@ -130,7 +130,7 @@ export default {
         },
 
         getOottImgPath(){
-            return `DailyTW/public/oottImg/${this.selectedUser.oott_img}.png`;  
+            return `${this.$IMG_URL}/oottImg/${this.selectedUser.oott_img}.png`;  
         },  
        
     },

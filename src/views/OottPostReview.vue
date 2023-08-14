@@ -208,7 +208,12 @@ export default {
       .catch(error =>{
         console.error('Error fetching post details:', error);
       })
-    }
+    },
+
+    // 取得圖片的路徑
+    getOottImgPath(){
+            return `${this.$IMG_URL}/oottImg/${this.selectedUser.oott_img}.png`;  
+        },  
   },
   created(){
     this.fetchPostDetails();

@@ -10,7 +10,7 @@ import "@/assets/scss/main.scss";
 import axios from 'axios';
 
 // 打API用的路徑變數
-import { URL, URL_MAC } from '@/assets/js/common.js'
+import { URL, IMG_URL, URL_MAC } from '@/assets/js/common.js'
 
 // 在創建 Vue app 之前，先將 sessionStorage 的資料還原到 Vuex store 中
 const TICKET_KEY = "StoreTicketData"; // 作為 localStorage 的 key
@@ -27,5 +27,6 @@ window.addEventListener("beforeunload", () => {
 
 const app = createApp(App)
 app.config.globalProperties.$URL = URL;
+app.config.globalProperties.$IMG_URL = IMG_URL;
 app.config.globalProperties.$URL_MAC = URL_MAC;
 app.use(store).use(router).use(ViewUIPlus, { locale }).mount('#app')
