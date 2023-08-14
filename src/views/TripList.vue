@@ -51,7 +51,8 @@
                     <td>{{ item.trip_date }}</td>
                     <td>{{ item.trip_view }}</td>
                     <td>
-                        <Switch size="large" v-model="item.trip_status" true-value="1" false-value="0">
+                        <Switch size="large" v-model="item.trip_status" true-value="1" false-value="0"
+                        @on-change="updateStatus(item)">
                             <template #open>
                                 <span>ON</span>
                             </template>
@@ -88,6 +89,8 @@
   
 <script>
 import {GET} from '@/plugin/axios';
+import  axios  from "axios";
+
 export default {
     data() {
 
@@ -137,14 +140,41 @@ export default {
         //刪除資料
         showDeleteConfirmation(index) {
             // Show the confirm message dialog
-            const isConfirmed = window.confirm('確定刪除此筆資料?');
-            if (isConfirmed) {
-                // If the user confirms, delete the row
-                this.deleteRow(index);
+            swal({
+                title: "確定刪除此筆資料?",
+                icon: "warning",
+                buttons: ["取消", "確定"],
+                dangerMode: true,
+                })
+                .then((willDelete) => {
+                if (willDelete) {
+                    // If the user confirms, delete the row
+                    this.deleteRow(index);
+                }
+            });
+        },
+        async deleteRow(rowIndex) {
+            //因搜尋或排序後，刪除的資料index會不正確，因此需抓資料id
+            const rawDataIndex = this.rawData.findIndex(item => item.trip_id === this.tableData[rowIndex].trip_id);
+            
+            if (rawDataIndex !== -1) {
+                const tripId = this.rawData[rawDataIndex].trip_id;
+                this.rawData.splice(rawDataIndex, 1);
+
+                try {
+                    await this.deleteOnServer(tripId);
+                } catch (error) {
+                    console.error('Error deleting trip:', error);
+                }
             }
         },
-        deleteRow(index) {
-            this.tableData.splice(index, 1);
+        async deleteOnServer(tripId) {
+            try {
+                const response = await axios.get(`${this.$URL}/TripDelete.php?trip_id=${tripId}`);
+                console.log('Trip deleted on server:', response.data);
+            } catch (error) {
+                console.error('Error deleting trip on server:', error);
+            }
         },
 
         //排序
@@ -159,6 +189,17 @@ export default {
             const searchTerm = this.searchText.toLowerCase();
             this.filterText = searchTerm;
             this.page.index = 1;
+        },
+        //更新資料狀態
+        async updateStatus(item) {
+            const newStatus = item.trip_status === '1' ? '1' : '0';
+            const tripId = item.trip_id;
+            try {
+                const status = await axios.get(`${this.$URL}/TripStatus.php?trip_id=${tripId}&trip_status=${newStatus}`);
+                console.log('Trip status updated on server', status.data);
+            } catch (error) {
+                console.error('Error updating trip status:', error);
+            }
         },
     },
     mounted() {
@@ -191,7 +232,7 @@ table{
 
     tr th:nth-child(3),
     tr td:nth-child(3){
-        width: 120px;
+        width: 180px;
     }
 
     tr th:nth-child(4),
@@ -201,7 +242,7 @@ table{
 
     tr th:nth-child(5),
     tr td:nth-child(5){
-        width: 100px;
+        width: 120px;
     }
 }
 </style>
