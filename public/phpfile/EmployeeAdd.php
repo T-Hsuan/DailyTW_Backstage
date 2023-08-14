@@ -12,10 +12,10 @@ try {
     $tagAdd->bindValue(":manager_name", $_POST['manager_name']);
     $tagAdd->bindValue(":manager_id", $_POST['manager_id']);
     $tagAdd->bindValue(":manager_account", $_POST['manager_account']);
-    $tagAdd->bindValue(":manager_type", $_POST['manager_type']);  // 添加 manager_type 绑定
+    $tagAdd->bindValue(":manager_type", $_POST['manager_type']);  // 根据表单字段名进行修改
     $tagAdd->execute();
     $msg = ["error" => false, "message" => "新增成功"];
-
+    
 } catch (PDOException $e) {
     echo "錯誤行號 : ", $e->getLine(), "<br>";
     echo "錯誤原因 : ", $e->getMessage(), "<br>";

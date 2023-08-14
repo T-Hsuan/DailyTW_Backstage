@@ -4,15 +4,26 @@
 try {
 	//引入連線工作的檔案
 	require_once("connectDailyTW.php");
-	
-	//執行sql指令並取得pdoStatement
-	$sql = "select * from ord
-	 		join member
-			 on ord.ord_mem = member.mem_id";
 
-			"select * from item
-			join ticket
-			on ticket.ticket_name = item.ticket_name";
+	$sql="SELECT o.ord_id, o.ord_receiver, o.ord_phone, o.ord_addr,
+       i.ticket_adult_count, i.ticket_ex_count, i.total, t.ticket_name,
+		FROM `ord` o
+		JOIN `item` i ON o.ord_id = i.item_id
+		JOIN `ticket` t ON i.item_ticket_id = t.ticket_id;"
+
+	
+	// $sql = "select o.ord_id, o.ord_receiver, o.ord_phone, o.ord_addr, i.item_id, i.ticket_adult_count, i.ticket_ex_count, i.total, t.ticket_name
+	// 		FROM order o
+	// 		JOIN item i ON  o.ord_id= i.item_id
+	// 		JOIN ticket t ON i item_ticket_id= t.ticket_id"
+	//執行sql指令並取得pdoStatement
+	// $sql = "select * from ord
+	//  		join member
+	// 		 on ord.ord_mem = member.mem_id";
+
+	// 		"select * from item
+	// 		join ticket
+	// 		on ticket.ticket_name = item.ticket_name";
 		
 	$products = $pdo->query($sql); 
 	$prodRows = $products->fetchAll(PDO::FETCH_ASSOC);
