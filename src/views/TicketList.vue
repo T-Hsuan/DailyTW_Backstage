@@ -101,7 +101,7 @@ export default {
         ...mapActions(['fetchTicketData']),
         //搜尋
         search() {
-            const searchTerm = this.searchText.toLowerCase();
+            const searchTerm = this.searchText;
             this.filterText = searchTerm;
             this.page.index = 1;
         },
@@ -165,11 +165,15 @@ export default {
         ...mapGetters(['ticketData']),
         //搜尋結果資料
         searchData() {
-            return this.ticketData.filter(item =>
-                item.Name.toLowerCase().includes(this.filterText.toLowerCase()) ||
-                item.id.toString().includes(this.filterText.toLowerCase())
-            )
+            return this.ticketData.filter(item => {
+                const itemName = item.Name || ''; // 使用默认值处理未定义的情况
+                const itemId = item.id || ''; // 使用默认值处理未定义的情况
+
+                return itemName.includes(this.filterText) ||
+                    itemId.toString().includes(this.filterText.toLowerCase());
+            });
         },
+
         // //排序
         sortData() {
             const arr = [...this.searchData];
