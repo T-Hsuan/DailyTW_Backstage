@@ -31,7 +31,7 @@
                     <!-- 會員編號 -->
                     <td>{{ item.ord_mem }}</td>
                     <!-- 訂單編號 -->
-                    <td><router-link to="/order_content">{{ item.ord_id }}</router-link></td>
+                    <td><router-link :to="{ name: 'order_content', params: { ord_id: item.ord_id } }">{{ item.ord_id }}</router-link></td>
                     <td>{{ item.ord_receiver }}</td>
                     <td>{{ item.ord_date }}</td>
                     <td>{{ item.ord_sum }}</td>

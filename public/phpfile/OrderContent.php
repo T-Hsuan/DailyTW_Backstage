@@ -4,30 +4,26 @@
 try {
 	//引入連線工作的檔案
 	require_once("connectDailyTW.php");
-
-	$sql="SELECT o.ord_id, o.ord_receiver, o.ord_phone, o.ord_addr,
-       i.ticket_adult_count, i.ticket_ex_count, i.total, t.ticket_name,
-		FROM `ord` o
-		JOIN `item` i ON o.ord_id = i.item_id
-		JOIN `ticket` t ON i.item_ticket_id = t.ticket_id;"
-
 	
-	// $sql = "select o.ord_id, o.ord_receiver, o.ord_phone, o.ord_addr, i.item_id, i.ticket_adult_count, i.ticket_ex_count, i.total, t.ticket_name
-	// 		FROM order o
-	// 		JOIN item i ON  o.ord_id= i.item_id
-	// 		JOIN ticket t ON i item_ticket_id= t.ticket_id"
-	//執行sql指令並取得pdoStatement
-	// $sql = "select * from ord
-	//  		join member
-	// 		 on ord.ord_mem = member.mem_id";
-
-	// 		"select * from item
-	// 		join ticket
-	// 		on ticket.ticket_name = item.ticket_name";
+	$sql = "SELECT o.ord_id, m.mem_name, m.mem_phone, o.ord_receiver, o.ord_phone, o.ord_addr
+			FROM ord AS o
+			JOIN member AS m ON o.ord_mem = m.mem_id
+			WHERE o.ord_id = :ord_id
+			";
 		
-	$products = $pdo->query($sql); 
-	$prodRows = $products->fetchAll(PDO::FETCH_ASSOC);
-  echo json_encode($prodRows);
+	$ordInfo = $pdo->prepare($sql); 
+	$ordInfo->bindValue(":ord_id", $_GET["ord_id"]);
+	$ordInfo->execute();
+	
+	if( $ordInfo->rowCount() === 0 ){ //找不到
+		//傳回空的JSON字串
+		echo "{}";
+	}else{ //找得到
+		//取回資料
+		$ordInfoRow = $ordInfo->fetch(PDO::FETCH_ASSOC);
+		//送出json字串
+		echo json_encode($ordInfoRow);
+	}
 
 } catch (Exception $e) {
 	echo "錯誤行號 : ", $e->getLine(), "<br>";

@@ -7,17 +7,16 @@
                 <span>取消訂單</span>
                 </button>
             </div> -->
-            <div class="order_content" v-for="(item, index) in dataFromMySQL" :key="index">
-                <div class="text"><span class="number">訂單編號：</span>{{ item.ord_id }}</div>
-                <div class="text"><span>訂購人：</span>{{ item.ord_receiver }}</div>
-                <div class="text"><span>訂購人手機號碼：</span>{{ item.ord_phone }}</div>
-                <div class="text"><span>訂購人地址：</span>{{ item.ord_addr }}</div>
-                <div class="text"><span>收件人：</span>{{ item.ord_receiver }}</div>
-                <div class="text"><span>收件人手機號碼：</span>{{ item.ord_phone }}</div>
-                <div class="text"><span>收件人地址：</span>{{ item.ord_addr }}</div>
+            <div class="order_content">
+                <div class="text"><span class="number">訂單編號：</span>{{ ordInfo.ord_id }}</div>
+                <div class="text"><span>訂購人：</span>{{ ordInfo.mem_name }}</div>
+                <div class="text"><span>訂購人手機號碼：</span>{{ ordInfo.mem_phone }}</div>
+                <div class="text"><span>收件人：</span>{{ ordInfo.ord_receiver }}</div>
+                <div class="text"><span>收件人手機號碼：</span>{{ ordInfo.ord_phone }}</div>
+                <div class="text"><span>收件人地址：</span>{{ ordInfo.ord_addr }}</div>
             </div>
             <div class="tickit_block">
-                <div class="table_wrap" v-for="(item, index) in dataFromMySQL" :key="index">
+                <div class="table_wrap" v-for="(item, index) in itemInfo" :key="index">
                     <table class="tickit_block">
                         <tr>
                             <th>票券{{ index + 1 }}</th>
@@ -40,50 +39,33 @@ import {GET} from '@/plugin/axios'
 export default {
     data() {
         return {
-            dataFromMySQL:[],
+            ordInfo: [],
+            itemInfo:[],
             totalPrice: 0,
-            // tableData: [
-            //     {   order_number: 'ghguhr12344564', 
-            //         order_name: '陳小妮', 
-            //         order_phone: '0912345678', 
-            //         order_adderss: '320桃園市中壢區復興路46號9樓', 
-            //         recipient_name: '陳小妮', 
-            //         recipient_phone: '0912345678' ,
-            //         recipient_address: '320桃園市中壢區復興路46號9樓' 
-            //     },
-
-            // ],
-            ticketData:[
-                {
-                    tickit:'班比山丘門票',
-                    adult:'1',
-                    discount:'2',
-                    price:'200',
-                },
-                {
-                    tickit:'茶山房肥皂文化體驗',
-                    adult:'1',
-                    discount:'0',
-                    price:'250',
-                },
-            ],
         };
     },
     mounted() {
-        // this.axios
-        // .get(`${this.$URL_MAC}/phpfile/OrderContent.php`)
-        GET(`${this.$URL_MAC}/phpfile/OrderContent.php`)
-        .then((res) => {
-            this.dataFromMySQL = res.data;
-            console.log(res);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+        const ordId = this.$route.params.ord_id;
+        GET(`${this.$URL_MAC}/phpfile/OrderContent.php?ord_id=${ordId}`)
+            .then((res) => {
+                this.ordInfo = res;
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        GET(`${this.$URL_MAC}/phpfile/OrderContentItem.php?ord_id=${ordId}`)
+            .then((res) => {
+                this.itemInfo = res;
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     },
     computed: {
         subtotalPrice() {
-        return this.ticketData.reduce(
+        return this.itemInfo.reduce(
             (total, item) => total + parseInt(item.total),
             0
         );
