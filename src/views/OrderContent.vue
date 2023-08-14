@@ -70,14 +70,16 @@ export default {
         };
     },
     mounted() {
+        // this.axios
+        // .get(`${this.$URL_MAC}/phpfile/OrderContent.php`)
         GET(`${this.$URL_MAC}/phpfile/OrderContent.php`)
-            .then((res) => {
-                this.dataFromMySQL = res;
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        .then((res) => {
+            this.dataFromMySQL = res.data;
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     },
     computed: {
         subtotalPrice() {
