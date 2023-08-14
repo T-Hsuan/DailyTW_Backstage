@@ -1,34 +1,25 @@
-<?php 
+<?php
 header('Access-Control-Allow-Origin: *');
 header("Content-Type: application/json; charset=utf-8");
-header('Access-Control-Allow-Headers: Content-Type');
 
 try {
     require_once("connectDailyTW.php");
-    
-    // 假設這裡是處理新增資料的程式碼
-    $name = $_POST['name'];
-    $age = $_POST['age'];
-    $email = $_POST['email'];
-    $name = $_post['name']
-    $img = $_post['img']
-    $region = $_post['region']
-    $tag = $_post['tag']
-    $adult = $_post['adult']
-    $ex = $_post['ex']
-    $discount = $_post['discount']
-    $desc = $_post['desc']
-    $notice = $_post['notice']
 
-    $sql = "INSERT INTO ticket ('ticket_name',ticket_adult,ticket_ex,ticket_discount,'ticket_desc',ticket_notice) VALUES ('$name','$adult','$ex','$discount','$desc','$notice')";
-    $result = $pdo->exec($sql);
+    // 獲取前端傳來的資料
+    $data = $_POST;
+    $sql = "INSERT INTO ticket (`ticket_name`, `place_id`, `ticket_adult`, `ticket_ex`, `ticket_discount`, `ticket_desc`, `ticket_notice`) VALUES (:Name, :id, :adult, :ex, :discount, :desc, :notice)";
+    $tagAdd = $pdo->prepare($sql);
+    $tagAdd->bindValue(":Name", $data['Name']);
+    $tagAdd->bindValue(":id", $data['place_id']);
+    $tagAdd->bindValue(":adult", $data['price_adult']);
+    $tagAdd->bindValue(":ex", $data['price_ex']);
+    $tagAdd->bindValue(":discount", $data['price_discount']);
+    $tagAdd->bindValue(":desc", $data['desc']);
+    $tagAdd->bindValue(":notice", $data['notice']);
+    $tagAdd->execute();
 
-    if ($result !== false) {
-        echo json_encode(array("message" => "資料新增成功"));
-    } else {
-        echo json_encode(array("message" => "資料新增失敗"));
-    }
-} catch (Exception $e) {
+    echo json_encode(array("message" => "資料新增成功"));
+} catch (PDOException $e) {
     echo json_encode(array(
         "error" => array(
             "message" => "錯誤行號: " . $e->getLine() . ", 錯誤原因: " . $e->getMessage()

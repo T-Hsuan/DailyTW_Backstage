@@ -20,7 +20,8 @@
                     <div class="selection_box">
                         <span>地區</span>
                         <Select v-model="selectRegion">
-                            <Option v-for="item in regionList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            <Option v-for="item in regionList" :value="item.value" :key="item.value">{{ item.label }}
+                            </Option>
                         </Select>
                     </div>
                     <div class="selection_box">
@@ -49,11 +50,7 @@
                             <span>景點照片1(必選)</span>
                             <div class="upload_click">
                                 <Icon type="ios-camera" />
-                                <img
-                                    v-if="uploadedImage1"
-                                    :src="uploadedImage1" 
-                                    width="200"
-                                />
+                                <img v-if="uploadedImage1" :src="uploadedImage1" width="200" />
                             </div>
                             <input type="file" name="place_img1" id="place_img1" ref="fileInput1" @change="onfile(1)">
                         </label>
@@ -66,11 +63,7 @@
                             <span>景點照片2</span>
                             <div class="upload_click">
                                 <Icon type="ios-camera" />
-                                <img
-                                    v-if="uploadedImage2"
-                                    :src="uploadedImage2" 
-                                    width="200"
-                                />
+                                <img v-if="uploadedImage2" :src="uploadedImage2" width="200" />
                             </div>
                             <input type="file" name="place_img2" id="place_img2" ref="fileInput2" @change="onfile(2)">
                         </label>
@@ -83,11 +76,7 @@
                             <span>景點照片3</span>
                             <div class="upload_click">
                                 <Icon type="ios-camera" />
-                                <img
-                                    v-if="uploadedImage3"
-                                    :src="uploadedImage3" 
-                                    width="200"
-                                />
+                                <img v-if="uploadedImage3" :src="uploadedImage3" width="200" />
                             </div>
                             <input type="file" name="place_img3" id="place_img3" ref="fileInput3" @change="onfile(3)">
                         </label>
@@ -109,9 +98,9 @@
 </template>
 
 <script>
-export default{
-    data(){
-        return{
+export default {
+    data() {
+        return {
             tagList: [
                 {
                     value: '親子',
