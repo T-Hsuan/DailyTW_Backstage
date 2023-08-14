@@ -6,7 +6,7 @@
 
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             // Fetch place data from database
-            $sql = "SELECT * FROM place;";
+            $sql = "SELECT * FROM place ORDER BY place_date;";
             $products = $pdo->query($sql);
             $prodRows = $products->fetchAll(PDO::FETCH_ASSOC);
             echo json_encode($prodRows);
