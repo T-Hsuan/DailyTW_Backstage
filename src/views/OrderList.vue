@@ -61,7 +61,7 @@ export default {
         // You can add other methods for handling backend data retrieval, update, etc.
     },
     mounted() {
-        GET(`${this.$URL_MAC}/phpfile/OrderList.php`)
+        GET(`${this.$URL}/OrderList.php`)
             .then((res) => {
                 this.dataFromMySQL = res;
                 console.log(res);

@@ -36,8 +36,7 @@ export default {
     data() {
         return {
             manager_name: '',
-            // manager_desc: '',  // 可以删除或使用
-            selectRegion: '無',  // 添加默认值
+            selectRegion: '無', 
             manager_id: '',
             manager_account: '',
             accesstype: [
@@ -73,14 +72,19 @@ export default {
                 formData.append('manager_id', this.manager_id);
                 formData.append('manager_account', this.manager_account);
 
-                const response = await axios.post(`${this.$URL_MAC}/phpfile/EmployeeAdd.php`, formData, {
+                const response = await axios.post(`${this.$URL_MAC}/EmployeeAdd.php`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
-                window.alert('新增成功!');
-                console.log('Data sent successfully', response.data);
-
+                swal({
+                    title: "新增成功!",
+                    icon: "success",
+                }).then((value) => {
+                    console.log('Data sent successfully', response.data);
+                    // Redirect to the "/place_tag" page
+                    this.$router.push('/place_tag');
+                });
                 // Redirect to the "/manager" page
                 this.$router.push('/manager');
 
