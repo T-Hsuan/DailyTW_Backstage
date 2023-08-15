@@ -39,7 +39,7 @@
                 會員管理
             </template>
             <MenuItem name="5-1"><router-link to="/member_mgt">會員資料管理</router-link></MenuItem>
-            <MenuItem name="5-2"><router-link to="/member_view">會員資料檢視</router-link></MenuItem>
+            <!-- <MenuItem name="5-2"><router-link to="/member_view">會員資料檢視</router-link></MenuItem> -->
             <MenuItem name="5-3"><router-link to="/order_list">訂單列表</router-link></MenuItem>
         </Submenu>
         <Submenu name="6">
