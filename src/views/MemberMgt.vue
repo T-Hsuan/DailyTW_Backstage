@@ -43,26 +43,39 @@
                     
                 </table>    
         </div>
-        <div class="post_popbox" v-if="lightboxVisible">
-            <div class="post_wrap">
-                <h4>會員資料檢視</h4>
-                <div class="post_content">
-                    <!-- <div class="post_photo">
-                        <img :src="getOottImgPath()">
-                    </div> -->
-                    <!-- 右方文字內容 -->
-                    <div class="post_text">
-                        <!-- 會員資料 -->
-                        <div class="post_profile">
-                            <div class="profile_photo">
+        <div class="feedback_popbox" v-if="lightboxVisible">
+            <div class="feedback_wrap">
+                <h3>會員資料檢視</h3>
+
+                <div class="feedback_content">
+                    <div class="profile_photo">
                                 <img :src="getMemberProfilePath()">
                             </div>
-                            <h5 class="profile_name">{{ selectedUser.mem_name }}</h5>
-                            <h5 class="profile_name">{{ selectedUser.mem_phone }}</h5>
-                            <h5 class="profile_name">{{ selectedUser.mem_email  }}</h5>
-                            <h5 class="profile_name">{{ selectedUser.mem_status }}</h5>
-                        </div>
-                    </div>
+                    <!-- <div class="post_text"> -->
+                        <!-- 會員資料 -->
+                        <!-- <div class="post_profile"> -->
+                            
+                            <div class="block">
+                                <div class="row">
+                                    <h5>姓名</h5>
+                                <p class="profile_name">{{ selectedUser.mem_name }}</p>
+                                </div>
+                                <div class="row">
+                                    <h5>電話</h5>
+                                <p class="profile_name">{{ selectedUser.mem_phone }}</p>
+                                </div>
+                                <div class="row">
+                                    <h5>Email</h5>
+                                <p class="profile_name">{{ selectedUser.mem_email  }}</p>
+                                </div>
+                                <div class="row">
+                                    <h5>會員狀態</h5>
+                            <p class="profile_name">{{ selectedUser.mem_status }}</p>
+                                </div>
+                            </div>
+                        <!-- </div> -->
+
+                    <!-- </div> -->
                 </div>
                 <div class="button_area">
                     <button class="btn" @click="closeLightbox">回列表</button>
@@ -196,74 +209,30 @@ export default {
     text-decoration: underline;
 }
 
-.action_container {
-    padding-top: 20px;
 
-    .selection_box {
-        position: relative;
+.feedback_content{
+    display: flex;
+    margin: auto;
+    .profile_photo {
         width: 120px;
-
-        span {
-            position: absolute;
-            bottom: 100%;
-            left: 0;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        
+        img {
+            width: 100%;
         }
     }
 }
 
-.post_popbox {
-    display: flex;
-    // 完成功能之後拿掉
+.button_area {
     width: 100%;
-    height: 100vh;
-    background-color: #6a5d4a80;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9999;
-    align-items: center;
-    justify-content: center;
+    text-align: right;
 
-    .post_wrap {
-        width: 1000px;
-        background-color: #fefff5;
-        padding: 48px;
-        margin: 80px;
-
-        .post_content {
-
-            margin: 40px 0;
+}
+    
 
 
-            .post_text {
-                width: 100%;
-                display: flex;
-                
-                .post_profile {
-                    width: 100%;
-                    justify-content: space-around;
-                    display: flex;
-                    align-items: center;
-                    gap: 22px;
 
-                    .profile_photo {
-                        width: 120px;
-                        height: 120px;
-                        border-radius: 50%;
-                        overflow: hidden;
-
-                        img {
-                            width: 100%;
-                        }
-                    }
-                }
-            }
-        }
-
-        .button_area {
-            display: flex;
-            justify-content: end;
-        }
-    }
-}</style>
+</style>
   
