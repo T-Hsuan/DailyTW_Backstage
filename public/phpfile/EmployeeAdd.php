@@ -12,7 +12,7 @@ try {
     $tagAdd->bindValue(":manager_name", $_POST['manager_name']);
     $tagAdd->bindValue(":manager_id", $_POST['manager_id']);
     $tagAdd->bindValue(":manager_account", $_POST['manager_account']);
-    $tagAdd->bindValue(":manager_type", $_POST['manager_type']);  // 根据表单字段名进行修改
+    $tagAdd->bindValue(":manager_type", $_POST['manager_type']); 
     $tagAdd->execute();
     $msg = ["error" => false, "message" => "新增成功"];
     

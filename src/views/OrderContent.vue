@@ -46,7 +46,7 @@ export default {
     },
     mounted() {
         const ordId = this.$route.params.ord_id;
-        GET(`${this.$URL_MAC}/phpfile/OrderContent.php?ord_id=${ordId}`)
+        GET(`${this.$URL}/OrderContent.php?ord_id=${ordId}`)
             .then((res) => {
                 this.ordInfo = res;
                 console.log(res);
@@ -54,7 +54,7 @@ export default {
             .catch((err) => {
                 console.log(err);
             });
-        GET(`${this.$URL_MAC}/phpfile/OrderContentItem.php?ord_id=${ordId}`)
+        GET(`${this.$URL}/OrderContentItem.php?ord_id=${ordId}`)
             .then((res) => {
                 this.itemInfo = res;
                 console.log(res);
