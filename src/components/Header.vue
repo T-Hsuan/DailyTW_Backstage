@@ -103,16 +103,11 @@ header {
         .login_info {
             div {
                 display: flex;
+                color: $textColor_white;
                 p {
-                    margin: 0 $sp2;
-                    color: $textColor_white;
-                }
-                
-                .separate {
-                    color: $textColor_white;
-                }
-                .logOut{
                     cursor: pointer;
+                    margin: 0 $sp2;
+                    
                 }
             }
 
