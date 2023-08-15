@@ -44,15 +44,17 @@ export default {
                 params.append("psw", this.psw);
 
                 POST(url, params).then((res) => {
-                    console.log(res)
+                    console.log("res", res)
+                    console.log("res.manager_name",res.manager_name)
                     if (res == 0) {
                         swal("帳號密碼錯誤", "請再試一次", "error")
                     } else {
-                        this.$store.commit("setName", res);
-                        this.$store.commit('setIsLogin', true); // 使用 commit 來改變狀態
+                        this.$store.commit("setName", res.manager_name);
+                        this.$store.state.isLogin = true;
+                        // this.$store.commit('setIsLogin', true); // 使用 commit 來改變狀態
+                        this.$store.commit("setLoginData", res);
                         swal("登入成功", "歡迎回來", "success")
                         this.$router.push('/place_list');
-                        this.$store.commit("setLoginData", res);
                         this.account = ''
                         this.psw = ''
                     }

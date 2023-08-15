@@ -34,12 +34,13 @@
 			$_SESSION["manager_id"] = $managerRow["manager_id"];
             $_SESSION["manager_name"] = $managerRow["manager_name"];
 			$_SESSION["manager_account"] = $managerRow["manager_account"];
-			$_SESSION["manager_psw"] = $managerRow["manager_psw"];
 			$_SESSION["manager_type"] = $managerRow["manager_type"];
-            $_SESSION["manager_status"] = $managerRow["manager_status"];
+            $_SESSION["manager_state"] = $managerRow["manager_state"];
+            $_SESSION["start_date"] = $managerRow["start_date"];
+			$_SESSION["manager_pwd"] = $managerRow["manager_pwd"];
 			
 			echo json_encode($managerRow);	
-            echo json_encode('登入成功，將登入者的資料寫入session');
+            // echo json_encode('登入成功，將登入者的資料寫入session');
 		}
 	} catch (Exception $e) {
 		echo json_encode(["連線失敗"]);

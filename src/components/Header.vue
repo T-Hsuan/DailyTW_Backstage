@@ -8,17 +8,19 @@
                 <!-- 登入後顯示 -->
                 <div v-if="isLogin">
                     <p @click="toggleUser">
+                        {{ $store.state.name }}
                     </p>
-                    <p @click="handleLogout">
+                    <span class="separate">|</span>
+                    <p class="logOut" @click="handleLogout">
                         登出
                     </p>
                 </div>
                 <!-- 未登入狀態 -->
-                <div v-else>
+                <!-- <div v-else>
                     <router-link to="/login">
                         <div>{{ $store.state.name }}</div>
                     </router-link>
-                </div>
+                </div> -->
             </div>
         </div>
     </header>
@@ -28,13 +30,13 @@ import { POST } from '../plugin/axios.js';
 export default {
     methods: {
         toggleUser() {
-            this.$router.push({ path: "/trip_list" });
+            this.$router.push({ path: "/employee_mgt" });
         },
         //登出
         handleLogout() {
-            this.$store.commit('setName', "manage_id");
-            this.$store.commit('setIsLogin', false);
-            sessionStorage.removeItem("manage_id");
+            // this.$store.commit('setName', "manage_id");
+            this.$store.state.isLogin = false;
+            sessionStorage.removeItem("manager_id");
             this.$router.push("/");
             setTimeout(() => {
                 this.$router.go(0);
@@ -45,12 +47,16 @@ export default {
         //檢查登入狀態
         checkLogin() {
             let managerId = sessionStorage.getItem("manager_id");
-            console.log(managerId);
+            let managerName = sessionStorage.getItem("manager_name");
+            console.log("managerId", managerId);
+            console.log("this.$store.state.isLogin",this.$store.state.isLogin);
 
             if (managerId) {
                 let URL = `${this.$URL}/sessionLogin.php`;
                 let params = new FormData();
                 params.append("manager_id", managerId);
+                this.$store.commit('setName', managerName);
+                this.$store.state.isLogin = true;
                 POST(URL, params).then((res) => {
                     console.log(res);
                     this.$store.commit("setLoginData", res);
@@ -95,22 +101,26 @@ header {
         }
 
         .login_info {
-            display: flex;
-
-            p {
-                margin: 0 $sp2;
-                color: $textColor_white;
+            div {
+                display: flex;
+                p {
+                    margin: 0 $sp2;
+                    color: $textColor_white;
+                }
+                
+                .separate {
+                    color: $textColor_white;
+                }
+                .logOut{
+                    cursor: pointer;
+                }
             }
 
-            button {
-                margin: 0 $sp2 0 $sp5;
-                color: $textColor_white;
-            }
+
         }
     }
 }
 
 .hidden {
     display: none;
-}
-</style>
+}</style>

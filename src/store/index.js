@@ -25,14 +25,15 @@ export default createStore({
         setName(state, payload) {
             state.name = payload
         },
-        setIsLogin(state, value) {
-            state.isLogin = value;
-        },
+        // setIsLogin(state, value) {
+        //     state.isLogin = value;
+        // },
         //接收回傳的使用者資訊
         setLoginData(state, userInfo) {
             state.userInfo = userInfo
             sessionStorage.setItem("manager_id", userInfo.manager_id);
-            state.isLogin = true
+            sessionStorage.setItem("manager_name", userInfo.manager_name);
+            // state.isLogin = true
         },
         logOut(state) {
             state.isLogin = false
