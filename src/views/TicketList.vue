@@ -99,6 +99,12 @@ export default {
     },
     methods: {
         ...mapActions(['fetchTicketData']),
+        getPlaceImg(placeImg) {
+            return process.env.BASE_URL + 'placeImg/' + placeImg;
+        },
+        getOottImg(oottImg) {
+            return process.env.BASE_URL + 'oottImg/' + oottImg + '.png';
+        },
         //搜尋
         search() {
             const searchTerm = this.searchText;
