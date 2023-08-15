@@ -2,10 +2,10 @@
     <div class="main_content">
         <h3>電子報訂閱者列表</h3>
         <div class="action_container">
-            <div class="searchbar">
+            <!-- <div class="searchbar">
                 <input v-model="searchText" type="text" name="search" id="search" placeholder="請輸入關鍵字" />
                 <button class="btn" @click="search">搜尋</button>
-            </div>
+            </div> -->
             
             <button class="btn"
             @click="exportToCSV">
