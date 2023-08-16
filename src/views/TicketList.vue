@@ -48,13 +48,14 @@
                     <td>{{ item.date }}</td>
                     <td>
                         <Switch size="large" v-model="item.status" :true-value="1" :false-value="0"
-                            @change="updateStatus(item)">
+                            @click="updateStatus(item)">
                             <template #open><span>ON</span></template>
                             <template #close><span>OFF</span></template>
                         </Switch>
                     </td>
                     <td>
-                        <button><input type="checkbox" v-model="item.top" true-value=1 false-value=0></button>
+                        <button><input type="checkbox" v-model="item.top" :true-value="1" :false-value="0"
+                                @click="updateStatus(item)"></button>
                     </td>
                     <td>
                         <router-link :to="'/ticket_edit/' + item.id" title="票券編輯">
@@ -98,6 +99,9 @@ export default {
         };
     },
     methods: {
+        test(item) {
+            console.log(typeof (item.status));
+        },
         ...mapActions(['fetchTicketData']),
         getPlaceImg(placeImg) {
             return process.env.BASE_URL + 'placeImg/' + placeImg;
@@ -114,7 +118,19 @@ export default {
             this.sortColumn = column;
             this.sortIcon = this.sortIcon === 'md-arrow-dropdown' ? 'md-arrow-dropup' : 'md-arrow-dropdown';
         },
-
+        //更新資料狀態
+        async updateStatus(item) {
+            const ticketId = item.id;
+            const newStatus = item.status === 1 ? 1 : 0;
+            const newTop = item.top === 1 ? 0 : 1;
+            console.log('[票券]Id:', ticketId, 'Name:', item.Name, 'Status:', newStatus, 'Top:', newTop);
+            try {
+                const status = await axios.get(`${this.$URL}/TicketStatus.php?ticket_id=${ticketId}&ticket_status=${newStatus}&ticket_top=${newTop}`);
+                console.log('[票券]status updated on server:', status.data);
+            } catch (error) {
+                console.error('[票券]Error updating ticket status:', error);
+            }
+        },
         //刪除確認
         async DeleteConfirmation(itemId) {
             // Show the confirm message dialog
@@ -125,19 +141,6 @@ export default {
             if (Confirmed) {
                 // If the user confirms, delete the row
                 this.deleteRow(itemId);
-            }
-        },
-        //更新資料狀態
-        async updateStatus(item) {
-            const newStatus = item.status === 1 ? 1 : 0;
-            const ticketId = item.id;
-            console.log('ticketId', ticketId);
-            console.log('newStatus', newStatus);
-            try {
-                const status = await axios.get(`${this.$URL}/TicketStatus.php?ticket_id=${ticketId}&ticket_status=${newStatus}`);
-                console.log('ticket status updated on server', status.data);
-            } catch (error) {
-                console.error('Error updating ticket status:', error);
             }
         },
         async deleteRow(itemId) {

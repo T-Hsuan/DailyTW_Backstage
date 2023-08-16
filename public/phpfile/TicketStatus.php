@@ -7,12 +7,14 @@ try {
     require_once("connectDailyTW.php");
 
     //寫入資料庫
-    $sql = "update ticket set ticket_status = :status where ticket_id = :ticket_id";
+    $sql = "update ticket set ticket_status = :ticket_status,ticket_top = :ticket_top
+    where ticket_id = :ticket_id";
     $statusUpdate = $pdo->prepare($sql);
     $statusUpdate -> bindValue(":ticket_status", $_REQUEST["ticket_status"]);
+    $statusUpdate -> bindValue(":ticket_top", $_REQUEST["ticket_top"]);
     $statusUpdate -> bindValue(":ticket_id", $_REQUEST["ticket_id"]);
     $statusUpdate -> execute();
-    echo "更新成功";
+    echo "[資料庫]更新成功";
 
 } catch (PDOException $e) {
     echo "錯誤行號 : ", $e->getLine(), "<br>";

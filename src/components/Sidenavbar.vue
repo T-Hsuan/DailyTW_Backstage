@@ -104,7 +104,6 @@ export default {
         // 判斷是否處於首頁
         Hidden() {
             return this.$route.path === '/'
-                || this.$route.path === '/login';
         }
     },
 }

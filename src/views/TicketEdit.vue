@@ -9,7 +9,8 @@
                         <span>景點照片</span>
                         <div class="upload_click">
                             <Icon type="ios-camera" />
-                            <img v-if="uploadedImage1" :src="uploadedImage1" width="200" />
+                            <img v-if="getPlaceImg(ticketInfo.img) || uploadedImage1"
+                                :src="getPlaceImg(ticketInfo.img) || uploadedImage1" width="200" />
                         </div>
                         <input type="file" name="place_img1" id="place_img1" ref="fileInput1" @change="onfile(1)">
                     </label>
@@ -114,6 +115,9 @@ export default {
             console.log('[匯入]ticketData:', this.ticketData);
             return this.ticketData.find(ticketData => ticketData.id === ticketId);
         },
+        getPlaceImg(placeImg) {
+            return `${this.$IMG_URL}/placeImg/${placeImg}`;
+        },
         onfile(imageNumber) {
             const inputRef = `fileInput${imageNumber}`;
             const imageProp = `uploadedImage${imageNumber}`;
@@ -170,8 +174,8 @@ export default {
 <style lang="scss" scoped>
 .main_content {
     .img_wrap .img_box label .upload_click {
-        width: 275px;
-        height: 177px;
+        width: 240px;
+        height: 180px;
 
         label {
             width: 100%;
