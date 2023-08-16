@@ -63,6 +63,13 @@
                 </tr>
             </table>
         </div>
+        <!-- 切換分頁 -->
+        <div class="pages">
+            <Page :total="dataLength" v-model="page.index" :page-size="page.size" />
+        </div>
+
+        
+        <!-- 貼文內容的彈窗 -->
         <div class="post_popbox" v-if="lightboxVisible">
             <div class="post_wrap">
                 <h4>檢視貼文</h4>
@@ -107,6 +114,10 @@ export default {
             tableData: [],
             selectedUser: null,
             lightboxVisible: false,
+            page: {
+                index: 1, //當前分頁
+                size: 20, //一頁多少筆資料
+            },
         };
     },
     methods: {
@@ -126,20 +137,24 @@ export default {
         },
 
         //審核資料 
-        reviewDetails(oottId){
-            this.$router.push({name:'oott_post_review',params:{oottId:oottId}}) 
+        reviewDetails(oottId) {
+            this.$router.push({ name: 'oott_post_review', params: { oottId: oottId } })
         },
 
-        getOottImgPath(){
-            return `${this.$IMG_URL}/oottImg/${this.selectedUser.oott_img}`;  
-        },  
+        getOottImgPath() {
+            return `${this.$IMG_URL}/oottImg/${this.selectedUser.oott_img}`;
+        },
 
-        getOottProfilePath(){
-            return `${this.$IMG_URL}/profileImg/${this.selectedUser.mem_img}`;  
-        },  
-       
+        getOottProfilePath() {
+            return `${this.$IMG_URL}/profileImg/${this.selectedUser.mem_img}`;
+        },
+// 分頁功能
+        changePage(newPageIndex) {
+            this.page.index = newPageIndex;
+            this.fetchData(); // Update this line with your API call to fetch data
+        },
     },
-    computed:{
+    computed: {
 
     },
     mounted() {
@@ -200,12 +215,14 @@ export default {
             margin: 40px 0;
             display: flex;
             gap: 40px;
-            .post_photo{
-                width:279px;
+
+            .post_photo {
+                width: 279px;
                 height: 369px;
                 flex-shrink: 0;
-                img{
-                    width: 100% ;
+
+                img {
+                    width: 100%;
                 }
             }
 
