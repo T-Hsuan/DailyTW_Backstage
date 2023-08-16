@@ -18,7 +18,6 @@
         <div class="table_wrap">
             <table>
                 <tr>
-                    <th></th>
                     <th>
                         <button @click="sortBy('trip_id', 'no')">
                             NO.
@@ -41,11 +40,6 @@
                     <th>刪除</th>
                 </tr>
                 <tr v-for="(item, index) in tableData" :key="index">
-                    <td>
-                        <button>
-                            <Icon type="md-flag" />
-                        </button>
-                    </td>
                     <td>{{ item.trip_id }}</td>
                     <td>{{ item.trip_name }}</td>
                     <td>{{ item.trip_date }}</td>
@@ -220,6 +214,7 @@ export default {
 table{
     table-layout: fixed;
 
+
     tr th:nth-child(1),
     tr td:nth-child(1){
         width: 50px;
@@ -227,7 +222,7 @@ table{
 
     tr th:nth-child(2),
     tr td:nth-child(2){
-        width: 50px;
+        width: 200px;
     }
 
     tr th:nth-child(3),
@@ -237,11 +232,6 @@ table{
 
     tr th:nth-child(4),
     tr td:nth-child(4){
-        width: 180px;
-    }
-
-    tr th:nth-child(5),
-    tr td:nth-child(5){
         width: 120px;
     }
 }
