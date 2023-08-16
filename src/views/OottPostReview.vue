@@ -118,7 +118,9 @@
                 <router-link to="/oott_post_list">
                     <button class="cancel_btn">取消審核</button>
                 </router-link>
-                <button class="btn" type="submit">完成審核</button>
+                
+                    <button class="btn" type="submit">完成審核</button>
+               
             </div>
 
         </form>
@@ -138,8 +140,8 @@ export default {
                 oott_img: ''
             },
             reviewData: {
-                oott_status: 0,
-                oott_review_status: 0,
+                oott_status: 1,
+                oott_review_status: 1,
                 oott_img_feedback: '',
                 oott_desc_feedback: '',
                 oott_style_feedback: '',
@@ -149,30 +151,39 @@ export default {
         }
     },
     computed: {
-        // 如果都沒有評論就通過
-        shouldSetReviewStatus() {
+        // 如果全都沒有評論就回傳 true 
+        checkFeedback() {
             return (
-                this.reviewData.oott_img_feedback === null &&
-                this.reviewData.oott_desc_feedback === null &&
-                this.reviewData.oott_style_feedback === null &&
-                this.reviewData.oott_type_feedback === null &&
-                this.reviewData.oott_season_feedback === null
+                this.reviewData.oott_img_feedback == '' &&
+                this.reviewData.oott_desc_feedback == '' &&
+                this.reviewData.oott_style_feedback == '' &&
+                this.reviewData.oott_type_feedback == '' &&
+                this.reviewData.oott_season_feedback == ''
             );
         },
     },
     watch: {
-        // 如果都沒有評論就通過
-        shouldSetReviewStatus(newValue) {
-            if (newValue) {
-                this.reviewData.oott_status = 0;
-                this.reviewData.oott_review_status = 0;
-            } else {
-                this.reviewData.oott_status = 1;
-                this.reviewData.oott_review_status = 1;
+        //監看內容的改變
+        reviewData: {
+            deep: true,
+            handler() {
+                this.updateReviewStatus();
             }
-        },
+        }
     },
     methods: {
+
+        // 如果回傳 true，就設定成通過審核
+        updateReviewStatus() {
+            if (this.checkFeedback) {
+                this.reviewData.oott_status = 1;
+                this.reviewData.oott_review_status = 1;
+            } else {
+                this.reviewData.oott_status = 0;
+                this.reviewData.oott_review_status = 2;
+            }
+        },
+        // 取得資料
         fetchPostDetails() {
             axios.get(`${this.$URL}/OottPostReview.php?oottId=${this.oottId}`)
                 .then(response => {
@@ -209,10 +220,12 @@ export default {
                     },
                 });
                 swal({
-                    title: "新增成功!",
+                    title: "審核新增成功!",
                     icon: "success",
-                });
-                console.log('Data sended successfully', response.data);
+                }).then(()=>{
+                    console.log('Data sended successfully', response.data);
+                    this.$router.push('/oott_post_list');
+                })
             } catch (error) {
                 console.log(error);
             }

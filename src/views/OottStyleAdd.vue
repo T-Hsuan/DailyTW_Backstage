@@ -61,8 +61,10 @@ export default {
                 swal({
                     title: "新增成功!",
                     icon: "success",
-                });
-                console.log('Data sended successfully', response.data);
+                }).then(()=>{
+                    console.log('Data sended successfully', response.data);
+                    this.$router.push('/style_mgt');
+                })
             } catch (error) {
                 console.log(error);
             }

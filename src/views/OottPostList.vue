@@ -52,7 +52,7 @@
                         已通過
                     </td>
                     <td v-if="item.oott_review_status == 2">
-                        待修改
+                        未通過
                     </td>
 
                     <td>
