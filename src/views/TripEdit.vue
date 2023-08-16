@@ -10,7 +10,7 @@
                 name="trip_name"
                 id="trip_name"
                 placeholder="請輸入行程標題"
-                v-model="tripName"
+                v-model="tripInfo.trip_name"
             />
             </label>
             <!-- 行程作者 -->
@@ -21,7 +21,7 @@
                 name="trip_author"
                 id="trip_author"
                 placeholder="請輸入作者名稱"
-                v-model="tripAuthor"
+                v-model="tripInfo.trip_author"
             />
             </label>
             <!-- 行程描述 -->
@@ -33,25 +33,25 @@
                 id="trip_desc"
                 rows="10"
                 placeholder="請輸入行程描述"
-                v-model="tripDescription"
+                v-model="tripInfo.trip_desc"
             ></textarea>
             </label>
         </div>
         
         <!-- 景點列表 -->
         <div class="trip_place_list">
-            <div class="trip_place" v-for="(place, index) in places" :key="index">
+            <div class="trip_place" v-for="(place, index) in placeInfo" :key="index">
                 <Divider />
                 <div class="trip_place_title">
-                    <h5>景點名稱：{{ place.title }}</h5>
+                    <h5>景點名稱：{{ place.place_name }}</h5>
                 </div>
                 <div class="trip_place_imgs">
-                    <div class="trip_place_img" v-for="(image, imageIndex) in place.images" :key="imageIndex">
-                        <img v-width="230" :src="image.src" :alt="image.alt" />
+                    <div class="trip_place_img" v-for="(image, imageIndex) in place.place_img" :key="imageIndex">
+                        <img v-width="230" :src="getPlaceImg(image)" :alt="image.alt" />
                     </div>
                 </div>
-                <p class="trip_place_desc">{{ place.description }}</p>
-                <button class="trip_place_delete">
+                <p class="trip_place_desc">{{ place.place_desc }}</p>
+                <button @click="showDeleteConfirmation(index)" class="trip_place_delete">
                     <Icon type="md-trash" />
                 </button>
             </div>
@@ -64,7 +64,7 @@
             <div class="selection_box trip_place_region">
                 <span>地區</span>
                 <Select v-model="selectRegion" placeholder="請選擇景點所在地區" class="region_select">
-                    <Option v-for="item in regionList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    <Option v-for="(item, index) in regionList" :value="item.region_name" :key="index">{{ item.region_name }}</Option>
                 </Select>
             </div>
             <div class="selection_box trip_place_search">
@@ -75,7 +75,9 @@
                     <!-- v-model=""
                     :data="" -->
                     <AutoComplete
+                        v-model="placeSelect"
                         :filter-method="filterMethod"
+                        :data="placeSearch"
                         icon="ios-search"
                         placeholder="請輸入景點名稱"
                         style="height:46px">
@@ -97,89 +99,75 @@
 
 <script>
 import {GET} from '@/plugin/axios';
+import  axios  from "axios";
+
 export default{
+
     data(){
         return{
-            tripName: "新竹懷舊之旅",
-            tripAuthor: "小編A",
-            tripDescription:
-                "新竹內灣旅行去，來內灣一日遊要怎麼玩呢？除了內灣老街外，週邊也有一些亮點，像是景觀餐廳、文青景點、咖啡廳，自然景觀，推薦大家可以一同順遊，除了玩內灣，如果有時間，尖石一帶也有一些不錯的景點，可以順著路線玩上去。",
-            places: [
-                {
-                title: "合興車站",
-                images: [
-                    { src: require('@/assets/img/place/001.png'), alt: "景點照片" },
-                    { src: require('@/assets/img/place/001.png'), alt: "景點照片" },
-                    { src: require('@/assets/img/place/001.png'), alt: "景點照片" },
-                ],
-                description: "位於內灣老街附近的合興火車站，這裡除了原有的候車亭外，並沒有太多好玩或好拍的東西。但現在很不一樣囉！經過薰衣草森林的重新規劃後，合興車站成了名符其實的愛情火車站，在這裡，可以看到許多愛情的元素，一字一語、一點一滴，都觸動著我們的心。",
-                },
-                {
-                title: "內灣愛情故事館",
-                images: [
-                    { src: require('@/assets/img/place/002.png'), alt: "景點照片" },
-                    { src: require('@/assets/img/place/002.png'), alt: "景點照片" },
-                    { src: require('@/assets/img/place/002.png'), alt: "景點照片" },
-                ],
-                description: "浴火重生，強勢回歸~以全新的面貌再次登場，這回的內灣愛情故事館，可以說是進階版的愛情故事館，不只拍照的場景變多了，還有許多浪漫新元素，而且連餐點都變好吃了，想要揪好姐妹或另一半來浪漫拍照，就來全新的內灣愛情故事館走走吧。",
-                },
-                {
-                title: "內灣老街",
-                images: [
-                    { src: require('@/assets/img/place/003.png'), alt: "景點照片" },
-                    { src: require('@/assets/img/place/003.png'), alt: "景點照片" },
-                    { src: require('@/assets/img/place/003.png'), alt: "景點照片" },
-                ],
-                description: "一個充滿學生回憶的地方。內灣老街的小吃攤販很多，走一圈差不多就可以吃飽了，其中內灣戲院生意極好，用餐尖峰時間都要候位才排得到座位。",
-                },
-                {
-                title: "劉興欽漫畫館",
-                images: [
-                    { src: require('@/assets/img/place/004.png'), alt: "景點照片" },
-                    { src: require('@/assets/img/place/004.png'), alt: "景點照片" },
-                    { src: require('@/assets/img/place/004.png'), alt: "景點照片" },
-                ],
-                description: "一直以來，我覺得漫畫館是比較靜態復古的展覽，對劉興欽大師的畫，又比較不是這麼熟悉，所以激不起我的興趣。可是後來了好客好品希望工場進駐，經過文創團隊的改造後，裡頭不只有漫畫館，還多了品客好客生活餐飲、及台灣水色工作坊。將園區打造的相當的有趣味性。",
-                },
-                {
-                title: "內灣隱藏版咖啡",
-                images: [
-                    { src: require('@/assets/img/place/005.png'), alt: "景點照片" },
-                    { src: require('@/assets/img/place/005.png'), alt: "景點照片" },
-                    { src: require('@/assets/img/place/005.png'), alt: "景點照片" },
-                ],
-                description: "位於內灣老街附近的遷徏咖啡，除了是民宿，白天也是咖啡廳，文青風的室內環境，復古卻很有味道。",
-                },
-            ],
+            tripInfo: [],
+            placeInfo: [],
+            regionList: [],
+            selectRegion: '',
+            placeSearch: [],
+            placeSelect: '',
         }
     },
+
     methods: {
         showDeleteConfirmation(index) {
             // Show the confirm message dialog
-            const isConfirmed = window.confirm('確定刪除此景點?');
-            if (isConfirmed) {
-                // If the user confirms, delete the row
-                this.deleteRow(index);
-            }
+            swal({
+                title: "確定刪除此景點?",
+                icon: "warning",
+                buttons: ["取消", "確定"],
+                dangerMode: true,
+                })
+                .then((willDelete) => {
+                if (willDelete) {
+                    // If the user confirms, delete the row
+                    this.deletePlace(index);
+                }
+            });
         },
-        deleteRow(index) {
-            this.tableData.splice(index, 1);
+        async deletePlace(index) {
+            this.placeInfo.splice(index, 1);
         },
         filterMethod (value, option) {
             return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
-        }
+        },
+
+        getPlaceImg(placeImg){
+            return process.env.BASE_URL + 'placeImg/' + placeImg;  
+        },
     },
+
     mounted () {
-        GET(`${this.$URL}/TripEdit.php`)
+        const tripId = this.$route.params.trip_id;
+        GET(`${this.$URL}/TripEditGetTrip.php?trip_id=${tripId}`)
             .then((res) => {
                 console.log(res);
-                this.rawData = res; // Store the raw fetched data
-                this.page.total = this.rawData.length; // Set total based on raw data length
-                this.getHome(); // Fetch initial paginated data
+                this.tripInfo = res;
             })
             .catch((err) => {
                 console.log(err);
+            });
+        GET(`${this.$URL}/TripEditGetPlaces.php?trip_id=${tripId}`)
+            .then((res) => {
+                console.log(res);
+                this.placeInfo = res;
             })
+            .catch((err) => {
+                console.log(err);
+            });
+        GET(`${this.$URL}/PlaceRegion.php`)
+            .then((res) => {
+                console.log(res);
+                this.regionList = res;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 }
 </script>

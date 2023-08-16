@@ -147,7 +147,10 @@ export default {
                     console.warn(this[imageProp]);
                 });
             } else {
-                alert("請勿上傳重複照片");
+                swal({
+                    title: "請勿上傳重複照片",
+                    icon: "warning",
+                });
             }
         },
         deleteImage(imageNumber) {
@@ -177,28 +180,23 @@ export default {
                 formData.append('place_link', this.place_link);
                 formData.append('place_desc', this.place_desc);
                 formData.append('region_id', this.selectRegion);
-                formData.append('place_img1', this.uploadedImages[1]);
-                formData.append('place_img2', this.uploadedImages[2]);
-                formData.append('place_img3', this.uploadedImages[3]);
+                formData.append('place_img1', this.uploadedImages[0]);
+                formData.append('place_img2', this.uploadedImages[1]);
+                formData.append('place_img3', this.uploadedImages[2]);
+                formData.append('place_tag_id', this.selectTags[0]);
 
                 const response = await axios.post(`${this.$URL}/PlaceAdd.php`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data', // Use multipart/form-data for form data
                     },
                 });
-                // window.alert('新增成功!');
                 swal({
                     title: "新增成功!",
                     icon: "success",
                 }).then((value) => {
                     console.log('Data sent successfully', response.data);
-                    // Redirect to the "/place_tag" page
-                    this.$router.push('/place_tag');
+                    this.$router.push('/place_list');
                 });
-                
-                // // Redirect to the "/place_tag" page
-                // this.$router.push('/place_tag');
-
             } catch (error) {
                 console.log(error);
             }

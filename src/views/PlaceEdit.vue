@@ -134,7 +134,7 @@ export default{
         },
         //修正圖片路徑
         getPlaceImg(placeImg){
-            return process.env.BASE_URL + 'placeImg/' + placeImg;  
+            return `${this.$IMG_URL}/placeImg/${placeImg}`;  
         },
         //上傳圖片預覽及刪除
         onfile(imageNumber) {
