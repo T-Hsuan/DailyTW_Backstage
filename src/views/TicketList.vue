@@ -96,13 +96,14 @@ export default {
             sortType: '',
             sortIcon: 'md-arrow-dropdown',
             sortColumn: '',
+            ticketData: [],
         };
     },
     methods: {
         test(item) {
             console.log(typeof (item.status));
         },
-        ...mapActions(['fetchTicketData']),
+        // ...mapActions(['fetchTicketData']),
         getPlaceImg(placeImg) {
             return process.env.BASE_URL + 'placeImg/' + placeImg;
         },
@@ -168,7 +169,7 @@ export default {
         },
     },
     computed: {
-        ...mapGetters(['ticketData']),
+        // ...mapGetters(['ticketData']),
         //搜尋結果資料
         searchData() {
             return this.ticketData.filter(item => {
@@ -204,8 +205,17 @@ export default {
         },
     },
     mounted() {
-        this.fetchTicketData();// 调用 Vuex 的 fetchTicketData action
+        // this.fetchTicketData();// 调用 Vuex 的 fetchTicketData action
+        GET(`${this.$URL}/TicketList.php`)
+            .then((res) => {
+                console.log(res);
+                this.ticketData = res;
+                console.log('[票券]成功連接資料庫', this.ticketData);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     },
-};
+}
 </script>
   
