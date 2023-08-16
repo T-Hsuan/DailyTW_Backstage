@@ -13,7 +13,7 @@ $styleAdd = $pdo->prepare($sql);
 $styleAdd -> bindValue(":style_name", $_POST['style_name']);
 $styleAdd -> bindValue(":style_desc", $_POST['style_desc']);
 $styleAdd -> execute();
-$msg = ["error" => false, "message" => "新增商品成功"];
+$msg = ["error" => false, "message" => "新增穿搭成功"];
 } catch (PDOException $e) {
 echo "錯誤行號 : ", $e->getLine(), "<br>";
 echo "錯誤原因 : ", $e->getMessage(), "<br>";

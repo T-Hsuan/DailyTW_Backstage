@@ -58,10 +58,9 @@ export default {
                         'Content-Type': 'multipart/form-data', // Use multipart/form-data for form data
                     },
                 });
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    text: 'Item has been added successfully.',
+                swal({
+                    title: "新增成功!",
+                    icon: "success",
                 });
                 console.log('Data sended successfully', response.data);
             } catch (error) {
