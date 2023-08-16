@@ -1,7 +1,7 @@
 <template>
     <div class="main_content">
         <h3>穿搭管理</h3>
-        <div class="action_container">
+        <!-- <div class="action_container">
             <div class="selection_box">
                 <span>審核狀態</span>
                 <Select v-model="selectRegion">
@@ -11,14 +11,14 @@
             <div class="searchbar">
                 <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
                 <button class="btn">搜尋</button>
-            </div>
+            </div> -->
             <!-- <button class="btn">
           <span>
             <Icon type="md-add" />
             新增穿搭
           </span>
         </button> -->
-        </div>
+        <!-- </div> -->
         <div class="table_wrap">
             <table>
                 <tr>
@@ -114,6 +114,7 @@ export default {
         openLightbox(item) {
             this.selectedUser = item;
             this.lightboxVisible = true;
+            console.log(this.selectedUser.oott_img)
         },
         closeLightbox() {
             this.selectedUser = null;
@@ -130,11 +131,11 @@ export default {
         },
 
         getOottImgPath(){
-            return `${this.$IMG_URL}/oottImg/${this.selectedUser.oott_img}.png`;  
+            return `${this.$IMG_URL}/oottImg/${this.selectedUser.oott_img}`;  
         },  
 
         getOottProfilePath(){
-            return `${this.$IMG_URL}/profileImg/${this.selectedUser.mem_img}.png`;  
+            return `${this.$IMG_URL}/profileImg/${this.selectedUser.mem_img}`;  
         },  
        
     },

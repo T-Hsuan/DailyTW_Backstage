@@ -21,7 +21,7 @@
                     </label>
                 </span>
                 <div class="review_text">
-                    <input type="text" placeholder="為什麼這張圖片不能出現在我們的網站? " />
+                    <input type="text" placeholder="為什麼這張圖片不能出現在我們的網站? " v-model="this.reviewData.oott_img_feedback" />
                 </div>
             </label>
 
@@ -43,7 +43,7 @@
                     </label>
                 </span>
                 <div class="review_text">
-                    <input type="text" placeholder="為什麼穿搭描述不能這樣寫? " />
+                    <input type="text" placeholder="為什麼穿搭描述不能這樣寫? " v-model="this.reviewData.oott_desc_feedback" />
                 </div>
             </label>
 
@@ -65,7 +65,7 @@
                     </label>
                 </span>
                 <div class="review_text">
-                    <input type="text" placeholder="建議選擇哪幾個穿搭風格?" />
+                    <input type="text" placeholder="建議選擇哪幾個穿搭風格?" v-model="this.reviewData.oott_style_feedback" />
                 </div>
             </label>
 
@@ -87,7 +87,7 @@
                     </label>
                 </span>
                 <div class="review_text">
-                    <input type="text" placeholder="建議選擇哪幾個景點類型?" />
+                    <input type="text" placeholder="建議選擇哪幾個景點類型?" v-model="this.reviewData.oott_type_feedback" />
                 </div>
             </label>
 
@@ -109,18 +109,21 @@
                     </label>
                 </span>
                 <div class="review_text">
-                    <input type="text" placeholder="建議選擇哪個穿搭季節? " />
+                    <input type="text" placeholder="建議選擇哪個穿搭季節? " v-model="this.reviewData.oott_season_feedback" />
                 </div>
             </label>
+
+            <!-- 最下方的送出 -->
+            <div class="btn_wrap">
+                <router-link to="/oott_post_list">
+                    <button class="cancel_btn">取消審核</button>
+                </router-link>
+                <button class="btn" type="submit">完成審核</button>
+            </div>
+
         </form>
 
-        <!-- 最下方的送出 -->
-        <div class="btn_wrap">
-            <router-link to="/oott_post_list">
-                <button class="cancel_btn">取消審核</button>
-            </router-link>
-            <button class="btn" type="submit">完成審核</button>
-        </div>
+
     </div>
 </template>
 
@@ -131,16 +134,49 @@ export default {
     props: ['oottId'],
     data() {
         return {
-            oott: {},
+            oott: {
+                oott_img: ''
+            },
+            reviewData: {
+                oott_status: 0,
+                oott_review_status: 0,
+                oott_img_feedback: '',
+                oott_desc_feedback: '',
+                oott_style_feedback: '',
+                oott_type_feedback: '',
+                oott_season_feedback: '',
+            }
         }
+    },
+    computed: {
+        // 如果都沒有評論就通過
+        shouldSetReviewStatus() {
+            return (
+                this.reviewData.oott_img_feedback === null &&
+                this.reviewData.oott_desc_feedback === null &&
+                this.reviewData.oott_style_feedback === null &&
+                this.reviewData.oott_type_feedback === null &&
+                this.reviewData.oott_season_feedback === null
+            );
+        },
+    },
+    watch: {
+        // 如果都沒有評論就通過
+        shouldSetReviewStatus(newValue) {
+            if (newValue) {
+                this.reviewData.oott_status = 0;
+                this.reviewData.oott_review_status = 0;
+            } else {
+                this.reviewData.oott_status = 1;
+                this.reviewData.oott_review_status = 1;
+            }
+        },
     },
     methods: {
         fetchPostDetails() {
             axios.get(`${this.$URL}/OottPostReview.php?oottId=${this.oottId}`)
-                // axios.get(`OottPostReview.php?oottId=${this.oottId}`)
                 .then(response => {
                     this.oott = response.data;
-                    console.log(this.oott)
                 })
                 .catch(error => {
                     console.error('Error fetching post details:', error);
@@ -149,8 +185,38 @@ export default {
 
         // 取得圖片的路徑
         getOottImgPath() {
-            return `${this.$IMG_URL}/oottImg/${this.oott.oott_img}.png`;
+            return `${this.$IMG_URL}/oottImg/${this.oott.oott_img}`;
         },
+
+        // 將資料送到後端
+        async submitForm(event) {
+            event.preventDefault();
+            try {
+                console.log('Sending request...');
+                const formData = new FormData();
+                formData.append('oott_id', this.oottId);
+                formData.append('oott_status', this.reviewData.oott_status);
+                formData.append('oott_review_status', this.reviewData.oott_review_status);
+                formData.append('oott_img_feedback', this.reviewData.oott_img_feedback);
+                formData.append('oott_desc_feedback', this.reviewData.oott_desc_feedback);
+                formData.append('oott_style_feedback', this.reviewData.oott_style_feedback);
+                formData.append('oott_type_feedback', this.reviewData.oott_type_feedback);
+                formData.append('oott_season_feedback', this.reviewData.oott_season_feedback);
+
+                const response = await axios.post(`${this.$URL}/OottPostReviewAdd.php`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data', // Use multipart/form-data for form data
+                    },
+                });
+                swal({
+                    title: "新增成功!",
+                    icon: "success",
+                });
+                console.log('Data sended successfully', response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
     },
     created() {
         this.fetchPostDetails();
@@ -177,7 +243,8 @@ export default {
             margin: 49px auto;
             width: 279px;
             height: 369px;
-            img{
+
+            img {
                 width: 100%;
             }
         }
