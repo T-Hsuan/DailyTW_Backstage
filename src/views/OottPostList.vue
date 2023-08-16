@@ -1,34 +1,30 @@
 <template>
     <div class="main_content">
         <h3>穿搭管理</h3>
-        <div class="action_container">
-            <!-- <div class="selection_box">
+        <!-- <div class="action_container">
+            <div class="selection_box">
                 <span>審核狀態</span>
                 <Select v-model="selectRegion">
                     <Option v-for="item in reviewList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
-            </div> -->
+            </div>
             <div class="searchbar">
                 <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
                 <button class="btn">搜尋</button>
-            </div>
-        </div>
+            </div> -->
+            <!-- <button class="btn">
+          <span>
+            <Icon type="md-add" />
+            新增穿搭
+          </span>
+        </button> -->
+        <!-- </div> -->
         <div class="table_wrap">
             <table>
                 <tr>
-                    <th>
-                        <button>
-                            NO.
-                            <Icon type='md-arrow-dropdown' />
-                        </button>
-                    </th>
+                    <th>NO.</th>
                     <th>作者</th>
-                    <th>
-                        <button>
-                            更新日期
-                            <Icon type='md-arrow-dropdown' />
-                        </button>
-                    </th>
+                    <th>更新日期</th>
                     <th>上架狀態</th>
                     <th>審核狀態</th>
                     <th>審核</th>
@@ -67,13 +63,6 @@
                 </tr>
             </table>
         </div>
-        <!-- 切換分頁 -->
-        <div class="pages">
-            <Page :total="dataLength" v-model="page.index" :page-size="page.size" />
-        </div>
-
-        
-        <!-- 貼文內容的彈窗 -->
         <div class="post_popbox" v-if="lightboxVisible">
             <div class="post_wrap">
                 <h4>檢視貼文</h4>
@@ -118,10 +107,6 @@ export default {
             tableData: [],
             selectedUser: null,
             lightboxVisible: false,
-            page: {
-                index: 1, //當前分頁
-                size: 20, //一頁多少筆資料
-            },
         };
     },
     methods: {
@@ -141,24 +126,20 @@ export default {
         },
 
         //審核資料 
-        reviewDetails(oottId) {
-            this.$router.push({ name: 'oott_post_review', params: { oottId: oottId } })
+        reviewDetails(oottId){
+            this.$router.push({name:'oott_post_review',params:{oottId:oottId}}) 
         },
 
-        getOottImgPath() {
-            return `${this.$IMG_URL}/oottImg/${this.selectedUser.oott_img}`;
-        },
+        getOottImgPath(){
+            return `${this.$IMG_URL}/oottImg/${this.selectedUser.oott_img}`;  
+        },  
 
-        getOottProfilePath() {
-            return `${this.$IMG_URL}/profileImg/${this.selectedUser.mem_img}`;
-        },
-// 分頁功能
-        changePage(newPageIndex) {
-            this.page.index = newPageIndex;
-            this.fetchData(); // Update this line with your API call to fetch data
-        },
+        getOottProfilePath(){
+            return `${this.$IMG_URL}/profileImg/${this.selectedUser.mem_img}`;  
+        },  
+       
     },
-    computed: {
+    computed:{
 
     },
     mounted() {
@@ -219,14 +200,12 @@ export default {
             margin: 40px 0;
             display: flex;
             gap: 40px;
-
-            .post_photo {
-                width: 279px;
+            .post_photo{
+                width:279px;
                 height: 369px;
                 flex-shrink: 0;
-
-                img {
-                    width: 100%;
+                img{
+                    width: 100% ;
                 }
             }
 
