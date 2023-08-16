@@ -2,10 +2,10 @@
     <div class="main_content">
         <h3>電子報訂閱者列表</h3>
         <div class="action_container">
-            <div class="searchbar">
+            <!-- <div class="searchbar">
                 <input v-model="searchText" type="text" name="search" id="search" placeholder="請輸入關鍵字" />
                 <button class="btn" @click="search">搜尋</button>
-            </div>
+            </div> -->
             
             <button class="btn"
             @click="exportToCSV">
@@ -52,8 +52,8 @@
         </div>
         <div v-if="showFeedback" class="feedback_popbox">
             <div class="feedback_wrap">
+                <h3>電子報訂閱者</h3>
                 <div class="feedback_content">
-                    <h3>電子報訂閱者</h3>
                     <div class="block">
                         
                         <div class="row">
@@ -184,19 +184,31 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-    table{
-        
-        tr{
-            cursor: pointer;
-        }
-        tr:nth-child(1){
-            cursor: default;
-        }
+table {
+
+    tr {
+        cursor: pointer;
     }
-    .feedback_content{
-        h3{
+
+    tr:nth-child(1) {
+        cursor: default;
+    }
+}
+.feedback_popbox{
+.feedback_wrap {
+    // width: 50%;
+    max-width: 500px;
+
+    .feedback_content {
+        display: flex;
+        align-items: center;
+
+        h3 {
             text-align: center;
         }
     }
+}
+}
+
 </style>
   

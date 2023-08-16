@@ -15,7 +15,7 @@
         <div class="table_wrap">
             <table>
                 <tr>
-                    <th>會員編號</th>
+                    <th>NO.</th>
                     <th>會員姓名</th>
                     <th>聯絡電話</th>
                     <th>會員信箱</th>
@@ -23,8 +23,8 @@
                 </tr>
  
                 <tr v-for="(item, index) in tableData" :key="index" >
-                    <td>{{ item.mem_id }}</td>
-                    <td>{{ item.mem_name }}</td>
+                    <td>{{ index + 1 }}</td>
+                    <td class="member_name" @click="openLightbox(item)">{{ item.mem_name }}</td>
                     <td>{{ item.mem_phone }}</td>
                     <td>{{ item.mem_email }}</td>
                     <td>
@@ -41,33 +41,76 @@
                 
                 
                     
-                </table>
-                
+                </table>    
+        </div>
+        <div class="feedback_popbox" v-if="lightboxVisible">
+            <div class="feedback_wrap">
+                <h3>會員資料檢視</h3>
+
+                <div class="feedback_content">
+                    <div class="profile_photo">
+                                <img :src="getMemberProfilePath()">
+                            </div>
+                    <!-- <div class="post_text"> -->
+                        <!-- 會員資料 -->
+                        <!-- <div class="post_profile"> -->
+                            
+                            <div class="block">
+                                <div class="row">
+                                    <h5>姓名</h5>
+                                <p class="profile_name">{{ selectedUser.mem_name }}</p>
+                                </div>
+                                <div class="row">
+                                    <h5>電話</h5>
+                                <p class="profile_name">{{ selectedUser.mem_phone }}</p>
+                                </div>
+                                <div class="row">
+                                    <h5>Email</h5>
+                                <p class="profile_name">{{ selectedUser.mem_email  }}</p>
+                                </div>
+                                <div class="row">
+                                    <h5>會員狀態</h5>
+                            <p class="profile_name">{{ selectedUser.mem_status }}</p>
+                                </div>
+                            </div>
+                        <!-- </div> -->
+
+                    <!-- </div> -->
+                </div>
+                <div class="button_area">
+                    <button class="btn" @click="closeLightbox">回列表</button>
+                </div>
+
+            </div>
         </div>
         <!-- 切換分頁 -->
-        <div class="pages">
+        <!-- <div class="pages">
             <Page :total="dataLength" v-model="page.index" :page-size="page.size"  />
-        </div>
+        </div> -->
     </div>
 </template>
   
 <script>
-import { GET, POST } from '@/plugin/axios'
+import axios from 'axios';
 
 export default {
     data() {
         return {
             rawData:[],
 
-            page: {
-                index: 1, //當前分頁
-                size: 20, //一頁多少筆資料
-            },
-            sortType: '',
-            sortColumn: '',
-            sortIcon: 'md-arrow-dropdown',
-            searchText: '',
-            filterText: '',
+            // page: {
+            //     index: 1, //當前分頁
+            //     size: 20, //一頁多少筆資料
+            // },
+            // sortType: '',
+            // sortColumn: '',
+            // sortIcon: 'md-arrow-dropdown',
+            // searchText: '',
+            // filterText: '',
+            //
+            tableData: [],
+            selectedUser: null,
+            lightboxVisible: false,
         
         };
     },
@@ -81,57 +124,77 @@ export default {
         //         item.mem_id.toString().includes(this.filterText.toLowerCase())
         //     )
         // },
-        searchData() {
-            return this.rawData.filter(item =>
-                (item.mem_name && item.mem_name.includes(this.filterText)) ||
-                (item.mem_id && item.mem_id.toString().includes(this.filterText.toLowerCase()))
-            );
-        },
+        // searchData() {
+        //     return this.rawData.filter(item =>
+        //         (item.mem_name && item.mem_name.includes(this.filterText)) ||
+        //         (item.mem_id && item.mem_id.toString().includes(this.filterText.toLowerCase()))
+        //     );
+        // },
         //資料排序
-        sortData() {
-            const arr= [...this.searchData];
-            return arr.sort((a, b) => {
-                const aValue = a[this.sortColumn];
-                const bValue = b[this.sortColumn];
-                if (this.sortType === 'no') {
-                    return this.sortIcon === 'md-arrow-dropdown' ? aValue - bValue : bValue - aValue;
-                } else if (this.sortType === 'updateDate' || this.sortType === 'stayTime') {
-                    return this.sortIcon === 'md-arrow-dropdown' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-                }
-            });
-        },
+        // sortData() {
+        //     const arr= [...this.searchData];
+        //     return arr.sort((a, b) => {
+        //         const aValue = a[this.sortColumn];
+        //         const bValue = b[this.sortColumn];
+        //         if (this.sortType === 'no') {
+        //             return this.sortIcon === 'md-arrow-dropdown' ? aValue - bValue : bValue - aValue;
+        //         } else if (this.sortType === 'updateDate' || this.sortType === 'stayTime') {
+        //             return this.sortIcon === 'md-arrow-dropdown' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+        //         }
+        //     });
+        // },
         //資料分頁
-        tableData() {
-            return this.sortData.slice((this.page.index - 1) * this.page.size, this.page.index * this.page.size);
-        },
-        dataLength() {
-            return this.searchData.length;
-        },
+        // tableData() {
+        //     return this.sortData.slice((this.page.index - 1) * this.page.size, this.page.index * this.page.size);
+        // },
+        // dataLength() {
+        //     return this.searchData.length;
+        // },
     },
 
     methods: {
         
         //排序
-        sortBy(column, sortType) {
-            this.sortType = sortType;
-            this.sortColumn = column;
-            this.sortIcon = this.sortIcon === 'md-arrow-dropdown' ? 'md-arrow-dropup' : 'md-arrow-dropdown';
-        },
+        // sortBy(column, sortType) {
+        //     this.sortType = sortType;
+        //     this.sortColumn = column;
+        //     this.sortIcon = this.sortIcon === 'md-arrow-dropdown' ? 'md-arrow-dropup' : 'md-arrow-dropdown';
+        // },
 
         //搜尋
-        search() {
-            const searchTerm = this.searchText.toLowerCase();
-            this.filterText = searchTerm;
-            this.page.index = 1;
+        // search() {
+        //     const searchTerm = this.searchText.toLowerCase();
+        //     this.filterText = searchTerm;
+        //     this.page.index = 1;
+        // },
+
+        // lightbox control
+        openLightbox(item) {
+            this.selectedUser = item;
+            this.lightboxVisible = true;
+        },
+        closeLightbox() {
+            this.selectedUser = null;
+            this.lightboxVisible = false;
+        },
+
+        deleteRow(index) {
+            this.tableData.splice(index, 1);
+        },
+
+
+        getMemberProfilePath(){
+            return `${this.$IMG_URL}/profileImg/${this.selectedUser.mem_img}.png`;  
         },
     },
     
     
     mounted() {
-        GET(`${this.$URL}/MemberMgt.php`)
+        axios
+            .get(`${this.$URL}/MemberMgt.php`)
             .then((res) => {
-                console.log(res);
-                this.rawData = res;
+                console.log(res.data);
+                this.tableData = res.data;
             })
             .catch((err) => {
                 console.log(err);
@@ -140,21 +203,36 @@ export default {
 };
 </script>
 
-<!-- <style lang="scss" scoped>
-table{
-    table-layout: fixed;
-    tr th:nth-child(2),
-    tr th:nth-child(3),
-    tr td:nth-child(2),
-    tr td:nth-child(3){
-        width: 180px;
-    }
-    tr th:nth-child(4),
-    tr th:nth-child(5),
-    tr td:nth-child(4),
-    tr td:nth-child(5){
-        width: 100px;
+<style lang="scss" scoped>
+.member_name {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+.feedback_content{
+    display: flex;
+    margin: auto;
+    .profile_photo {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        
+        img {
+            width: 100%;
+        }
     }
 }
-</style> -->
+
+.button_area {
+    width: 100%;
+    text-align: right;
+
+}
+    
+
+
+
+</style>
   

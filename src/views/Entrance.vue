@@ -2,12 +2,12 @@
     <div class="entrance">
         <img class="logo" :src="require('@/assets/img/logo.png')" alt="logo" />
         <div class="content">
-            <router-link to="/">
+            <a href="https://tibamef2e.com/chd102/g5/">
                 <img :src="require('@/assets/img/entrance_boy.png')" alt="">
                 <div class="front">
                     <p>前台</p>
                 </div>
-            </router-link>
+            </a>
             <router-link to="/login">
                 <img :src="require('@/assets/img/entrance_boy.png')" alt="">
                 <div class="back">

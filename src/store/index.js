@@ -4,6 +4,8 @@ export default createStore({
     state: {
         placeTag: [],
         ticketData: [],
+        name: '',
+        isLogin: false,
     },
     getters: {
         placeTag: state => state.placeTag,
@@ -19,6 +21,23 @@ export default createStore({
         restoreticketData(state, ticketData) {
             // 還原票券資料
             state.ticketData = ticketData;
+        },
+        setName(state, payload) {
+            state.name = payload
+        },
+        // setIsLogin(state, value) {
+        //     state.isLogin = value;
+        // },
+        //接收回傳的使用者資訊
+        setLoginData(state, userInfo) {
+            state.userInfo = userInfo
+            sessionStorage.setItem("manager_id", userInfo.manager_id);
+            sessionStorage.setItem("manager_name", userInfo.manager_name);
+            // state.isLogin = true
+        },
+        logOut(state) {
+            state.isLogin = false
+            sessionStorage.removeItem("manager_id")
         },
 
     },
