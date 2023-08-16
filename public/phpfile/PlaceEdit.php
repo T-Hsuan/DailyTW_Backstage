@@ -8,8 +8,8 @@
             // Fetch place data from database
             $sql = "SELECT p.place_id, p.place_name, GROUP_CONCAT(pt.place_tag_name SEPARATOR ',') AS place_tag_group, r.region_name, p.place_stay, p.place_addr, p.place_link, p.place_desc, p.place_img1, p.place_img2, p.place_img3 
             FROM place p JOIN region r ON p.region_id = r.region_id
-                        JOIN place_tag_connection ptc ON p.place_id = ptc.place_id
-                        JOIN place_tag pt ON ptc.place_tag_id = pt.place_tag_id
+                        LEFT JOIN place_tag_connection ptc ON p.place_id = ptc.place_id
+                        LEFT JOIN place_tag pt ON ptc.place_tag_id = pt.place_tag_id
                         GROUP BY p.place_id;";
             $products = $pdo->query($sql);
             $prodRows = $products->fetchAll(PDO::FETCH_ASSOC);
