@@ -1,7 +1,7 @@
 <template>
     <div class="main_content">
         <h3>穿搭管理</h3>
-        <!-- <div class="action_container">
+        <div class="action_container">
             <div class="selection_box">
                 <span>審核狀態</span>
                 <Select v-model="selectRegion">
@@ -11,20 +11,30 @@
             <div class="searchbar">
                 <input type="text" name="search" id="search" placeholder="請輸入關鍵字" />
                 <button class="btn">搜尋</button>
-            </div> -->
+            </div>
             <!-- <button class="btn">
           <span>
             <Icon type="md-add" />
             新增穿搭
           </span>
         </button> -->
-        <!-- </div> -->
+        </div>
         <div class="table_wrap">
             <table>
                 <tr>
-                    <th>NO.</th>
+                    <th>
+                        <button>
+                            NO.
+                            <Icon type='md-arrow-dropdown' />
+                        </button>
+                    </th>
                     <th>作者</th>
-                    <th>更新日期</th>
+                    <th>
+                        <button>
+                            更新日期
+                            <Icon type='md-arrow-dropdown' />
+                        </button>
+                    </th>
                     <th>上架狀態</th>
                     <th>審核狀態</th>
                     <th>審核</th>
@@ -106,7 +116,7 @@
 
 <script>
 import axios from 'axios';
-
+import {GET} from '@/plugin/axios';
 
 export default {
     data() {
@@ -158,11 +168,10 @@ export default {
 
     },
     mounted() {
-        axios
-            .get(`${this.$URL}/OottPostList.php`)
+        GET(`${this.$URL}/OottPostList.php`)
             .then((res) => {
-                console.log(res.data);
-                this.tableData = res.data;
+                console.log(res);
+                this.tableData = res;
             })
             .catch((err) => {
                 console.log(err);
