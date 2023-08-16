@@ -184,7 +184,7 @@ export default {
 
 
         getMemberProfilePath(){
-            return `${this.$IMG_URL}/profileImg/${this.selectedUser.mem_img}.png`;  
+            return `${this.$IMG_URL}/profileImg/${this.selectedUser.mem_img}`;  
         },
     },
     
