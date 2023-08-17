@@ -74,12 +74,13 @@
             <router-link to="/ticket_list">
                 <button class="cancel_btn">取消</button>
             </router-link>
-            <button class="btn">儲存</button>
+            <button class="btn" @click="saveTicket">儲存</button>
         </div>
     </div>
 </template>
 
 <script>
+import swal from 'sweetalert';
 import { mapActions, mapGetters } from 'vuex';
 export default {
     props: {
@@ -151,6 +152,10 @@ export default {
             return this.uploadedImages.some(uploadedFile =>
                 uploadedFile.name === file.name && uploadedFile.size === file.size
             );
+        },
+        saveTicket() {
+            swal("儲存成功", "", "success");
+            this.$router.push('/ticket_list'); //跳轉到票券列表頁
         },
     },
     computed: {
