@@ -208,9 +208,10 @@ export default {
         // this.fetchTicketData();// 调用 Vuex 的 fetchTicketData action
         GET(`${this.$URL}/TicketList.php`)
             .then((res) => {
-                console.log(res);
                 this.ticketData = res;
+                this.$store.commit('SET_TICKET_DATA', res);
                 console.log('[票券]成功連接資料庫', this.ticketData);
+                console.log('[store][票券]成功連接資料庫', this.$store.state.ticketData);
             })
             .catch((err) => {
                 console.log(err);
