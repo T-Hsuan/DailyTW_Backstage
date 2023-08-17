@@ -1,5 +1,5 @@
 <?php
-header('Access-Control-Allow-Origin: http://your-front-end-domain.com');
+header('Access-Control-Allow-Origin:*');
 header("Content-Type:application/json;charset=utf-8");
 
 try {
@@ -7,20 +7,18 @@ try {
     require_once("connectDailyTW.php");
 
     // 写入数据库
-    $sql = "INSERT INTO manager (`manager_name`, `manager_account`, `manager_pwd`, `manager_type`) VALUES (:manager_name, :manager_account, :manager_pwd, :manager_type)";
+    $sql = "INSERT INTO manager (`manager_name`, `manager_account`, `manager_pwd`, `manager_type`,`manager_state`) VALUES (:manager_name, :manager_account, :manager_pwd, :manager_type, 1)";
     $employeeAdd = $pdo->prepare($sql);
     $employeeAdd->bindValue(":manager_name", $_POST['manager_name']);
-    $employeeAdd->bindValue(":manager_type", $_POST['manager_type']); 
+
+    $employeeAdd->bindValue(":manager_type", 5); 
     $employeeAdd->bindValue(":manager_account", $_POST['manager_account']);
     $employeeAdd->bindValue(":manager_pwd", $_POST['manager_pwd']);
     $employeeAdd->execute();
-    $msg = ["error" => false, "message" => "新增成功"];
-    
-} catch (PDOException $e) {
-    $message = "錯誤行號 : ". $e->getLine(). "錯誤原因 : ". $e->getMessage();
-    $msg = ["error" => true, "message" => $message]; 
-}
 
-// 输出 JSON 响应
-echo json_encode($msg);
+} catch (PDOException $e) {
+    echo "錯誤行號 : ", $e->getLine(), "<br>";
+    echo "錯誤原因 : ", $e->getMessage(), "<br>";
+    //echo "系統暫時不能正常運行，請稍後再試<br>";	
+}
 ?>

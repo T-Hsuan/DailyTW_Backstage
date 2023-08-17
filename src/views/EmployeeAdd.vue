@@ -21,13 +21,15 @@
                 <span>管理者密碼</span>
                 <input type="text" name="manager_pwd" id="manager_pwd" v-model="manager_pwd">
             </label>
+            <div class="btn_wrap">
+                <router-link to="/employee_mgt">
+                    <button class="cancel_btn">取消</button>
+                </router-link>
+                <button class="btn" type="submit" :disabled="!formValid">儲存</button>
+            </div>
         </form>
 
         <!-- 次頁右下角統一用取消及儲存按鈕 -->
-        <div class="btn_wrap">
-            <button class="cancel_btn">取消</button>
-            <button class="btn">儲存</button>
-        </div>
     </div>
 </template>
 
@@ -57,34 +59,40 @@ export default {
             return (
                 this.manager_name !== '' &&
                 // this.manager_desc !== '' &&
-                this.manager_id !== '' &&
+                // this.manager_id !== '' &&
+                // this.manager_type !== '' &&
+                this.manager_pwd !== '' &&
                 this.manager_account !== ''
             );
         }
     },
     methods: {
-        async submitForm() {
+        async submitForm(event) {
+            event.preventDefault();
             try {
+                console.log('Se uest...');
                 const formData = new FormData();
                 formData.append('manager_name', this.manager_name);
                 formData.append('manager_type', this.selectRegion);
                 formData.append('manager_account', this.manager_account);
                 formData.append('manager_pwd', this.manager_pwd);
 
-                const response = await axios.post('/path-to-your-php-file.php', formData, {
+                const response = await axios.post(`${this.$URL}/EmployeeAdd.php`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
-
-                if (response.data.error === false) {
-                    // Handle success
-                    console.log('Data sent successfully', response.data.message);
-                    // Redirect or perform other actions
-                } else {
-                    // Handle error
-                    console.error('Error:', response.data.message);
-                }
+                swal({
+                    title: "新增成功!",
+                    icon: "success",
+                }).then((value) => {
+                    console.log('Data sended successfully', response.data);
+                    // Redirect to the "/place_tag" page
+                    this.$router.push('/employee_mgt');
+                });
+                
+                // // Redirect to the "/place_tag" page
+                // this.$router.push('/place_tag');
             } catch (error) {
                 console.error('Error:', error);
             }
