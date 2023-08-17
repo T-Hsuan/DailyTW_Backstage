@@ -1,7 +1,7 @@
 <template>
     <div class="main_content">
         <h3>新增員工帳號</h3>
-        <div class="form_container">
+        <form method="post" @submit="submitForm" class="form_container">
             <label for="employee_name">
                 <span>姓名</span>
                 <input type="text" name="manager_name" id="manager_name" v-width="200" v-model="manager_name">
@@ -16,11 +16,15 @@
                 <span>管理者帳號</span>
                 <input type="text" name="manager_account" id="manager_account" v-model="manager_account">
             </label>
+<<<<<<< HEAD
+        </form>
+=======
             <label for="manager_pwd">
                 <span>管理者密碼</span>
                 <input type="text" name="manager_pwd" id="manager_pwd" v-model="manager_pwd">
             </label>
         </div>
+>>>>>>> 4c7627cbc22764c714a2cb6b3ca49f820f83caeb
         
         <!-- 次頁右下角統一用取消及儲存按鈕 -->
         <div class="btn_wrap">

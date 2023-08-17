@@ -4,8 +4,7 @@
         <div class="action_container">
             <div class="selection_box">
                 <span>審核狀態</span>
-                <Select v-model="selectRegion">
-                    <Option v-for="item in reviewList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                <Select>
                 </Select>
             </div>
             <div class="searchbar">
@@ -40,12 +39,12 @@
                     <th>審核</th>
                 </tr>
                 <tr v-for="(item, index) in tableData" :key="index">
-                    <td>{{ index + 1 }}</td>
+                    <td>{{ item.oott_id }}</td>
                     <td class="member_name" @click="openLightbox(item)">{{ item.mem_name }}</td>
                     <td>{{ item.oott_date }}</td>
                     <td>
                         <!-- 上架狀態 -->
-                        <Switch size="large" v-model="item.oott_status" true-value="1" false-value="0">
+                        <Switch size="large" v-model="item.oott_status" :true-value="1" :false-value="0">
                             <template #open>
                                 <span>ON</span>
                             </template>
@@ -75,7 +74,7 @@
         </div>
         <!-- 切換分頁 -->
         <div class="pages">
-            <Page :total="dataLength" v-model="page.index" :page-size="page.size" />
+            <Page  v-model="page.index" :page-size="page.size" />
         </div>
 
         
@@ -115,7 +114,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import {GET} from '@/plugin/axios';
 
 export default {
@@ -168,10 +166,10 @@ export default {
 
     },
     mounted() {
-        GET(`${this.$URL}/OottPostList.php`)
+        GET(`${this.$URL}/oottPostList.php`)
             .then((res) => {
-                console.log(res);
                 this.tableData = res;
+                console.log(res);
             })
             .catch((err) => {
                 console.log(err);

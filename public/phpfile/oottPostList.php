@@ -1,12 +1,12 @@
 <?php
-header('Access-Control-Allow-Origin:*');
-header("Content-Type:application/json;charset=utf-8");
+    header('Access-Control-Allow-Origin:*');
+    header("Content-Type:application/json;charset=utf-8");
 try {
 //引入連線工作的檔案
-require_once("connectDailyTW.php");
+    require_once("connectDailyTW.php");
 
 //執行sql指令並取得pdoStatement
-$sql = "select * from oott join member on oott.mem_id = member.mem_id";
+$sql = "select * from oott join member on oott.mem_id = member.mem_id ORDER BY oott_id DESC";
 $products = $pdo->query($sql); 
 $prodRows = $products->fetchAll(PDO::FETCH_ASSOC);
 echo json_encode($prodRows);

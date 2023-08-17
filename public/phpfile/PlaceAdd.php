@@ -2,8 +2,8 @@
 header('Access-Control-Allow-Origin:*');
 header("Content-Type:application/json;charset=utf-8");
 
-$targetDir = 'C:/wamp64/www/DailyTW/public/placeImg/';
-// $targetDir = 'https://tibamef2e.com/chd102/g5/placeImg/';
+$targetDir = '../../../DailyTW/public/placeImg/';
+// $targetDir = '../placeImg/';
 
 try {
     require_once 'connectDailyTW.php';

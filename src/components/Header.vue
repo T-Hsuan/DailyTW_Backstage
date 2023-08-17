@@ -45,7 +45,7 @@ export default {
         },
 
         //檢查登入狀態
-        checkLogin() {
+        checkLogin2() {
             let managerId = sessionStorage.getItem("manager_id");
             let managerName = sessionStorage.getItem("manager_name");
             console.log("managerId", managerId);
@@ -76,7 +76,7 @@ export default {
         },
     },
     mounted() {
-        this.checkLogin();
+        this.checkLogin2();
     },
 }
 </script>

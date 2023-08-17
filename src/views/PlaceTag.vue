@@ -25,7 +25,7 @@
                     <td>{{ item.place_tag_name }}</td>
                     <td>{{ item.place_tag_desc }}</td>
                     <td>
-                        <Switch size="large" v-model="item.place_tag_status" true-value="1" false-value="0" @on-change="updateStatus(item)">
+                        <Switch size="large" v-model="item.place_tag_status" :true-value="1" :false-value="0" @on-change="updateStatus(item)">
                             <template #open>
                                 <span>ON</span>
                             </template>
