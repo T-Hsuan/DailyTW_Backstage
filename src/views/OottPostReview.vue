@@ -214,7 +214,7 @@ export default {
                 formData.append('oott_type_feedback', this.reviewData.oott_type_feedback);
                 formData.append('oott_season_feedback', this.reviewData.oott_season_feedback);
 
-                const response = await axios.post(`${this.$URL}/OottPostReviewAdd.php`, formData, {
+                const response = await axios.post(`${this.$URL}/oottPostReviewAdd.php`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data', // Use multipart/form-data for form data
                     },
