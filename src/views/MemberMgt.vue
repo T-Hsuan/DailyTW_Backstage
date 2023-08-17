@@ -28,7 +28,7 @@
                     <td>{{ item.mem_phone }}</td>
                     <td>{{ item.mem_email }}</td>
                     <td>
-                        <Switch size="large" v-model="item.mem_status" true-value="1" false-value="0">
+                        <Switch size="large" v-model="item.mem_status" :true-value="1" :false-value="0">
                             <template #open>
                                 <span>ON</span>
                             </template>

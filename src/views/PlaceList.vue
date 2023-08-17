@@ -47,7 +47,7 @@
                     <td>{{ item.place_date }}</td>
                     <td>{{ item.place_stay }}</td>
                     <td>
-                        <Switch size="large" v-model="item.place_status" true-value="1" false-value="0" @on-change="updateStatus(item)">
+                        <Switch size="large" v-model="item.place_status" :true-value="1" :false-value="0" @on-change="updateStatus(item)">
                             <template #open>
                                 <span>ON</span>
                             </template>
