@@ -12,15 +12,19 @@
                     <Option v-for="item in accesstype" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
             </div>
-            <label for="manager_id">
-                <span>管理者編號</span>
-                <input type="text" name="manager_id" id="manager_id"  v-model="manager_id">
-            </label>
             <label for="manager_account">
                 <span>管理者帳號</span>
                 <input type="text" name="manager_account" id="manager_account" v-model="manager_account">
             </label>
+<<<<<<< HEAD
         </form>
+=======
+            <label for="manager_pwd">
+                <span>管理者密碼</span>
+                <input type="text" name="manager_pwd" id="manager_pwd" v-model="manager_pwd">
+            </label>
+        </div>
+>>>>>>> 4c7627cbc22764c714a2cb6b3ca49f820f83caeb
         
         <!-- 次頁右下角統一用取消及儲存按鈕 -->
         <div class="btn_wrap">
@@ -61,37 +65,33 @@ export default {
             );
         }
     },
-    methods: {
-        async submitForm(event) {
-            event.preventDefault();
+     methods: {
+        async submitForm() {
             try {
-                console.log('Sending request...');
                 const formData = new FormData();
                 formData.append('manager_name', this.manager_name);
                 formData.append('manager_type', this.selectRegion);
-                formData.append('manager_id', this.manager_id);
                 formData.append('manager_account', this.manager_account);
+                formData.append('manager_pwd', this.manager_pwd);
 
-                const response = await axios.post(`${this.$URL_MAC}/EmployeeAdd.php`, formData, {
+                const response = await axios.post('/path-to-your-php-file.php', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
-                swal({
-                    title: "新增成功!",
-                    icon: "success",
-                }).then((value) => {
-                    console.log('Data sent successfully', response.data);
-                    // Redirect to the "/place_tag" page
-                    this.$router.push('/place_tag');
-                });
-                // Redirect to the "/manager" page
-                this.$router.push('/manager');
 
+                if (response.data.error === false) {
+                    // Handle success
+                    console.log('Data sent successfully', response.data.message);
+                    // Redirect or perform other actions
+                } else {
+                    // Handle error
+                    console.error('Error:', response.data.message);
+                }
             } catch (error) {
-                console.log(error);
+                console.error('Error:', error);
             }
         }
-    },
+    }
 };
 </script>

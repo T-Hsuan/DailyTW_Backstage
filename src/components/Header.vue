@@ -49,7 +49,7 @@ export default {
             let managerId = sessionStorage.getItem("manager_id");
             let managerName = sessionStorage.getItem("manager_name");
             console.log("managerId", managerId);
-            console.log("this.$store.state.isLogin",this.$store.state.isLogin);
+            console.log("this.$store.state.isLogin", this.$store.state.isLogin);
 
             if (managerId) {
                 let URL = `${this.$URL}/sessionLogin.php`;
@@ -104,10 +104,11 @@ header {
             div {
                 display: flex;
                 color: $textColor_white;
+
                 p {
                     cursor: pointer;
                     margin: 0 $sp2;
-                    
+
                 }
             }
 

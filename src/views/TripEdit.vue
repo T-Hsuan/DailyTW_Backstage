@@ -138,7 +138,7 @@ export default{
         },
 
         getPlaceImg(placeImg){
-            return process.env.BASE_URL + 'placeImg/' + placeImg;  
+            return `${this.$IMG_URL}/placeImg/${placeImg}`;  
         },
     },
 

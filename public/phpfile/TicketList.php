@@ -1,21 +1,41 @@
 <?php 
-	header('Access-Control-Allow-Origin:*');// 允许的前端域名
+	header('Access-Control-Allow-Origin:*');
 	header("Content-Type:application/json;charset=utf-8");
-    header('Access-Control-Allow-Headers: Content-Type'); // 允许的请求头类型
-try {
-	//引入連線工作的檔案
-	require_once("connectDailyTW.php");
-	//執行sql指令並取得pdoStatement
-	$sql = "SELECT t.ticket_id 'id', t.ticket_name 'Name', r.region_name 'location', p.place_img1 'img', t.ticket_adult 'price_adult', t.ticket_ex 'price_ex', t.ticket_discount 'discount', t.ticket_desc 'desc', t.ticket_notice 'notice', t.ticket_date 'date', t.ticket_status 'status', t.ticket_top 'top'
-    FROM ticket t 
-    JOIN place p on t.place_id = p.place_id
-    JOIN region r on p.region_id = r.region_id";
-	$ticketList = $pdo->query($sql); 
-	$ticketRows = $ticketList->fetchAll(PDO::FETCH_ASSOC);
-    echo json_encode($ticketRows, JSON_NUMERIC_CHECK);
-} catch (Exception $e) {
-	echo "錯誤行號 : ", $e->getLine(), "<br>";
-	echo "錯誤原因 : ", $e->getMessage(), "<br>";
-	//echo "系統暫時不能正常運行，請稍後再試<br>";	
-}
+    try {
+        require_once("connectDailyTW.php");
+
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            // Fetch place data from database
+            $sql = "SELECT t.ticket_id 'id', t.ticket_name 'Name', r.region_name 'location', p.place_img1 'img', t.ticket_adult 'price_adult', t.ticket_ex 'price_ex', t.ticket_discount 'discount', t.ticket_desc 'desc', t.ticket_notice 'notice', t.ticket_date 'date', t.ticket_status 'status', t.ticket_top 'top'
+            FROM ticket t 
+            JOIN place p on t.place_id = p.place_id
+            JOIN region r on p.region_id = r.region_id";
+            $products = $pdo->query($sql);
+            $prodRows = $products->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($prodRows);
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Update status
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            $placeId = $data['place_id'];
+            $newStatus = $data['new_status'];
+
+            // Update the database
+            $sql = "update ticket set ticket_status = :ticket_status,ticket_top = :ticket_top
+            where ticket_id = :ticket_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue(':ticket_top', $ticket_top);
+            $stmt->bindValue(':ticket_status', $ticket_status);
+            $stmt->execute();
+
+            // Respond with success
+            echo json_encode(["message" => "Status updated successfully"]);
+        } else {
+            http_response_code(400);
+            echo json_encode(["message" => "Invalid request method"]);
+        }
+    } catch (Exception $e) {
+        echo "錯誤行號 : ", $e->getLine(), "<br>";
+	    echo "錯誤原因 : ", $e->getMessage(), "<br>";
+    }
 ?>

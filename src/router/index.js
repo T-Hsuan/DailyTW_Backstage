@@ -1,21 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Entrance from '../views/Entrance.vue'
+import BackLogin from '@/views/Login.vue'
 import TicketEdit from "@/views/TicketEdit.vue";
 import PlaceEdit from "@/views/PlaceEdit.vue";
 
 import store from '@/store';
 
 const routes = [
+    // {
+    //     path: '/',
+    //     name: 'Entrance',
+    //     component: Entrance
+    // },
     {
-        path: '/',
-        name: 'Entrance',
-        component: Entrance
-    },
-    {
-        path: '/login',
-        name: 'login',
-        component: () =>
-            import(/* webpackChunkName: "login" */ "@/views/Login.vue"),
+        path: "/",
+        name: 'BackLogin',
+        component: BackLogin
     },
     {
         path: "/trip_list",
@@ -167,7 +166,7 @@ const routes = [
     // 最后一个路由，捕获所有未匹配的路径
     {
         path: '/:catchAll(.*)',
-        redirect: { name: 'Entrance' } // 重定向到入口页或其他适当页面
+        redirect: { name: 'BackLogin' } // 重定向到入口页或其他适当页面
     }
 ]
 
@@ -180,9 +179,9 @@ const router = createRouter({
 
 // 添加全局前置守卫
 router.beforeEach((to, from, next) => {
-    if (to.name !== 'login' && !store.state.isLogin) {
+    if (to.name !== 'BackLogin' && !store.state.isLogin) {
         // 如果目标路由不是登录页且用户未登录，则重定向到登录页
-        next({ name: 'login' });
+        next({ name: 'BackLogin' });
     } else {
         next(); // 放行继续导航
     }

@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import axios from 'axios';
+import { URL } from "@/assets/js/common.js";
 export default createStore({
     state: {
         placeTag: [],
@@ -43,7 +44,7 @@ export default createStore({
     },
     actions: {
         fetchplaceTag({ commit }) {
-            axios.get('http://localhost/DailyTW_Backstage/public/phpfile/PlaceTag.php')
+            axios.get(`${URL}/PlaceTag.php`)
                 .then(response => {
                     commit('SET_PLACETAG_DATA', response.data);
                     console.log('[store]成功連接placeTag:', this.state.placeTag);
@@ -53,7 +54,7 @@ export default createStore({
                 });
         },
         fetchTicketData({ commit }) {
-            axios.get('http://localhost/DailyTW_Backstage/public/phpfile/TicketList.php')
+            axios.get(`${URL}/TicketList.php`)
                 .then(response => {
                     commit('SET_TICKET_DATA', response.data);
                     console.log('[store]成功連接ticketData:', this.state.ticketData);

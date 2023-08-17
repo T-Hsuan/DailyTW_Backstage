@@ -9,7 +9,8 @@
                         <span>景點照片</span>
                         <div class="upload_click">
                             <Icon type="ios-camera" />
-                            <img v-if="uploadedImage1" :src="uploadedImage1" width="200" />
+                            <img v-if="getPlaceImg(ticketInfo.img) || uploadedImage1"
+                                :src="getPlaceImg(ticketInfo.img) || uploadedImage1" width="200" />
                         </div>
                         <input type="file" name="place_img1" id="place_img1" ref="fileInput1" @change="onfile(1)">
                     </label>
@@ -73,12 +74,13 @@
             <router-link to="/ticket_list">
                 <button class="cancel_btn">取消</button>
             </router-link>
-            <button class="btn">儲存</button>
+            <button class="btn" @click="saveTicket">儲存</button>
         </div>
     </div>
 </template>
 
 <script>
+import swal from 'sweetalert';
 import { mapActions, mapGetters } from 'vuex';
 export default {
     props: {
@@ -114,6 +116,9 @@ export default {
             console.log('[匯入]ticketData:', this.ticketData);
             return this.ticketData.find(ticketData => ticketData.id === ticketId);
         },
+        getPlaceImg(placeImg) {
+            return `${this.$IMG_URL}/placeImg/${placeImg}`;
+        },
         onfile(imageNumber) {
             const inputRef = `fileInput${imageNumber}`;
             const imageProp = `uploadedImage${imageNumber}`;
@@ -148,6 +153,10 @@ export default {
                 uploadedFile.name === file.name && uploadedFile.size === file.size
             );
         },
+        saveTicket() {
+            swal("儲存成功", "", "success");
+            this.$router.push('/ticket_list'); //跳轉到票券列表頁
+        },
     },
     computed: {
         ...mapGetters(['ticketData']),
@@ -170,8 +179,8 @@ export default {
 <style lang="scss" scoped>
 .main_content {
     .img_wrap .img_box label .upload_click {
-        width: 275px;
-        height: 177px;
+        width: 240px;
+        height: 180px;
 
         label {
             width: 100%;
