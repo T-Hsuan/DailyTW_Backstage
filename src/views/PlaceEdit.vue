@@ -130,7 +130,7 @@ export default{
         //取得單一景點資料
         getPlaceContent(placeId) {
             console.log('[匯入]placeData:', this.placeData);
-            return this.placeData.find(item => item.place_id === placeId);
+            return this.placeData.find(item => item.place_id == placeId);
         },
         //修正圖片路徑
         getPlaceImg(placeImg){
@@ -216,6 +216,7 @@ export default{
                 console.log(res);
                 this.placeData = res;
                 const placeId = this.$route.params.id;
+                console.log(placeId);
                 this.placeInfo = this.getPlaceContent(placeId);
                 console.log('[景點]Received placeInfo:', this.placeInfo);
 

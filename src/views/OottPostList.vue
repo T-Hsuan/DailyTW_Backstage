@@ -45,7 +45,7 @@
                     <td>{{ item.oott_date }}</td>
                     <td>
                         <!-- 上架狀態 -->
-                        <Switch size="large" v-model="item.oott_status" true-value="1" false-value="0">
+                        <Switch size="large" v-model="item.oott_status" :true-value="1" :false-value="0">
                             <template #open>
                                 <span>ON</span>
                             </template>
@@ -168,7 +168,7 @@ export default {
 
     },
     mounted() {
-        GET(`${this.$URL}/OottPostList.php`)
+        GET(`${this.$URL}/oottPostList.php`)
             .then((res) => {
                 console.log(res);
                 this.tableData = res;
