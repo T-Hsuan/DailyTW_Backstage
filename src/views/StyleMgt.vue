@@ -31,7 +31,7 @@
                     <td class="style_add_desc">{{ item.style_desc }}</td>
                     <td><input type="checkbox"></td>
                     <td>
-                        <Switch size="large" v-model="item.style_tag_status" :true-value="1" :false-value="0">
+                        <Switch size="large" v-model="item.style_tag_status" true-value="1" false-value="0">
                             <template #close>
                                 <span>OFF</span>
                             </template>

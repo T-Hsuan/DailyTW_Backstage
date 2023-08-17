@@ -44,7 +44,7 @@
                     <td>{{ item.oott_date }}</td>
                     <td>
                         <!-- 上架狀態 -->
-                        <Switch size="large" v-model="item.oott_status" :true-value="1" :false-value="0">
+                        <Switch size="large" v-model="item.oott_status" true-value="1" false-value="0">
                             <template #open>
                                 <span>ON</span>
                             </template>
