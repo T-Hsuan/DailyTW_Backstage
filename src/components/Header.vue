@@ -1,5 +1,5 @@
 <template>
-    <header :class="{ 'hidden': Hidden }">
+    <header>
         <div class="header">
             <router-link to="/">
                 <img class="logo" :src="require('@/assets/img/logo.svg')" alt="logo" />
@@ -68,9 +68,9 @@ export default {
     },
     computed: {
         // 判斷是否處於首頁
-        Hidden() {
-            return this.$route.path === '/';
-        },
+        // Hidden() {
+        //     return this.$route.path === '/';
+        // },
         isLogin() {
             return this.$store.state.isLogin;
         },
