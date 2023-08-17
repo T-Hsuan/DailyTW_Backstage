@@ -8,12 +8,12 @@ try {
 
     // 写入数据库
     $sql = "INSERT INTO manager (`manager_name`, `manager_account`, `manager_pwd`, `manager_type`) VALUES (:manager_name, :manager_account, :manager_pwd, :manager_type)";
-    $tagAdd = $pdo->prepare($sql);
-    $tagAdd->bindValue(":manager_name", $_POST['manager_name']);
-    $tagAdd->bindValue(":manager_type", $_POST['manager_type']); 
-    $tagAdd->bindValue(":manager_account", $_POST['manager_account']);
-    $tagAdd->bindValue(":manager_pwd", $_POST['manager_pwd']);
-    $tagAdd->execute();
+    $employeeAdd = $pdo->prepare($sql);
+    $employeeAdd->bindValue(":manager_name", $_POST['manager_name']);
+    $employeeAdd->bindValue(":manager_type", $_POST['manager_type']); 
+    $employeeAdd->bindValue(":manager_account", $_POST['manager_account']);
+    $employeeAdd->bindValue(":manager_pwd", $_POST['manager_pwd']);
+    $employeeAdd->execute();
     $msg = ["error" => false, "message" => "新增成功"];
     
 } catch (PDOException $e) {
