@@ -26,7 +26,7 @@
                     <td>{{ item.manager_account }}</td>
                     <td>
                         <Switch size="large" v-model="item.manager_state" 
-                        :true-value="1" :false-value="0">
+                        true-value="1" false-value="0">
                             <template #open>
                                 <span>ON</span>
                             </template>

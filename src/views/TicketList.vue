@@ -47,7 +47,7 @@
                     <td>{{ item.Name }}</td>
                     <td>{{ item.date }}</td>
                     <td>
-                        <Switch size="large" v-model="item.status" :true-value="1" :false-value="0"
+                        <Switch size="large" v-model="item.status" true-value="1" false-value="0"
                             @click="updateStatus(item)">
                             <template #open><span>ON</span></template>
                             <template #close><span>OFF</span></template>

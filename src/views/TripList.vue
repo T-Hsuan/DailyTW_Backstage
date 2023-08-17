@@ -45,7 +45,7 @@
                     <td>{{ item.trip_date }}</td>
                     <td>{{ item.trip_view }}</td>
                     <td>
-                        <Switch size="large" v-model="item.trip_status" :true-value="1" :false-value="0"
+                        <Switch size="large" v-model="item.trip_status" true-value="1" false-value="0"
                         @on-change="updateStatus(item)">
                             <template #open>
                                 <span>ON</span>

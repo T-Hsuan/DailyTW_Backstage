@@ -2,8 +2,8 @@
 header('Access-Control-Allow-Origin:*');
 header("Content-Type:application/json;charset=utf-8");
 
-$targetDir = '../../../DailyTW/public/placeImg/';
-// $targetDir = '../placeImg/';
+// $targetDir = '../../../DailyTW/public/placeImg/';
+$targetDir = '../../placeImg/';
 
 try {
     require_once 'connectDailyTW.php';
