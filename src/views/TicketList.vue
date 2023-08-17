@@ -104,9 +104,6 @@ export default {
             console.log(typeof (item.status));
         },
         // ...mapActions(['fetchTicketData']),
-        getPlaceImg(placeImg) {
-            return process.env.BASE_URL + 'placeImg/' + placeImg;
-        },
         //搜尋
         search() {
             const searchTerm = this.searchText;
