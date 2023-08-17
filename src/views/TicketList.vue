@@ -103,6 +103,26 @@ export default {
         test(item) {
             console.log(typeof (item.status));
         },
+        changeNumber() {
+            this.ticketData.forEach(item => {
+                item.id = parseInt(item.id);
+                item.price_adult = parseInt(item.price_adult);
+                item.top = parseInt(item.top);
+                item.status = parseInt(item.status)
+                this.changePriceEx(item);
+                this.changeDiscount(item);
+            });
+        },
+        changePriceEx(item) {
+            if (item.price_ex !== null) {
+                return item.price_ex = parseInt(item.price_ex);
+            }
+        },
+        changeDiscount(item) {
+            if (item.discount !== null) {
+                return item.discount = parseFloat(item.discount);
+            }
+        },
         // ...mapActions(['fetchTicketData']),
         //搜尋
         search() {
@@ -206,6 +226,7 @@ export default {
         GET(`${this.$URL}/TicketList.php`)
             .then((res) => {
                 this.ticketData = res;
+                this.changeNumber();
                 this.$store.commit('SET_TICKET_DATA', res);
                 console.log('[票券]成功連接資料庫', this.ticketData);
                 console.log('[store][票券]成功連接資料庫', this.$store.state.ticketData);

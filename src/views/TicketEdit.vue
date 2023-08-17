@@ -113,8 +113,7 @@ export default {
     },
     methods: {
         getTicketContent(ticketId) {
-            console.log('[匯入]ticketData:', this.ticketData);
-            return this.ticketData.find(ticketData => ticketData.id === ticketId);
+            return this.ticketData.find(ticketData => parseInt(ticketData.id) === ticketId);
         },
         getPlaceImg(placeImg) {
             return `${this.$IMG_URL}/placeImg/${placeImg}`;
@@ -168,7 +167,7 @@ export default {
         const ticketId = parseInt(this.$route.params.id);
         console.log('[票券]Received id:', ticketId);
         this.ticketInfo = this.getTicketContent(ticketId);
-        console.log('[票券]Received ticketInfo:', this.ticketInfo);
+        console.log('[票券]Received ticketInfo:', this.getTicketContent(ticketId));
     },
     mounted() {
         this.selectRegion = this.ticketInfo.location;//顯示票券的地區

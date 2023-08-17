@@ -12,20 +12,20 @@
             JOIN region r on p.region_id = r.region_id";
             $products = $pdo->query($sql);
             $prodRows = $products->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode($prodRows);
+            echo json_encode($prodRows, JSON_NUMERIC_CHECK);
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Update status
             $data = json_decode(file_get_contents('php://input'), true);
 
-            $placeId = $data['place_id'];
-            $newStatus = $data['new_status'];
+            $ticket_top = $data['ticket_top'];
+            $newStatus = $data['ticket_status'];
 
             // Update the database
             $sql = "update ticket set ticket_status = :ticket_status,ticket_top = :ticket_top
             where ticket_id = :ticket_id";
             $stmt = $pdo->prepare($sql);
             $stmt->bindValue(':ticket_top', $ticket_top);
-            $stmt->bindValue(':ticket_status', $ticket_status);
+            $stmt->bindValue(':ticket_status', $newStatus);
             $stmt->execute();
 
             // Respond with success
