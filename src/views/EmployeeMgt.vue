@@ -48,17 +48,6 @@ export default {
     data() {
         return {
             dataFromMySQL:[],
-            
-            accesstype: [
-                {
-                    value: '請選擇',
-                    label: '請選擇'
-                },
-                {
-                    value: 'A',
-                    label: 'A'
-                },
-            ],
         };
     },
     methods: {

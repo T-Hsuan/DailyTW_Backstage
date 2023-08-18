@@ -11,7 +11,7 @@ try {
     $employeeAdd = $pdo->prepare($sql);
     $employeeAdd->bindValue(":manager_name", $_POST['manager_name']);
 
-    $employeeAdd->bindValue(":manager_type", 5); 
+    $employeeAdd->bindValue(":manager_type", 0); 
     $employeeAdd->bindValue(":manager_account", $_POST['manager_account']);
     $employeeAdd->bindValue(":manager_pwd", $_POST['manager_pwd']);
     $employeeAdd->execute();
