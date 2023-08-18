@@ -93,7 +93,7 @@ export default {
                 formData.append('manager_account', this.manager_account);
                 formData.append('manager_pwd', this.manager_pwd);
 
-                const response = await axios.post(`${this.$URL/EmployeeAdd.php`, formData, {
+                const response = await axios.post(`${this.$URL}/EmployeeAdd.php`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
