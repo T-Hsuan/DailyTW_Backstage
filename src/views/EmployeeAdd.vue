@@ -39,17 +39,33 @@ export default {
     data() {
         return {
             manager_name: '',
-            selectRegion: '無',
+            selectRegion: '0',
             manager_id: '',
             manager_account: '',
             accesstype: [
                 {
-                    value: '無',
-                    label: '無'
+                    value: '0',
+                    label: '0'
                 },
                 {
-                    value: 'A',
-                    label: 'A'
+                    value: '1',
+                    label: '1'
+                },
+                {
+                    value: '2',
+                    label: '2'
+                },
+                {
+                    value: '3',
+                    label: '3'
+                },
+                {
+                    value: '4',
+                    label: '4'
+                },
+                {
+                    value: '5',
+                    label: '5'
                 },
             ],
         };
@@ -77,7 +93,7 @@ export default {
                 formData.append('manager_account', this.manager_account);
                 formData.append('manager_pwd', this.manager_pwd);
 
-                const response = await axios.post(`${this.$URL}/EmployeeAdd.php`, formData, {
+                const response = await axios.post(`${this.$URL/EmployeeAdd.php`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
