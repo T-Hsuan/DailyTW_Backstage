@@ -1,9 +1,7 @@
 <template>
     <header>
         <div class="header">
-            <router-link to="/">
-                <img class="logo" :src="require('@/assets/img/logo.svg')" alt="logo" />
-            </router-link>
+            <img class="logo" :src="require('@/assets/img/logo.svg')" alt="logo" />
             <div class="login_info">
                 <!-- 登入後顯示 -->
                 <div v-if="isLogin">
