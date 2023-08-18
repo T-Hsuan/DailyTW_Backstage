@@ -109,7 +109,9 @@ export default{
             placeInfo: [],
             regionList: [],
             selectRegion: '',
-            placeSearch: [],
+            placeSearch: [
+                '清水地熱','三星落羽松秘境','梅花湖','斑比山丘','伯朗咖啡城堡','空ㄟ農場'
+            ],
             placeSelect: '',
         }
     },
