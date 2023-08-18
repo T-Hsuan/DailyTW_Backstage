@@ -29,8 +29,8 @@
                     <!-- 景點地區 -->
                     <div class="selection_box">
                         <span>景點地區</span>
-                        <Select v-model="region_name">
-                            <Option v-for="name in region_name" :value="name" :key="name">
+                        <Select>
+                            <Option v-for="name in Region" :value="name" :key="name">
                                 {{ name }}</Option>
                         </Select>
                     </div>
@@ -107,7 +107,7 @@ export default {
                 desc: '',
                 notice: '',
             },
-            region_name: ["新北", "臺北", "基隆", "桃園", "新竹", "苗栗", "臺中", "彰化", "雲林", "嘉義", "南投", "臺南", "高雄", "屏東", "宜蘭", "花蓮", "臺東", "澎湖", "金門", "馬祖"],
+            Region: ["新北", "臺北", "基隆", "桃園", "新竹", "苗栗", "臺中", "彰化", "雲林", "嘉義", "南投", "臺南", "高雄", "屏東", "宜蘭", "花蓮", "臺東", "澎湖", "金門", "馬祖"],
             uploadedImage1: '',
             uploadedImages: [],
         }

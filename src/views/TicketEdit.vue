@@ -9,14 +9,13 @@
                         <span>景點照片</span>
                         <div class="upload_click">
                             <Icon type="ios-camera" />
-                            <img v-if="getPlaceImg(ticketInfo.img) || uploadedImage1"
-                                :src="getPlaceImg(ticketInfo.img) || uploadedImage1" width="200" />
+                            <img :src="getPlaceImg(ticketInfo.img)" width="200" />
                         </div>
-                        <input type="file" name="place_img1" id="place_img1" ref="fileInput1" @change="onfile(1)">
+                        <!-- <input type="file" name="place_img1" id="place_img1" ref="fileInput1" @change="onfile(1)"> -->
                     </label>
-                    <button v-if="uploadedImage1" class="delete_img" @click="deleteImage(1)">
+                    <!-- <button v-if="uploadedImage1" class="delete_img" @click="deleteImage(1)">
                         <Icon type="md-close-circle" />
-                    </button>
+                    </button> -->
                 </div>
             </div>
             <div class="text_wrap">
@@ -177,13 +176,18 @@ export default {
 
 <style lang="scss" scoped>
 .main_content {
-    .img_wrap .img_box label .upload_click {
-        width: 240px;
-        height: 180px;
+    .img_wrap .img_box label {
+        cursor: inherit;
 
-        label {
-            width: 100%;
+        .upload_click {
+            width: 240px;
+            height: 180px;
+
+            label {
+                width: 100%;
+            }
         }
     }
+
 }
 </style>

@@ -47,7 +47,7 @@
                     <td>{{ item.Name }}</td>
                     <td>{{ item.date }}</td>
                     <td>
-                        <Switch size="large" v-model="item.status" true-value="1" false-value="0"
+                        <Switch size="large" v-model="item.status" :true-value="1" :false-value="0"
                             @click="updateStatus(item)">
                             <template #open><span>ON</span></template>
                             <template #close><span>OFF</span></template>
@@ -139,14 +139,15 @@ export default {
         //更新資料狀態
         async updateStatus(item) {
             const ticketId = item.id;
-            const newStatus = item.status === 1 ? 1 : 0;
+            console.log('[票券]item.status:', typeof (item.status));
+            const newStatus = item.status === 1 ? 0 : 1;
             const newTop = item.top === 1 ? 0 : 1;
             console.log('[票券]Id:', ticketId, 'Name:', item.Name, 'Status:', newStatus, 'Top:', newTop);
             try {
                 const status = await axios.get(`${this.$URL}/TicketStatus.php?ticket_id=${ticketId}&ticket_status=${newStatus}&ticket_top=${newTop}`);
-                console.log('[票券]status updated on server:', status.data);
+                console.log('[資料庫]票券狀態更新成功:', status.data);
             } catch (error) {
-                console.error('[票券]Error updating ticket status:', error);
+                console.error('[資料庫]票券狀態更新失敗:', error);
             }
         },
         //刪除確認
@@ -227,12 +228,11 @@ export default {
             .then((res) => {
                 this.ticketData = res;
                 this.changeNumber();
+                console.log('[資料庫]成功匯入至ticketData', this.ticketData);
                 this.$store.commit('SET_TICKET_DATA', res);
-                console.log('[票券]成功連接資料庫', this.ticketData);
-                console.log('[store][票券]成功連接資料庫', this.$store.state.ticketData);
             })
             .catch((err) => {
-                console.log(err);
+                console.log('[資料庫]連接失敗:', err);
             })
     },
 }
