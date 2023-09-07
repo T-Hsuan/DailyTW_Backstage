@@ -189,13 +189,22 @@ export default {
     computed: {
         // ...mapGetters(['ticketData']),
         //搜尋結果資料
+        // searchData() {
+        //     return this.ticketData.filter(item => {
+        //         const itemName = item.Name || ''; // 使用默认值处理未定义的情况
+        //         const itemId = item.id || ''; // 使用默认值处理未定义的情况
+
+        //         return itemName.includes(this.filterText) ||
+        //             itemId.toString().includes(this.filterText.toLowerCase());
+        //     });
+        // },
         searchData() {
             return this.ticketData.filter(item => {
-                const itemName = item.Name || ''; // 使用默认值处理未定义的情况
-                const itemId = item.id || ''; // 使用默认值处理未定义的情况
+                const itemName = (item.Name || '').toString(); // 转换为字符串并使用默认值处理未定义的情况
+                const itemId = (item.id || '').toString(); // 转换为字符串并使用默认值处理未定义的情况
 
                 return itemName.includes(this.filterText) ||
-                    itemId.toString().includes(this.filterText.toLowerCase());
+                    itemId.includes(this.filterText.toLowerCase());
             });
         },
 
